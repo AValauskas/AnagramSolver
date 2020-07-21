@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AnagramSolver.BusinessLogic
 {
-    static class Helper
+    public static class Helper
     {
         public static Dictionary<string, List<Anagram>> AddWordToDictionary(Dictionary<string, List<Anagram>> anagrams, string sortedWord, string[] row)
         {
@@ -29,20 +29,25 @@ namespace AnagramSolver.BusinessLogic
             return anagrams;
         }
 
-        public static List<string> GetParameters()
+        public static string GetAnagramsCount()
         {
             var parameters = new List<string>();
             var builder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
             .AddJsonFile("appsettings.json");
 
-            var configuration = builder.Build();
-
-            parameters.Add(builder.Build().GetSection("anagramCount").Value);
-            parameters.Add(builder.Build().GetSection("minLength").Value);
-            return parameters;
-
-           
+           return builder.Build().GetSection("anagramCount").Value;
         }
+
+        public static int GetMinLength()
+        {
+            var parameters = new List<string>();
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
+            .AddJsonFile("appsettings.json");
+
+            return int.Parse(builder.Build().GetSection("minLength").Value);
+        }
+
     }
 }

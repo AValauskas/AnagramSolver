@@ -16,17 +16,14 @@ namespace AnagramSolver.BusinessLogic
         public IList<string> GetAnagrams(string myWords)
         {
             var sortedWord = String.Concat(myWords.OrderBy(c => c));
-
-            var jsonParameters = Helper.GetParameters();
-
-
+            var anagramsCount = Helper.GetAnagramsCount();
             var allWords = WordRepository.ReadFile();
 
             if (allWords.ContainsKey(sortedWord))
             {
                 return allWords[sortedWord].FindAll(x => x.Word != myWords)
                     .Select(x => x.Word)
-                    .Take(int.Parse(jsonParameters[1]))
+                    .Take(int.Parse(anagramsCount))
                     .ToList();
             }
             return null;
