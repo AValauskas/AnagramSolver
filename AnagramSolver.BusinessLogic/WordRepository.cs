@@ -23,7 +23,7 @@ namespace AnagramSolver.BusinessLogic
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] row = s.Split("\t");                   
-                    sortedWord = String.Concat(row[0].OrderBy(c => c));
+                    sortedWord = String.Concat(row[0].ToLower().OrderBy(c => c));
                     
                     if (sortedWord != lastWord)
                     {

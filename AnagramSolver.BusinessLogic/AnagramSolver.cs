@@ -15,13 +15,13 @@ namespace AnagramSolver.BusinessLogic
 
         public IList<string> GetAnagrams(string myWords)
         {
-            var sortedWord = String.Concat(myWords.OrderBy(c => c));
+            var sortedWord = String.Concat(myWords.ToLower().OrderBy(c => c));
             var anagramsCount = Helper.GetAnagramsCount();
             var allWords = WordRepository.ReadFile();
 
             if (allWords.ContainsKey(sortedWord))
             {
-                return allWords[sortedWord].FindAll(x => x.Word != myWords)
+                return allWords[sortedWord].FindAll(x => x.Word.ToLower() != myWords.ToLower())
                     .Select(x => x.Word)
                     .Take(int.Parse(anagramsCount))
                     .ToList();

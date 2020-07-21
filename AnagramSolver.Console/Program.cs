@@ -26,7 +26,7 @@ namespace AnagramSolver
             while (!exit)
             {
                 myWord = WriteWord();
-                if (myWord == "x")
+                if (myWord == "x" || myWord == "X")
                 {
                     break;
                 }
@@ -47,7 +47,7 @@ namespace AnagramSolver
         {
             Console.WriteLine("\nĮrašykite žodį arba X norėdami išeiti");
             string myWord = Console.ReadLine();
-            return myWord.ToLower();
+            return myWord;
         }
 
         public static bool CheckIfLengthCorrect(string myWord)
