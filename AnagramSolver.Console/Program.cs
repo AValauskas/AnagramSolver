@@ -45,7 +45,7 @@ namespace AnagramSolver
 
         public static string WriteWord()
         {
-            Console.WriteLine("\nĮrašykite žodį arba X norėdami išeiti");
+            Console.WriteLine("\nĮrašykite žodį/žodžių junginį arba X-norėdami išeiti");
             string myWord = Console.ReadLine();
             return myWord;
         }
