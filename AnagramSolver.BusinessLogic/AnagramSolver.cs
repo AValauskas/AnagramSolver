@@ -48,18 +48,121 @@ namespace AnagramSolver.BusinessLogic
          {
             var anagramsCount = Helper.GetAnagramsCount();
             var allWords = WordRepository.GetDictionary();
-            var totalLetter = sortedWord.Count();
+            var firstDic = FirstDictionaryIteration(allWords, sortedWord);
+            var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
 
-            Dictionary<string, List<List<Anagram>>> newDictionary = new Dictionary<string, List<List<Anagram>>>();
 
-            foreach (var word in allWords)
-            { 
-                var letterCount = word.Key.Length;
-                Helper.CreateNewDictionary(allWords, newDictionary, totalLetter, letterCount);
-            }
-            return null;
+
+            return FormAllPairs(secondDic);
         }
 
 
+
+        private Dictionary<string, List<List<Anagram>>> FirstDictionaryIteration(Dictionary<string, List<Anagram>> anagrams, string myWord)
+        {
+            Dictionary<string, List<List<Anagram>>> newDictionary = new Dictionary<string, List<List<Anagram>>>();
+
+            foreach (var anagram in anagrams)
+            {
+                if (!IsMatch(myWord, anagram.Key))
+                    continue;
+                var newString = RemoveString(myWord, anagram.Key);
+                if (newDictionary.ContainsKey(newString))
+                {
+                    newDictionary[newString].Add(anagram.Value);
+                }
+                else
+                {
+                    newDictionary.Add(newString, new List<List<Anagram>>() { anagram.Value });
+                }
+
+            }
+            return newDictionary;
+        }
+
+        private Dictionary<string, List<List<Anagram>>> SecondDictionaryIteration(Dictionary<string, List<Anagram>> anagrams,
+             Dictionary<string, List<List<Anagram>>>changedDictionary, string myWord)
+        {
+            var dic = new Dictionary<string, List<List<Anagram>>>();
+
+            foreach (var item in changedDictionary)
+            {
+                foreach (var anagram in anagrams)
+                {
+                    if (anagram.Key.Length != item.Key.Length)
+                        continue;
+                    if (!IsMatch(item.Key, anagram.Key))
+                        continue;
+
+                    if (dic.ContainsKey(item.Key))
+                    {
+                        dic[item.Key].Add(anagram.Value);
+                    }
+                    else
+                    {
+                        dic.Add(item.Key, item.Value);
+                        dic[item.Key].Add(anagram.Value);
+                    }
+                }
+            }
+            return dic;
+        }
+
+        private IList<string> FormAllPairs(Dictionary<string, List<List<Anagram>>> dictionaries)
+        {
+            var pairs = new List<string>();
+            foreach (var item in dictionaries)
+            {
+                foreach (var first in item.Value[0])
+                {
+                    foreach (var second in item.Value[1])
+                    {
+                        pairs.Add(first.Word + " " + second.Word);
+                    }
+                }
+            }
+            return pairs;
+        }
+
+        private bool IsMatch(string input, string word)
+        {
+            var myChar = word.ToCharArray();
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (myChar.Contains(input[i]))
+                    myChar=RemoveChar(myChar, input[i].ToString());
+            }
+            if (myChar.Length == 0)
+                return true;
+
+            return false;
+        }
+
+        private string RemoveString(string input, string word)
+        {
+            var myChar = word.ToCharArray();
+            var sb = new StringBuilder();
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (!myChar.Contains(input[i]))
+                {
+                    sb.Append(input[i]);
+                }
+                else
+                {
+                    myChar = RemoveChar(myChar, input[i].ToString());
+                }
+            }
+            return sb.ToString();
+        }
+
+        private char[] RemoveChar(char[] myChar, string letter)
+        {
+            string str = new string(myChar);
+            int index = str.IndexOf(letter);
+            str = str.Remove(index, 1);
+            myChar = str.ToCharArray();
+            return myChar;
+        }
     }
 }
