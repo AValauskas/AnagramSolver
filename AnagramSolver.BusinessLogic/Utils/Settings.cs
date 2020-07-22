@@ -9,12 +9,12 @@ namespace AnagramSolver.BusinessLogic.Utils
     public class Settings
     {
         public static IConfigurationBuilder configBuilder { get; set; }
-        public Settings()
+        static Settings()
         {
             CallBuilder();
         }
 
-        public void CallBuilder()
+        private static void CallBuilder()
         {
             configBuilder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))

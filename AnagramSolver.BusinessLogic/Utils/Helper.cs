@@ -5,28 +5,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AnagramSolver.BusinessLogic
+namespace AnagramSolver.BusinessLogic.Utils
 {
     public static class Helper
     {
         public static string GetAnagramsCount()
         {
-            var parameters = new List<string>();
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
-            .AddJsonFile("appsettings.json");
-
-           return builder.Build().GetSection("anagramCount").Value;
+           return Settings.configBuilder.Build().GetSection("anagramCount").Value;
         }
 
         public static int GetMinLength()
         {
-            var parameters = new List<string>();
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
-            .AddJsonFile("appsettings.json");
-
-            return int.Parse(builder.Build().GetSection("minLength").Value);
+            return int.Parse(Settings.configBuilder.Build().GetSection("minLength").Value);
         }
 
 

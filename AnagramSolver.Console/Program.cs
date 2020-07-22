@@ -20,8 +20,6 @@ namespace AnagramSolver.Console
             };
 
             UIClass ui = new UIClass(anagramSolver);
-
-            Settings settings = new Settings();
         }
 
        
