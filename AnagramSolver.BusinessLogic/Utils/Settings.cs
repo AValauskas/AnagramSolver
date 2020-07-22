@@ -8,7 +8,7 @@ namespace AnagramSolver.BusinessLogic.Utils
 {
     public class Settings
     {
-        public static IConfigurationBuilder configBuilder { get; set; }
+        public static IConfigurationBuilder _configBuilder { get; set; }
         static Settings()
         {
             CallBuilder();
@@ -16,11 +16,20 @@ namespace AnagramSolver.BusinessLogic.Utils
 
         private static void CallBuilder()
         {
-            configBuilder = new ConfigurationBuilder()
+            _configBuilder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
             .AddJsonFile("appsettings.json");
         }
 
+        public static string GetAnagramsCount()
+        {
+            return _configBuilder.Build().GetSection("anagramCount").Value;
+        }
+
+        public static int GetMinLength()
+        {
+            return int.Parse(_configBuilder.Build().GetSection("minLength").Value);
+        }
 
     }
 }

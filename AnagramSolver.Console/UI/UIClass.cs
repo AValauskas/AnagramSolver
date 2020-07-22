@@ -9,11 +9,11 @@ namespace AnagramSolver.Console.UI
 {
     public class UIClass
     {
-        private IAnagramSolver AnagramSolver;
+        private readonly IAnagramSolver _anagramSolver;
 
         public UIClass(IAnagramSolver anagramSolver)
         {
-            this.AnagramSolver = anagramSolver;
+            this._anagramSolver = anagramSolver;
             ProcessAnagramManager();
         }
 
@@ -34,7 +34,7 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 System.Console.WriteLine("Anagramos:\n");
-                var anagrams = AnagramSolver.GetAnagrams(myWord);
+                var anagrams = _anagramSolver.GetAnagrams(myWord);
                 DisplayAnagrams(anagrams);
 
             }
@@ -50,7 +50,7 @@ namespace AnagramSolver.Console.UI
 
         private bool CheckIfLengthCorrect(string myWord)
         {
-            int minLength = Helper.GetMinLength();
+            int minLength = Settings.GetMinLength();
             if (myWord.Length >= minLength)
                 return true;
             return false;

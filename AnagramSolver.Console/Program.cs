@@ -14,10 +14,8 @@ namespace AnagramSolver.Console
      
         static void Main(string[] args)
         {
-            IAnagramSolver anagramSolver = new BusinessLogic.AnagramSolver()
-            {
-                WordRepository = new WordRepository()
-            };
+            var wordRepository = new WordRepository();
+            IAnagramSolver anagramSolver = new BusinessLogic.AnagramSolver(wordRepository);
 
             UIClass ui = new UIClass(anagramSolver);
         }

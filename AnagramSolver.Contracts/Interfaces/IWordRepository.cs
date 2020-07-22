@@ -7,8 +7,8 @@ namespace AnagramSolver.Contracts.Interfaces
 {
     public interface IWordRepository
     {
-        public Dictionary<string, List<Anagram>> GetDictionary();
+        public Dictionary<string, List<Anagram>> GetWords();
 
-        public void AddWord(string sortedWord, string[] row);
+        public void AddWord(string sortedWord, string word, string languagePart);
     }
 }

@@ -12,7 +12,12 @@ namespace AnagramSolver.BusinessLogic
 {
     public class AnagramSolver : IAnagramSolver
     {
-        public IWordRepository WordRepository { get; set; }
+        private readonly IWordRepository _wordRepository;
+        public AnagramSolver(IWordRepository wordRepository)
+        {
+            _wordRepository = wordRepository;
+        }
+       
 
         public IList<string> GetAnagrams(string myWords)
         {
@@ -32,8 +37,8 @@ namespace AnagramSolver.BusinessLogic
 
         public IList<string> GetAnagramOneWord(string myWord, string sortedWord)
         {
-            var anagramsCount = Helper.GetAnagramsCount();
-            var allWords = WordRepository.GetDictionary();
+            var anagramsCount = Settings.GetAnagramsCount();
+            var allWords = _wordRepository.GetWords();
             if (allWords.ContainsKey(sortedWord))
             {
                 return allWords[sortedWord].FindAll(x => x.Word.ToLower() != myWord.ToLower())
@@ -46,14 +51,15 @@ namespace AnagramSolver.BusinessLogic
 
          public IList<string> GetAnagramFewWords(string myWords, string sortedWord)
          {
-            var anagramsCount = Helper.GetAnagramsCount();
-            var allWords = WordRepository.GetDictionary();
+            var anagramsCount = Settings.GetAnagramsCount();
+            var allWords = _wordRepository.GetWords();
             var firstDic = FirstDictionaryIteration(allWords, sortedWord);
             var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
 
 
-
-            return FormAllPairs(secondDic);
+            var pairs = FormAllPairs(secondDic);
+            pairs.RemoveRange(int.Parse(anagramsCount), pairs.Count - int.Parse(anagramsCount));
+            return pairs;
         }
 
 
@@ -75,7 +81,6 @@ namespace AnagramSolver.BusinessLogic
                 {
                     newDictionary.Add(newString, new List<List<Anagram>>() { anagram.Value });
                 }
-
             }
             return newDictionary;
         }
@@ -108,7 +113,7 @@ namespace AnagramSolver.BusinessLogic
             return dic;
         }
 
-        private IList<string> FormAllPairs(Dictionary<string, List<List<Anagram>>> dictionaries)
+        private List<string> FormAllPairs(Dictionary<string, List<List<Anagram>>> dictionaries)
         {
             var pairs = new List<string>();
             foreach (var item in dictionaries)
@@ -124,13 +129,13 @@ namespace AnagramSolver.BusinessLogic
             return pairs;
         }
 
-        private bool IsMatch(string input, string word)
+        private bool IsMatch(string key, string word)
         {
             var myChar = word.ToCharArray();
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (myChar.Contains(input[i]))
-                    myChar=RemoveChar(myChar, input[i].ToString());
+                if (myChar.Contains(key[i]))
+                    myChar=RemoveChar(myChar, key[i].ToString());
             }
             if (myChar.Length == 0)
                 return true;
@@ -138,19 +143,19 @@ namespace AnagramSolver.BusinessLogic
             return false;
         }
 
-        private string RemoveString(string input, string word)
+        private string RemoveString(string key, string word)
         {
             var myChar = word.ToCharArray();
             var sb = new StringBuilder();
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (!myChar.Contains(input[i]))
+                if (!myChar.Contains(key[i]))
                 {
-                    sb.Append(input[i]);
+                    sb.Append(key[i]);
                 }
                 else
                 {
-                    myChar = RemoveChar(myChar, input[i].ToString());
+                    myChar = RemoveChar(myChar, key[i].ToString());
                 }
             }
             return sb.ToString();

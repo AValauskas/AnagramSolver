@@ -34,27 +34,27 @@ namespace AnagramSolver.BusinessLogic
                     
                     if (sortedWord != lastWord)
                     {
-                        AddWord( sortedWord, row);
+                        AddWord( sortedWord, row[0], row[1]);
                     }
                     lastWord = sortedWord;
                 }
             }
         }
 
-        public Dictionary<string, List<Anagram>> GetDictionary()
+        public Dictionary<string, List<Anagram>> GetWords()
         {
                 return anagrams;
         }
 
-        public void AddWord(string sortedWord, string[] row)
+        public void AddWord(string sortedWord, string word, string languagePart)
         {
             if (anagrams.ContainsKey(sortedWord))
             {
                 anagrams[sortedWord].Add(
                     new Anagram()
                     {
-                        Word = row[0],
-                        LanguagePart = row[1]
+                        Word = word,
+                        LanguagePart = languagePart
                     });
             }
             else
@@ -62,8 +62,8 @@ namespace AnagramSolver.BusinessLogic
                 anagrams.Add(
                     sortedWord, new List<Anagram>() {
                         new Anagram() {
-                            Word = row[0],
-                            LanguagePart = row[1]
+                            Word = word,
+                            LanguagePart = languagePart
                         }});
             }
         }
