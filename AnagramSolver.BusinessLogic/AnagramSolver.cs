@@ -1,4 +1,5 @@
-﻿using AnagramSolver.Contracts.Interfaces;
+﻿using AnagramSolver.BusinessLogic.Utils;
+using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -32,7 +33,7 @@ namespace AnagramSolver.BusinessLogic
         public IList<string> GetAnagramOneWord(string myWord, string sortedWord)
         {
             var anagramsCount = Helper.GetAnagramsCount();
-            var allWords = WordRepository.ReadFile();
+            var allWords = WordRepository.GetDictionary();
             if (allWords.ContainsKey(sortedWord))
             {
                 return allWords[sortedWord].FindAll(x => x.Word.ToLower() != myWord.ToLower())
@@ -46,7 +47,7 @@ namespace AnagramSolver.BusinessLogic
          public IList<string> GetAnagramFewWords(string myWords, string sortedWord)
          {
             var anagramsCount = Helper.GetAnagramsCount();
-            var allWords = WordRepository.ReadFile();
+            var allWords = WordRepository.GetDictionary();
             var totalLetter = sortedWord.Count();
 
             Dictionary<string, List<List<Anagram>>> newDictionary = new Dictionary<string, List<List<Anagram>>>();
@@ -56,8 +57,6 @@ namespace AnagramSolver.BusinessLogic
                 var letterCount = word.Key.Length;
                 Helper.CreateNewDictionary(allWords, newDictionary, totalLetter, letterCount);
             }
-
-
             return null;
         }
 

@@ -9,9 +9,16 @@ namespace AnagramSolver.BusinessLogic
 {
     public class WordRepository : IWordRepository
     {
-        public Dictionary<string, List<Anagram>> ReadFile()
+        private  Dictionary<string, List<Anagram>> anagrams; 
+        public WordRepository()
         {
-            Dictionary<string, List<Anagram>> anagrams = new Dictionary<string, List<Anagram>>();
+            anagrams = new Dictionary<string, List<Anagram>>();
+            ReadFile();
+        }   
+
+        private void ReadFile()
+        {
+            //Dictionary<string, List<Anagram>> 
             string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
             string lastWord="";
             string sortedWord = "";
@@ -27,12 +34,39 @@ namespace AnagramSolver.BusinessLogic
                     
                     if (sortedWord != lastWord)
                     {
-                        anagrams = Helper.AddWordToDictionary(anagrams, sortedWord, row);
+                        AddWord( sortedWord, row);
                     }
                     lastWord = sortedWord;
                 }
             }
-            return anagrams;
         }
+
+        public Dictionary<string, List<Anagram>> GetDictionary()
+        {
+                return anagrams;
+        }
+
+        public void AddWord(string sortedWord, string[] row)
+        {
+            if (anagrams.ContainsKey(sortedWord))
+            {
+                anagrams[sortedWord].Add(
+                    new Anagram()
+                    {
+                        Word = row[0],
+                        LanguagePart = row[1]
+                    });
+            }
+            else
+            {
+                anagrams.Add(
+                    sortedWord, new List<Anagram>() {
+                        new Anagram() {
+                            Word = row[0],
+                            LanguagePart = row[1]
+                        }});
+            }
+        }
+
     }
 }

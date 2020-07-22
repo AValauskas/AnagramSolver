@@ -9,27 +9,6 @@ namespace AnagramSolver.BusinessLogic
 {
     public static class Helper
     {
-        public static Dictionary<string, List<Anagram>> AddWordToDictionary(Dictionary<string, List<Anagram>> anagrams, string sortedWord, string[] row)
-        {
-            if (anagrams.ContainsKey(sortedWord))
-            {
-                anagrams[sortedWord].Add(
-                    new Anagram() { 
-                        Word = row[0], LanguagePart = row[1] 
-                    });
-            }
-            else
-            {
-                anagrams.Add(
-                    sortedWord, new List<Anagram>() { 
-                        new Anagram() {
-                            Word = row[0], 
-                            LanguagePart = row[1] 
-                        }});
-            }
-            return anagrams;
-        }
-
         public static string GetAnagramsCount()
         {
             var parameters = new List<string>();
@@ -49,6 +28,7 @@ namespace AnagramSolver.BusinessLogic
 
             return int.Parse(builder.Build().GetSection("minLength").Value);
         }
+
 
         public static List<string> CreateNewDictionary(Dictionary<string, List<Anagram>> anagrams,
             Dictionary<string, List<List<Anagram>>> newDictionary, int totalLetters, int letterCount)
