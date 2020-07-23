@@ -34,6 +34,7 @@ namespace AnagramSolver.Test
                 { "aaikrsv", new List<Anagram>(){ new Anagram() { Word="vakaris", LanguagePart="dkt"}}},
                 { "aakv", new List<Anagram>(){ new Anagram() { Word="kava", LanguagePart="dkt"}}},
                 { "aiikmprst", new List<Anagram>(){ new Anagram() { Word="trikampis", LanguagePart="dkt"}}},
+                { "arsyt", new List<Anagram>(){ new Anagram() { Word="tyras", LanguagePart="bdv"}}},
             };
         }
 
@@ -62,7 +63,7 @@ namespace AnagramSolver.Test
         }
 
         [Test]
-        [TestCase("Laba diena")]
+        [TestCase("Laba vakara")]
         [TestCase("grazi diena")]
         public void GetAnagrams_TwoWords_ReturnEmptyList(string myWord)
         {
@@ -74,6 +75,7 @@ namespace AnagramSolver.Test
         }
 
         [Test]
+        [TestCase("Labas rytas")]
         [TestCase("visma praktika")]
         public void GetAnagrams_TwoWords_ReturnListWithValues(string myWord)
         {
