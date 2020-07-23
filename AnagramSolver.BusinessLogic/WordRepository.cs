@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 
@@ -14,11 +15,14 @@ namespace AnagramSolver.BusinessLogic
         {
             anagrams = new Dictionary<string, List<Anagram>>();
             ReadFile();
-        }   
+        }
+        public WordRepository(Dictionary<string, List<Anagram>> anagram)
+        {
+            anagrams = anagram;
+        }
 
         private void ReadFile()
         {
-            //Dictionary<string, List<Anagram>> 
             string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
             string lastWord="";
             string sortedWord = "";
@@ -46,10 +50,14 @@ namespace AnagramSolver.BusinessLogic
                 return anagrams;
         }
 
-        public void AddWord(string sortedWord, string word, string languagePart)
+        public bool AddWord(string sortedWord, string word, string languagePart)
         {
             if (anagrams.ContainsKey(sortedWord))
             {
+                if (anagrams[sortedWord].Select(x=>x.Word).Contains(word))
+                {
+                    return false;
+                }
                 anagrams[sortedWord].Add(
                     new Anagram()
                     {
@@ -66,6 +74,7 @@ namespace AnagramSolver.BusinessLogic
                             LanguagePart = languagePart
                         }});
             }
+            return true;
         }
 
     }
