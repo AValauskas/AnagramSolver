@@ -9,6 +9,6 @@ namespace AnagramSolver.Contracts.Interfaces
     {
         public Dictionary<string, List<Anagram>> GetWords();
 
-        public void AddWord(string sortedWord, string word, string languagePart);
+        public bool AddWord(string sortedWord, string word, string languagePart);
     }
 }

@@ -35,7 +35,7 @@ namespace AnagramSolver.BusinessLogic
             }
         }
 
-        public IList<string> GetAnagramOneWord(string myWord, string sortedWord)
+        private IList<string> GetAnagramOneWord(string myWord, string sortedWord)
         {
             var anagramsCount = Settings.GetAnagramsCount();
             var allWords = _wordRepository.GetWords();
@@ -49,16 +49,21 @@ namespace AnagramSolver.BusinessLogic
             return null;
         }
 
-         public IList<string> GetAnagramFewWords(string myWords, string sortedWord)
+        private IList<string> GetAnagramFewWords(string myWords, string sortedWord)
          {
             var anagramsCount = Settings.GetAnagramsCount();
             var allWords = _wordRepository.GetWords();
             var firstDic = FirstDictionaryIteration(allWords, sortedWord);
             var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
 
-
+            if (secondDic.Count== 0)
+            {
+                return null;
+            }
             var pairs = FormAllPairs(secondDic);
-            pairs.RemoveRange(int.Parse(anagramsCount), pairs.Count - int.Parse(anagramsCount));
+            if (int.Parse(anagramsCount) < pairs.Count)
+                pairs.RemoveRange(int.Parse(anagramsCount), pairs.Count - int.Parse(anagramsCount));
+
             return pairs;
         }
 
@@ -72,7 +77,7 @@ namespace AnagramSolver.BusinessLogic
             {
                 if (!IsMatch(myWord, anagram.Key))
                     continue;
-                var newString = RemoveString(myWord, anagram.Key);
+                var newString = RemoveSomeLettersString(myWord, anagram.Key);
                 if (newDictionary.ContainsKey(newString))
                 {
                     newDictionary[newString].Add(anagram.Value);
@@ -143,7 +148,7 @@ namespace AnagramSolver.BusinessLogic
             return false;
         }
 
-        private string RemoveString(string key, string word)
+        private string RemoveSomeLettersString(string key, string word)
         {
             var myChar = word.ToCharArray();
             var sb = new StringBuilder();
