@@ -75,9 +75,9 @@ namespace AnagramSolver.BusinessLogic
 
             foreach (var anagram in anagrams)
             {
-                if (!IsMatch(myWord, anagram.Key))
+                if (!StringProcessor.IsMatch(myWord, anagram.Key))
                     continue;
-                var newString = RemoveSomeLettersString(myWord, anagram.Key);
+                var newString = StringProcessor.RemoveSomeLettersString(myWord, anagram.Key);
                 if (newDictionary.ContainsKey(newString))
                 {
                     newDictionary[newString].Add(anagram.Value);
@@ -101,7 +101,7 @@ namespace AnagramSolver.BusinessLogic
                 {
                     if (anagram.Key.Length != item.Key.Length)
                         continue;
-                    if (!IsMatch(item.Key, anagram.Key))
+                    if (!StringProcessor.IsMatch(item.Key, anagram.Key))
                         continue;
 
                     if (dic.ContainsKey(item.Key))
@@ -134,45 +134,6 @@ namespace AnagramSolver.BusinessLogic
             return pairs;
         }
 
-        private bool IsMatch(string key, string word)
-        {
-            var myChar = word.ToCharArray();
-            for (int i = 0; i < key.Length; i++)
-            {
-                if (myChar.Contains(key[i]))
-                    myChar=RemoveChar(myChar, key[i].ToString());
-            }
-            if (myChar.Length == 0)
-                return true;
-
-            return false;
-        }
-
-        private string RemoveSomeLettersString(string key, string word)
-        {
-            var myChar = word.ToCharArray();
-            var sb = new StringBuilder();
-            for (int i = 0; i < key.Length; i++)
-            {
-                if (!myChar.Contains(key[i]))
-                {
-                    sb.Append(key[i]);
-                }
-                else
-                {
-                    myChar = RemoveChar(myChar, key[i].ToString());
-                }
-            }
-            return sb.ToString();
-        }
-
-        private char[] RemoveChar(char[] myChar, string letter)
-        {
-            string str = new string(myChar);
-            int index = str.IndexOf(letter);
-            str = str.Remove(index, 1);
-            myChar = str.ToCharArray();
-            return myChar;
-        }
+       
     }
 }
