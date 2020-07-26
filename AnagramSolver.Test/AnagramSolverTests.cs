@@ -50,6 +50,7 @@ namespace AnagramSolver.Test
             Assert.Greater(anagrams.Count, 0);
         }
 
+
         [Test]
         [TestCase("Sveikas")]
         [TestCase("Kompiuteris")]

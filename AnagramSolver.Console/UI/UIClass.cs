@@ -28,7 +28,7 @@ namespace AnagramSolver.Console.UI
                 {
                     break;
                 }
-                if (!CheckIfLengthCorrect(myWord))
+                if (!UILogic.CheckIfLengthCorrect(myWord))
                 {
                     System.Console.WriteLine("\nĮvestas žodis per trumpas");
                     continue;
@@ -48,13 +48,7 @@ namespace AnagramSolver.Console.UI
             return myWord;
         }
 
-        private bool CheckIfLengthCorrect(string myWord)
-        {
-            int minLength = Settings.GetMinLength();
-            if (myWord.Length >= minLength)
-                return true;
-            return false;
-        }
+      
 
         private void DisplayAnagrams(IList<string> anagrams)
         {
