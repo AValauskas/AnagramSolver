@@ -21,7 +21,12 @@ namespace AnagramSolver.BusinessLogic
 
         public IList<string> GetAnagrams(string myWords)
         {
+            if (myWords==null)
+            {
+                return null;
+            }
             int countSpaces = myWords.Count(Char.IsWhiteSpace);
+            
             var spacelessWord = Regex.Replace(myWords, @"\s+", "");
             var sortedWord = String.Concat(spacelessWord.ToLower().OrderBy(c => c));
 
