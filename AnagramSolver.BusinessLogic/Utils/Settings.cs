@@ -30,6 +30,6 @@ namespace AnagramSolver.BusinessLogic.Utils
         {
             return int.Parse(_configBuilder.Build().GetSection("minLength").Value);
         }
-
     }
+    
 }
