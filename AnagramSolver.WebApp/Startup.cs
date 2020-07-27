@@ -26,9 +26,7 @@ namespace AnagramSolver.WebApp
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>().AddScoped<IWordRepository, BusinessLogic.WordRepository>();
 
-            services.AddControllersWithViews();
-           // services.AddSingleton<IAnagramSolver, BusinessLogic.AnagramSolver>();
-           
+            services.AddControllersWithViews();           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

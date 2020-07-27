@@ -26,9 +26,11 @@ namespace AnagramSolver.WebApp.Controllers
         public IActionResult Index(string id)
         {
             var anagrams = _anagramSolver.GetAnagrams(id);
-            ViewData["Anagrams"] = anagrams;
-            ViewData["Message"] = "Anagrams:";
-            return View();
+            if (anagrams==null)
+            {
+                anagrams = new List<string>();
+            }
+            return View(anagrams);
         }
         public IActionResult Privacy()
         {
@@ -41,5 +43,9 @@ namespace AnagramSolver.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Dictionary()
+        {
+            return View();
+        }
     }
 }
