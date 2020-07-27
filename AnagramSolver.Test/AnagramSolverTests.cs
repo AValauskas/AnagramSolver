@@ -1,4 +1,5 @@
 using AnagramSolver.BusinessLogic;
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using NSubstitute;
@@ -30,30 +31,54 @@ namespace AnagramSolver.Test
                     new Anagram() { Word="balas", LanguagePart="jst"},
                     new Anagram() { Word="salab", LanguagePart="jst"}}},
                 { "iosv", new List<Anagram>(){ new Anagram() { Word="viso", LanguagePart="jst"}}},
-                { "aikmpt", new List<Anagram>(){ new Anagram() { Word="piktam", LanguagePart="bdv"}}},
-                { "aaikrsv", new List<Anagram>(){ new Anagram() { Word="vakaris", LanguagePart="dkt"}}},
                 { "aakv", new List<Anagram>(){ new Anagram() { Word="kava", LanguagePart="dkt"}}},
                 { "aiikmprst", new List<Anagram>(){ new Anagram() { Word="trikampis", LanguagePart="dkt"}}},
                 { "arsyt", new List<Anagram>(){ new Anagram() { Word="tyras", LanguagePart="bdv"}}},
+                //   { "aikmpt", new List<Anagram>(){ new Anagram() { Word="piktam", LanguagePart="bdv"}}},
+                //{ "aaikrsv", new List<Anagram>(){ new Anagram() { Word="vakaris", LanguagePart="dkt"}}},
+                //{ "akmr", new List<Anagram>(){ new Anagram() { Word="mark", LanguagePart="dkt"}}},
+               // { "aaiikpstv", new List<Anagram>(){ new Anagram() { Word="apkvaisti", LanguagePart="bdv"}}},
+               // { "aakpsv", new List<Anagram>(){ new Anagram() { Word="kvapas", LanguagePart="dkt"}}},
+                //{ "aiikmrt", new List<Anagram>(){ new Anagram() { Word="ritmika", LanguagePart="bdv"}}},
+               // { "aaimtv", new List<Anagram>(){ new Anagram() { Word="mitava", LanguagePart="dkt"}}},
+              //  { "aikkprs", new List<Anagram>(){ new Anagram() { Word="skripka", LanguagePart="bdv"}}},
+                { "eiikmoprstu", new List<Anagram>(){
+                    new Anagram() { Word= "sompiuterik", LanguagePart="bdv"},
+                    new Anagram() { Word= "piuteriskom", LanguagePart="bdv"},
+                    new Anagram() { Word= "teriskompiu", LanguagePart="bdv"},
+                    new Anagram() { Word= "riskompiute", LanguagePart="bdv"},
+                    new Anagram() { Word= "iuteriskomp", LanguagePart="bdv"},
+                    new Anagram() { Word= "kopmiuteris", LanguagePart="bdv"},
+                    new Anagram() { Word= "kompiuteris", LanguagePart="bdv"}}},
             };
         }
 
         [Test]
         [TestCase("Labas")]
-        [TestCase("sivo")]
-        public void GetAnagrams_OneWord_ReturnListWithValues(string myWord)
+        public void GetAnagrams_OneWord_Return2ElementList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = _anagramSolverMock.GetAnagrams(myWord);
 
-            Assert.Greater(anagrams.Count, 0);
+            Assert.AreEqual(2, anagrams.Count);
         }
 
+        [Test]
+        [TestCase("kompiuteris")]
+        public void GetAnagrams_OneWord_ReturnMaxSizeList(string myWord)
+        {
+            var size = int.Parse(Settings.GetAnagramsCount());
+            _wordRepositoryMock.GetWords().Returns(words);
+
+            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+
+            Assert.AreEqual(size, anagrams.Count);
+        }
 
         [Test]
         [TestCase("Sveikas")]
-        [TestCase("Kompiuteris")]
+        [TestCase("automobilis")]
         public void GetAnagrams_OneWord_ReturnEmptyList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
@@ -76,15 +101,26 @@ namespace AnagramSolver.Test
         }
 
         [Test]
-        [TestCase("Labas rytas")]
         [TestCase("visma praktika")]
-        public void GetAnagrams_TwoWords_ReturnListWithValues(string myWord)
+        public void GetAnagrams_TwoWords_Return1ElementList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = _anagramSolverMock.GetAnagrams(myWord);
 
-            Assert.Greater(anagrams.Count, 0);
+            Assert.AreEqual(2, anagrams.Count);
+        }
+
+        [Test]
+        [TestCase("Labas rytas")]
+        public void GetAnagrams_TwoWords_ReturnMaxSizeList(string myWord)
+        {
+            var size = int.Parse(Settings.GetAnagramsCount());
+            _wordRepositoryMock.GetWords().Returns(words);
+
+            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+
+            Assert.AreEqual(size, anagrams.Count);
         }
     }
 }

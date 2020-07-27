@@ -17,7 +17,8 @@ namespace AnagramSolver.BusinessLogic.Utils
         private static void CallBuilder()
         {
             _configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
+            .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Console"))
+           // .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
             .AddJsonFile("appsettings.json");
         }
 
@@ -30,6 +31,6 @@ namespace AnagramSolver.BusinessLogic.Utils
         {
             return int.Parse(_configBuilder.Build().GetSection("minLength").Value);
         }
-
     }
+    
 }

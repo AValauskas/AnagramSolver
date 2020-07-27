@@ -20,14 +20,14 @@ namespace AnagramSolver.Test
 
         [Test]
         [TestCase("Labasrytas")]
-        public void CheckIfLengthCorrect_Lengt10_Returntrue (string myWord)
+        public void CheckIfLengthCorrect_Lengt10_ReturnTrue (string myWord)
         {
             var result = UILogic.CheckIfLengthCorrect(myWord);
             Assert.IsTrue(result);
         }
         [Test]
         [TestCase("La")]
-        public void CheckIfLengthCorrect_Length2_Returnfalse(string myWord)
+        public void CheckIfLengthCorrect_Length2_ReturnFalse(string myWord)
         {
             var result = UILogic.CheckIfLengthCorrect(myWord);
             Assert.IsFalse(result);

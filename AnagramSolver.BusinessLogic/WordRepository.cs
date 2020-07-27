@@ -23,10 +23,11 @@ namespace AnagramSolver.BusinessLogic
 
         private void ReadFile()
         {
-            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
+           // string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
+            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Contracts/Files/zodynas.txt");
             string lastWord="";
             string sortedWord = "";
-
+     
             using (FileStream fs = File.Open(path, FileMode.Open))            
             using (StreamReader sr = new StreamReader(fs))
             {
