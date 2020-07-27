@@ -50,6 +50,10 @@ namespace AnagramSolver.BusinessLogic
         {
                 return anagrams;
         }
+        public List<Anagram> GetAllWords()
+        {
+            return anagrams.Values.ToList().SelectMany(x => x).ToList();
+        }
 
         public bool AddWord(string sortedWord, string word, string languagePart)
         {

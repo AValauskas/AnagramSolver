@@ -15,11 +15,12 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IAnagramSolver _anagramSolver;
-
-        public HomeController(ILogger<HomeController> logger, IAnagramSolver anagramSolver)
+        private readonly IWordRepository _wordRepository;
+        public HomeController(ILogger<HomeController> logger, IAnagramSolver anagramSolver, IWordRepository wordRepository)
         {
             _anagramSolver = anagramSolver;
             _logger = logger;
+            _wordRepository = wordRepository;
         }
 
     
@@ -45,7 +46,10 @@ namespace AnagramSolver.WebApp.Controllers
 
         public IActionResult Dictionary()
         {
-            return View();
+            var words = _wordRepository.GetAllWords();
+
+
+            return View(words);
         }
     }
 }
