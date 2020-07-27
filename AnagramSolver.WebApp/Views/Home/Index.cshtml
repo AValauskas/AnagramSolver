@@ -1,18 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-     var anagrams = new List<String>();
-    if (ViewData["Anagrams"]!=null)
-    {
-        anagrams = (List<String>)ViewData["Anagrams"];
-    }
-
-       
-
-
+﻿@model List<string>
+@{
 }
-
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
 <div>
     <form method="post">
@@ -22,11 +10,14 @@
     </form>
 </div>
 <div>
-
-    @foreach (var anagram in anagrams)
+    <br>
+    <h3>Anagrams:</h3>
+    <br>
+    @foreach (var anagram in @Model)
     {
         <tr>
-            <td> @anagram  </td> <br>        
+            <td> @anagram  </td>
+            <br>
         </tr>
     }
 
