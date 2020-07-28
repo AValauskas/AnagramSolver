@@ -22,7 +22,6 @@ namespace AnagramSolver.WebApp.Controllers
             var words = _wordRepository.GetAllWords();
             int pageSize = 100;
             return View(PaginatedList<Anagram>.Create(words, pageNumber ?? 1, pageSize));
-
         }
         public IActionResult Anagrams(string word)
         {

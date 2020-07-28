@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AnagramSolver.WebApp.Models;
 using AnagramSolver.Contracts.Interfaces;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -15,7 +16,7 @@ namespace AnagramSolver.WebApp.Controllers
         }
 
     
-        public IActionResult Index(string word)
+        public async Task<IActionResult> Index(string word)
         {
             var anagrams = _anagramSolver.GetAnagrams(word);
             if (anagrams==null)
