@@ -1,6 +1,4 @@
 ﻿@model AnagramSolver.WebApp.Logic.PaginatedList<AnagramSolver.Contracts.Models.Anagram>
-@*@model List<AnagramSolver.Contracts.Models.Anagram>*@
-
 @{
     ViewData["Title"] = "Dictionary";
 }
@@ -27,14 +25,8 @@
     @foreach (var word in @Model)
     {
         <tr>
-            <td> @word.Word</td>
+            <td> <a asp-action="Anagrams" asp-route-word="@word.Word"> @word.Word</a> </td>
             <td> @word.LanguagePart</td>
-            @*<td>
-                    <a class="btn btn-lg" asp-page="./Detail"
-                       asp-route-restaurantId="@restaurant.Id"></a>
-                    <a class="btn btn-lg" asp-page="./Edit"
-                       asp-route-restaurantId="@restaurant.Id"> <i class="glyphicon glyphicon-edit"></i></a>
-                </td>*@
         </tr>
     }
 </table>

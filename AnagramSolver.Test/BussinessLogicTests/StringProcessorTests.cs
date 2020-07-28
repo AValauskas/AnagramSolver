@@ -1,9 +1,5 @@
 using AnagramSolver.BusinessLogic;
-using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.Contracts.Models;
-using NSubstitute;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace AnagramSolver.Test
 {

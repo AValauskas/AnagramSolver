@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace AnagramSolver.BusinessLogic.Utils
 {
@@ -18,7 +16,7 @@ namespace AnagramSolver.BusinessLogic.Utils
         {
             _configBuilder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Console"))
-           // .SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
+            //.SetBasePath(Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console"))
             .AddJsonFile("appsettings.json");
         }
 

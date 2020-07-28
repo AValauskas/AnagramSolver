@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace AnagramSolver.WebApp.Logic
 {
@@ -35,7 +33,7 @@ namespace AnagramSolver.WebApp.Logic
             }
         }
 
-        public static PaginatedList<T> CreateAsync(List<T> source, int pageIndex, int pageSize)
+        public static PaginatedList<T> Create(List<T> source, int pageIndex, int pageSize)
         {
             var count =  source.Count();
             var items =  source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
