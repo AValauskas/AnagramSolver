@@ -29,6 +29,11 @@ namespace AnagramSolver.BusinessLogic.Utils
         {
             return int.Parse(_configBuilder.Build().GetSection("minLength").Value);
         }
+
+        public static int GetPageSize()
+        {
+            return int.Parse(_configBuilder.Build().GetSection("pageSize").Value);
+        }
     }
     
 }

@@ -1,9 +1,8 @@
 ﻿@model List<string>
 @{
 }
-
 <div>
-    <form method="post">
+    <form method="post" asp-action="OnWordWritten">
         <input type="text" id="myWord" name="myWord" placeholder="Enter Word">
 
         <input type="submit" value="Submit">
@@ -11,15 +10,17 @@
 </div>
 <div>
     <br>
-    <h3>Anagrams:</h3>
+    <h3>@ViewData["Anagrams"]</h3>
     <br>
-    @foreach (var anagram in @Model)
-    {
-        <tr>
-            <td> @anagram  </td>
-            <br>
-        </tr>
-    }
-
+    <table class="table">
+        @foreach (var anagram in @Model)
+        {
+            <tr>
+                <td> @anagram  </td>
+                <br>
+            </tr>
+        }
+    </table>
+    @ViewData["Error"]
 </div>
 

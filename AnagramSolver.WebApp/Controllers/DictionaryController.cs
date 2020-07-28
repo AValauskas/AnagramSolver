@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Logic;
@@ -20,16 +21,17 @@ namespace AnagramSolver.WebApp.Controllers
         public IActionResult Index(int? pageNumber)
         {
             var words = _wordRepository.GetAllWords();
-            int pageSize = 100;
+            int pageSize = Settings.GetPageSize();
             return View(PaginatedList<Anagram>.Create(words, pageNumber ?? 1, pageSize));
         }
         public IActionResult Anagrams(string word)
         {
             var anagrams = _anagramSolver.GetAnagrams(word);
             @ViewData["Word"] = word;
-            if (anagrams == null)
+            if (anagrams == null || anagrams.Count == 0)
             {
                 anagrams = new List<string>();
+                @ViewData["Empty"] = "There is no such anagrams" ;
             }
             return View(anagrams);
         }
