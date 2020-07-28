@@ -11,5 +11,6 @@ namespace AnagramSolver.Contracts.Interfaces
         public List<Anagram> GetAllWords();
 
         public bool AddWord(string sortedWord, string word, string languagePart);
+        bool AddWordToDataSet(string word, string languagePart);
     }
 }

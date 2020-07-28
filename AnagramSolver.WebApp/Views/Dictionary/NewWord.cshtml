@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "NewWord";
+}
+<h2> Word entry in dictionary </h2>
+<div>
+    <form method="post" asp-action="OnWordWritten">
+        <input type="text" id="myWord" name="myWord" placeholder="Enter Word" required>
+        <input type="text" id="languagePart" name="languagePart" placeholder="Enter language part" required>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<br>
+@ViewData["Error"]
+

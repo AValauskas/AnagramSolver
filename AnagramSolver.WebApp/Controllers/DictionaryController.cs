@@ -1,5 +1,8 @@
 ﻿
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
@@ -24,7 +27,7 @@ namespace AnagramSolver.WebApp.Controllers
             int pageSize = Settings.GetPageSize();
             return View(PaginatedList<Anagram>.Create(words, pageNumber ?? 1, pageSize));
         }
-        public IActionResult Anagrams(string word)
+        public async Task<IActionResult> Anagrams(string word)
         {
             var anagrams = _anagramSolver.GetAnagrams(word);
             @ViewData["Word"] = word;
@@ -34,6 +37,23 @@ namespace AnagramSolver.WebApp.Controllers
                 @ViewData["Empty"] = "There is no such anagrams" ;
             }
             return View(anagrams);
+        }
+
+        public async Task<IActionResult> WordAddition()
+        {
+            return View("NewWord");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OnWordWritten(string myWord, string languagePart)
+        {
+            if (_wordRepository.AddWordToDataSet(myWord, languagePart))
+                return RedirectToAction("Anagrams", new { word = myWord });
+            else
+            {
+                @ViewData["Error"] = "Word already exist in dictionary";
+                return View("NewWord");
+            }
         }
     }
 }

@@ -4,12 +4,13 @@
 }
 
 <h1>Dictionary</h1>
-
+<br>
+<a asp-action="WordAddition"> Add new word</a>
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-
+<br><br>
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    class="btn btn-default @prevDisabled">

@@ -44,6 +44,25 @@ namespace AnagramSolver.BusinessLogic
                 }
             }
         }
+        private void WriteFile(string word, string languagePart)
+        {
+            //string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
+            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Contracts/Files/zodynas.txt");
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteAsync("\n"+word+"\t" + languagePart);
+            }
+        }
+        public bool AddWordToDataSet(string word, string languagePart)
+        {
+            var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
+            if (AddWord(sortedWord, word, languagePart))
+                WriteFile(word, languagePart);
+            else
+                return false;
+
+            return true;
+        }
 
         public Dictionary<string, List<Anagram>> GetWords()
         {
