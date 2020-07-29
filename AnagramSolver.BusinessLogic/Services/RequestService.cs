@@ -9,7 +9,7 @@ namespace AnagramSolver.BusinessLogic.Services
 {
     public class RequestService: IRequestService
     {
-        const string URL = "https://localhost:44321";
+        private const string URL = "https://localhost:44321";
 
         public List<string> GetAnagramRequest(string word)
         {

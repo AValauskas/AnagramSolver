@@ -6,6 +6,7 @@ namespace AnagramSolver.BusinessLogic.Utils
 {
     public class Settings
     {
+        private const string jsonPath = "AnagramSolver.Console";
         public static IConfigurationBuilder _configBuilder { get; set; }
         static Settings()
         {
@@ -14,10 +15,8 @@ namespace AnagramSolver.BusinessLogic.Utils
 
         private static void CallBuilder()
         {
-            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Console");
-            string path2 = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Console");
             _configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + @"AnagramSolver.Console")))
+            .SetBasePath(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + jsonPath)))
             .AddJsonFile("appsettings.json");
         }
 

@@ -10,9 +10,7 @@ namespace AnagramSolver.Console.UI
 {
     public class UIClass
     {
-       // private readonly IAnagramSolver _anagramSolver;
         private readonly IRequestService _requestService;
-
         public UIClass(IRequestService requestService)
         {
             this._requestService = requestService;

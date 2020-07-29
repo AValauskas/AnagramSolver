@@ -9,6 +9,7 @@ namespace AnagramSolver.BusinessLogic
 {
     public class WordRepository : IWordRepository
     {
+        private const string filePath = "AnagramSolver.Contracts/Files/zodynas.txt";
         private  Dictionary<string, List<Anagram>> anagrams; 
         public WordRepository()
         {
@@ -22,7 +23,7 @@ namespace AnagramSolver.BusinessLogic
 
         private void ReadFile()
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"+ @"AnagramSolver.Contracts/Files/zodynas.txt"));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"+ filePath));
             string lastWord="";
             string sortedWord = "";
      
@@ -45,7 +46,7 @@ namespace AnagramSolver.BusinessLogic
         }
         private void WriteFile(string word, string languagePart)
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + @"AnagramSolver.Contracts/Files/zodynas.txt"));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.WriteAsync("\n"+word+"\t" + languagePart);
