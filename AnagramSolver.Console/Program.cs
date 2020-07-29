@@ -1,7 +1,9 @@
 ﻿using AnagramSolver.BusinessLogic;
+using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Console.UI;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,8 @@ namespace AnagramSolver.Console
      
         static void Main(string[] args)
         {
-            var wordRepository = new WordRepository();
-            IAnagramSolver anagramSolver = new BusinessLogic.AnagramSolver(wordRepository);
-
-            UIClass ui = new UIClass(anagramSolver);
+            IRequestService requestService = new RequestService();
+            UIClass ui = new UIClass(requestService);
         }
 
        

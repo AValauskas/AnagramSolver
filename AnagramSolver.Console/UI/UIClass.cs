@@ -1,6 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,11 +10,12 @@ namespace AnagramSolver.Console.UI
 {
     public class UIClass
     {
-        private readonly IAnagramSolver _anagramSolver;
+       // private readonly IAnagramSolver _anagramSolver;
+        private readonly IRequestService _requestService;
 
-        public UIClass(IAnagramSolver anagramSolver)
+        public UIClass(IRequestService requestService)
         {
-            this._anagramSolver = anagramSolver;
+            this._requestService = requestService;
             ProcessAnagramManager();
         }
 
@@ -28,13 +30,13 @@ namespace AnagramSolver.Console.UI
                 {
                     break;
                 }
-                if (!UILogic.CheckIfLengthCorrect(myWord))
-                {
-                    System.Console.WriteLine("\nĮvestas žodis per trumpas");
-                    continue;
-                }
+                //if (!UILogic.CheckIfLengthCorrect(myWord))
+                //{
+                //    System.Console.WriteLine("\nĮvestas žodis per trumpas");
+                //    continue;
+                //}
                 System.Console.WriteLine("Anagramos:\n");
-                var anagrams = _anagramSolver.GetAnagrams(myWord);
+                var anagrams = _requestService.GetAnagramRequest(myWord);
                 DisplayAnagrams(anagrams);
 
             }
