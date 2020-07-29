@@ -1,37 +1,141 @@
 ﻿using AnagramSolver.BusinessLogic;
+using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Console.UI;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using AnagramSolver.WebApp.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Test.WebAppControlletTests
 {
     public class DictionaryControllerTests
     {
 
-        private IWordRepository _wordRepository;
         private IWordRepository _wordRepositoryMock;
-        private IAnagramSolver _anagramSolver;
+        private IWordService _wordServiceMock;
         private IAnagramSolver _anagramSolverMock;
-        private Dictionary<string, List<Anagram>> words;
-        
+        private DictionaryController _doctionaryController;
+        private List<string> _words;
+        private List<Anagram> _anagrams;
 
         [SetUp]
         public void Setup()
         {
-            _wordRepository = new WordRepository();
+           
             _wordRepositoryMock = Substitute.For<IWordRepository>();
-            _anagramSolver = new BusinessLogic.AnagramSolver(_wordRepository);
-            _anagramSolverMock = new BusinessLogic.AnagramSolver(_wordRepositoryMock);
-
+            _wordServiceMock = Substitute.For<IWordService>();
+            _anagramSolverMock = Substitute.For<IAnagramSolver>();
+            _doctionaryController = new DictionaryController(_wordServiceMock, _anagramSolverMock);
+            _anagrams = new List<Anagram>() {
+                new Anagram(){ Word="alus", LanguagePart = "dkt"},
+                new Anagram(){ Word="sula", LanguagePart = "dkt"},
+                new Anagram(){ Word="lusa", LanguagePart = "dkt"},};
+            _words = new List<string>() { "visma", "praktika" };
         }
 
         [Test]
-        public void CheckIfLengthCorrect_Lengt10_ReturnTrue()
+        [TestCase(1)]
+        public async Task Index_CallGetWordsByRange_ReceiveSignal(int pageNumber)
         {
+            _wordServiceMock.GetWordsByRange(Arg.Any<int>(), Arg.Any<int>()).Returns(_anagrams);
 
+            var result = await _doctionaryController.Index(pageNumber);
+
+            _wordServiceMock.Received().GetWordsByRange(Arg.Any<int>(), Arg.Any<int>());
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async Task Index_CallTotalWordsCount_ReceiveSignal(int pageNumber)
+        {
+            _wordServiceMock.GetWordsByRange(Arg.Any<int>(), Arg.Any<int>()).Returns(_anagrams);
+            _wordServiceMock.GetTotalWordsCount().Returns(1);
+
+            var result = await _doctionaryController.Index(pageNumber);
+
+            _wordServiceMock.Received().GetTotalWordsCount();
+        }
+
+        [Test]
+        [TestCase("visma")]
+        public async Task Anagrams_CallGetAnagrams_ReceiveSignal(string myWord)
+        {
+           
+            _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
+
+            var result = await _doctionaryController.Anagrams(myWord);
+
+            _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
+        }
+
+        [Test]
+        [TestCase("a")]
+        public async Task Anagrams_NoAnagrams_returnViewDataEmpty(string myWord)
+        {
+            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+
+            var result =  await _doctionaryController.Anagrams(myWord) as ViewResult;
+            ViewDataDictionary viewData = result.ViewData;
+
+            Assert.IsTrue(viewData["Empty"] == "There is no such anagrams");
+        }
+
+        [Test]
+        [TestCase("daiktas","dkt")]
+        public async Task OnWordWritten_CallAddWordToDataSet_ReceiveSignal(string myWord, string languagePart)
+        {
+            _wordServiceMock.AddWordToDataSet(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+
+            var result = await _doctionaryController.OnWordWritten(myWord, languagePart);
+
+            _wordServiceMock.Received().AddWordToDataSet(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Test]
+        [TestCase("daiktas", "dkt")]
+        public async Task OnWordWritten_WordSuccesfulleAdded_RedirectToAnagrams(string myWord, string languagePart)
+        {
+            _wordServiceMock.AddWordToDataSet(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+
+            var result = await _doctionaryController.OnWordWritten(myWord, languagePart) as RedirectToActionResult;
+
+            Assert.AreEqual("Anagrams", result.ActionName);
+        }
+
+        [Test]
+        [TestCase("daiktas", "dkt")]
+        public async Task OnWordWritten_WordFailedToAdd_returnsViewDataError(string myWord, string languagePart)
+        {
+            _wordServiceMock.AddWordToDataSet(Arg.Any<string>(), Arg.Any<string>()).Returns(false);
+
+            var result = await _doctionaryController.OnWordWritten(myWord, languagePart) as ViewResult;
+            ViewDataDictionary viewData = result.ViewData;
+
+            Assert.IsTrue(viewData["Error"] == "Word already exist in dictionary");
+        }
+        [Test]
+        [TestCase("daiktas", "dkt")]
+        public async Task OnWordWritten_WordFailedToAdd_retrurnNewWordView(string myWord, string languagePart)
+        {
+            _wordServiceMock.AddWordToDataSet(Arg.Any<string>(), Arg.Any<string>()).Returns(false);
+
+            var result = await _doctionaryController.OnWordWritten(myWord, languagePart) as ViewResult;
+
+            Assert.IsTrue(result.ViewName == "NewWord");
+        }
+
+        [Test]
+        [TestCase("daiktas", "dkt")]
+        public async Task WordAddition_retrurnNewWordView(string myWord, string languagePart)
+        {
+            var result = await _doctionaryController.WordAddition() as ViewResult;
+
+            Assert.IsTrue(result.ViewName == "NewWord");
         }
     }
 }

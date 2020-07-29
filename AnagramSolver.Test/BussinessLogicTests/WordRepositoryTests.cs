@@ -94,6 +94,44 @@ namespace AnagramSolver.Test
             var wordList = _wordRepositoryMyDic.GetAllWords();
 
             Assert.AreEqual(wordList.Count, 22);
+        }   
+
+        [Test]
+        [TestCase(1,10)]
+        [TestCase(3,5)]
+        public void GetWordByRange_GetByDefaultRange_EqualsPageSize(int pageIndex, int pageSize)
+        {
+            var wordList = _wordRepositoryMyDic.GetWordsByRange(pageIndex, pageSize);
+
+            Assert.AreEqual(wordList.Count, pageSize);
+        }
+
+        [Test]
+        [TestCase(3, 10)]
+        [TestCase(4, 6)]
+        public void GetWordByRange_GetByDefaultRange_WordCountLessThanPageSize(int pageIndex, int pageSize)
+        {
+            var wordList = _wordRepositoryMyDic.GetWordsByRange(pageIndex, pageSize);
+
+            Assert.Less(wordList.Count, pageSize);
+        }
+
+        [Test]
+        public void GetTotalWordsCount_GetCount_Equals22()
+        {
+            var wordCount = _wordRepositoryMyDic.GetTotalWordsCount();
+
+            Assert.AreEqual(wordCount, 22);
+        }
+
+        [Test]
+        [TestCase("kava","dkt")]
+        [TestCase("ritmika","dkt")]
+        public void AddWordToDataSet_AddExistingWord_ReturnsFalse(string myWord, string languagePart)
+        {
+            var response = _wordRepositoryMyDic.AddWordToDataSet(myWord, languagePart);
+
+            Assert.IsFalse(response);
         }
     }
 }

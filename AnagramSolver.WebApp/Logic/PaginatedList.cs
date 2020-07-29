@@ -8,6 +8,8 @@ namespace AnagramSolver.WebApp.Logic
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
+        public bool HasPreviousPage { get => PageIndex > 1; }
+        public bool HasNextPage { get => PageIndex < TotalPages; }
 
         private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
@@ -16,11 +18,6 @@ namespace AnagramSolver.WebApp.Logic
 
             this.AddRange(items);
         }
-
-        public bool HasPreviousPage { get => PageIndex > 1;}
-      
-
-        public bool HasNextPage { get => PageIndex < TotalPages;}
 
 
         public static PaginatedList<T> Create(List<T> items,int totalWordsCount, int pageIndex, int pageSize)

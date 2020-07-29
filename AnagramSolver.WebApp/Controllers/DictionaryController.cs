@@ -21,7 +21,7 @@ namespace AnagramSolver.WebApp.Controllers
             _anagramSolver = anagramSolver;
         }
 
-        public IActionResult Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber)
         {
             int pageSize = Settings.GetPageSize();
             var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
