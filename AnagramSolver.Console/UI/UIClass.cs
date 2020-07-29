@@ -30,11 +30,11 @@ namespace AnagramSolver.Console.UI
                 {
                     break;
                 }
-                //if (!UILogic.CheckIfLengthCorrect(myWord))
-                //{
-                //    System.Console.WriteLine("\nĮvestas žodis per trumpas");
-                //    continue;
-                //}
+                if (!UILogic.CheckIfLengthCorrect(myWord))
+                {
+                    System.Console.WriteLine("\nĮvestas žodis per trumpas");
+                    continue;
+                }
                 System.Console.WriteLine("Anagramos:\n");
                 var anagrams = _requestService.GetAnagramRequest(myWord);
                 DisplayAnagrams(anagrams);

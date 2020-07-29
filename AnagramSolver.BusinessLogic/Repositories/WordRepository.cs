@@ -22,8 +22,7 @@ namespace AnagramSolver.BusinessLogic
 
         private void ReadFile()
         {
-           // string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
-            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Contracts/Files/zodynas.txt");
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"+ @"AnagramSolver.Contracts/Files/zodynas.txt"));
             string lastWord="";
             string sortedWord = "";
      
@@ -46,8 +45,7 @@ namespace AnagramSolver.BusinessLogic
         }
         private void WriteFile(string word, string languagePart)
         {
-            //string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"../../../AnagramSolver.Contracts/Files/zodynas.txt");
-            string path = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), @"AnagramSolver.Contracts/Files/zodynas.txt");
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + @"AnagramSolver.Contracts/Files/zodynas.txt"));
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.WriteAsync("\n"+word+"\t" + languagePart);
