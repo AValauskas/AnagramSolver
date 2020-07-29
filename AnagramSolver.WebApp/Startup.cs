@@ -17,6 +17,7 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>().AddScoped<IWordRepository, BusinessLogic.WordRepository>();
+            services.AddScoped<IWordService, BusinessLogic.Services.WordService>();
             services.AddControllersWithViews();           
         }
 

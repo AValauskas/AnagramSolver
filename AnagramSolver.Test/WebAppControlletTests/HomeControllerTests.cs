@@ -1,6 +1,4 @@
-﻿using AnagramSolver.BusinessLogic;
-using AnagramSolver.Console.UI;
-using AnagramSolver.Contracts.Interfaces;
+﻿using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +33,18 @@ namespace AnagramSolver.Test.WebAppControlletTests
             var result = await _homeController.Index(myWord);
 
            Assert.IsInstanceOf<IActionResult>(result);
+        }
+
+
+        [Test]
+        [TestCase("alus")]
+        public async Task OnWordWritten(string myWord)
+        {
+            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+
+            var result = await _homeController.OnWordWritten(myWord);
+
+         //   Assert.That(result.["action"], Is.EqualTo("Index"));
         }
     }
 }

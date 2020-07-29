@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AnagramSolver.Contracts.Interfaces
 {
-    public interface IWordRepository
+    public interface IWordService
     {
         public Dictionary<string, List<Anagram>> GetWords();
         public List<Anagram> GetAllWords();

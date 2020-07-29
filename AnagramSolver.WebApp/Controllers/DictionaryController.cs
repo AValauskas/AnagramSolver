@@ -13,19 +13,20 @@ namespace AnagramSolver.WebApp.Controllers
 {
     public class DictionaryController : Controller
     {
-        private readonly IWordRepository _wordRepository;
+        private readonly IWordService _wordService;
         private readonly IAnagramSolver _anagramSolver;
-        public DictionaryController(IWordRepository wordRepository, IAnagramSolver anagramSolver)
+        public DictionaryController(IWordService wordService, IAnagramSolver anagramSolver)
         {
-            _wordRepository = wordRepository;
+            _wordService = wordService;
             _anagramSolver = anagramSolver;
         }
 
         public IActionResult Index(int? pageNumber)
         {
-            var words = _wordRepository.GetAllWords();
             int pageSize = Settings.GetPageSize();
-            return View(PaginatedList<Anagram>.Create(words, pageNumber ?? 1, pageSize));
+            var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
+            int totalWordsCount = _wordService.GetTotalWordsCount();
+            return View(PaginatedList<Anagram>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize));
         }
         public async Task<IActionResult> Anagrams(string word)
         {
@@ -47,7 +48,7 @@ namespace AnagramSolver.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> OnWordWritten(string myWord, string languagePart)
         {
-            if (_wordRepository.AddWordToDataSet(myWord, languagePart))
+            if (_wordService.AddWordToDataSet(myWord, languagePart))
                 return RedirectToAction("Anagrams", new { word = myWord });
             else
             {

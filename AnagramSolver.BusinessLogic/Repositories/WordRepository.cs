@@ -73,6 +73,17 @@ namespace AnagramSolver.BusinessLogic
             return anagrams.Values.ToList().SelectMany(x => x).ToList();
         }
 
+        public List<Anagram> GetWordsByRange(int pageIndex, int range)
+        {
+            var allWordList = GetAllWords();
+            return allWordList.Skip((pageIndex - 1) * range).Take(range).ToList();
+        }
+
+        public int GetTotalWordsCount()
+        {
+            return GetAllWords().Count;
+        }
+
         public bool AddWord(string sortedWord, string word, string languagePart)
         {
             if (anagrams.ContainsKey(sortedWord))
