@@ -1,8 +1,11 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic.Services
 {
@@ -42,6 +45,14 @@ namespace AnagramSolver.BusinessLogic.Services
         public List<Anagram> GetWordsByRange(int pageIndex, int range)
         {
             return _wordRepository.GetWordsByRange(pageIndex, range);
+        }
+
+        public async Task<FileStreamResult> GetDictionaryFile()
+        {
+            var stream =  await _wordRepository.GetDictionaryFile();
+            var file = new FileStreamResult(stream, "application/octet-stream");
+            file.FileDownloadName = "Zodynas.txt";
+            return file;
         }
     }
 }

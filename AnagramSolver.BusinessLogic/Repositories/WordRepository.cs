@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 
@@ -110,5 +111,12 @@ namespace AnagramSolver.BusinessLogic
             return true;
         }
 
+        public async Task<Stream> GetDictionaryFile()
+        {
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
+
+            var stream = File.OpenRead(path);
+            return stream;
+        }
     }
 }
