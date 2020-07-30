@@ -30,7 +30,6 @@ namespace AnagramSolver.WebApp.Controllers
             else
             {
                 @ViewData["Anagrams"] = "Anagrams:";
-               //CookiesActions _cookies = new CookiesActions(this.HttpContext);
                 _cookies.CreateAnagramCookie(word, anagrams);
             }
             return View(anagrams);

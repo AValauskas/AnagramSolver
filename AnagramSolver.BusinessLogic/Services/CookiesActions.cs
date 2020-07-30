@@ -20,7 +20,8 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             CookieOptions cookies = new CookieOptions();
             cookies.Expires = DateTime.Now.AddDays(7);
-            _http.HttpContext.Response.Cookies.Append(side, anagrams.ToString());
+            var anagramsString = string.Join(";", anagrams);
+            _http.HttpContext.Response.Cookies.Append(side, anagramsString);
         }
     }
 }
