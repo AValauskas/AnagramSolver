@@ -23,10 +23,11 @@ namespace AnagramSolver.WebApp.Controllers
 
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            int pageSize = Settings.GetPageSize();
+            var pageSize = Settings.GetPageSize();
             var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
-            int totalWordsCount = _wordService.GetTotalWordsCount();
-            return View(PaginatedList<Anagram>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize));
+            var totalWordsCount = _wordService.GetTotalWordsCount();
+            var paginnatedList = PaginatedList<Anagram>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
+            return View(paginnatedList);
         }
         public async Task<IActionResult> Anagrams(string word)
         {

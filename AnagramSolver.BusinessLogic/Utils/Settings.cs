@@ -6,7 +6,7 @@ namespace AnagramSolver.BusinessLogic.Utils
 {
     public class Settings
     {
-        private const string jsonPath = "AnagramSolver.Console";
+        private const string jsonPath = "AnagramSolver.WebApp";
         public static IConfigurationBuilder _configBuilder { get; set; }
         static Settings()
         {

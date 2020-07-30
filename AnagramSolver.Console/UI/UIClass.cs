@@ -5,19 +5,23 @@ using AnagramSolver.Contracts.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Console.UI
 {
     public class UIClass
     {
-        private readonly IRequestService _requestService;
-        public UIClass(IRequestService requestService)
+        private readonly IAnagramClient _apiService;
+        private UIClass(IAnagramClient apiService)
         {
-            this._requestService = requestService;
-            ProcessAnagramManager();
+            this._apiService = apiService;
         }
-
-        public void ProcessAnagramManager()
+        public static async Task Create(IAnagramClient requestService)
+        {
+            var uiClass = new UIClass(requestService);
+            await uiClass.ProcessAnagramManager();
+        }
+        private async Task ProcessAnagramManager()
         {
             bool exit = false;
             string myWord;
@@ -34,7 +38,7 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 System.Console.WriteLine("Anagramos:\n");
-                var anagrams = _requestService.GetAnagramRequest(myWord);
+                var anagrams = await _apiService.GetAnagrams(myWord);
                 DisplayAnagrams(anagrams);
 
             }
@@ -47,8 +51,6 @@ namespace AnagramSolver.Console.UI
             string myWord = System.Console.ReadLine();
             return myWord;
         }
-
-      
 
         private void DisplayAnagrams(IList<string> anagrams)
         {
