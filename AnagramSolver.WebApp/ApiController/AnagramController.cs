@@ -20,7 +20,7 @@ namespace AnagramSolver.WebApp.ApiController
         {
             var anagrams =  _anagramSolver.GetAnagrams(word);
             var jsonAnagrams = JsonConvert.SerializeObject(anagrams);
-
+    
             return Ok(jsonAnagrams);
         }
 

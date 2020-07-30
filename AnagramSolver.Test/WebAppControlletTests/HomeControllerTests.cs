@@ -1,6 +1,7 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
@@ -22,7 +23,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         public void Setup()
         {
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
-            _homeController = new HomeController(_anagramSolverMock);
+            _homeController = new HomeController(_anagramSolverMock, new HttpContextAccessor());
             _words = new List<string>() { "visma", "praktika" };
         }
 

@@ -5,25 +5,34 @@ using AnagramSolver.WebApp.Models;
 using AnagramSolver.Contracts.Interfaces;
 using System.Threading.Tasks;
 using AnagramSolver.Console.UI;
+using AnagramSolver.BusinessLogic.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace AnagramSolver.WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IAnagramSolver _anagramSolver;
-        public HomeController(IAnagramSolver anagramSolver)
+        private readonly CookiesActions _cookies;
+        public HomeController(IAnagramSolver anagramSolver, IHttpContextAccessor http)
         {
             _anagramSolver = anagramSolver;
+            _cookies = new CookiesActions(http);
         }
 
     
         public async Task<IActionResult> Index(string word)
         {
             var anagrams = _anagramSolver.GetAnagrams(word);
-            if (anagrams==null)
+            
+            if (anagrams == null)
                 anagrams = new List<string>();
             else
+            {
                 @ViewData["Anagrams"] = "Anagrams:";
+               //CookiesActions _cookies = new CookiesActions(this.HttpContext);
+                _cookies.CreateAnagramCookie(word, anagrams);
+            }
             return View(anagrams);
         }
 

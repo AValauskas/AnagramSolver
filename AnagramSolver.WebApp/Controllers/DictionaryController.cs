@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
@@ -15,10 +16,11 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IWordService _wordService;
         private readonly IAnagramSolver _anagramSolver;
-        public DictionaryController(IWordService wordService, IAnagramSolver anagramSolver)
+      
+        public DictionaryController(IWordService wordService, IAnagramSolver anagramSolver )
         {
             _wordService = wordService;
-            _anagramSolver = anagramSolver;
+            _anagramSolver = anagramSolver;           
         }
 
         public async Task<IActionResult> Index(int? pageNumber)

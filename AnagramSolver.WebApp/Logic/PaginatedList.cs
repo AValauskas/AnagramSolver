@@ -19,7 +19,6 @@ namespace AnagramSolver.WebApp.Logic
             this.AddRange(items);
         }
 
-
         public static PaginatedList<T> Create(List<T> items,int totalWordsCount, int pageIndex, int pageSize)
         {
             return new PaginatedList<T>(items, totalWordsCount, pageIndex, pageSize);
