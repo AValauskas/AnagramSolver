@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AnagramSolver.Console.UI;
 using AnagramSolver.BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -14,24 +15,35 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IAnagramSolver _anagramSolver;
         private readonly CookiesActions _cookies;
-        public HomeController(IAnagramSolver anagramSolver, IHttpContextAccessor http)
+        public HomeController(IAnagramSolver anagramSolver)
         {
             _anagramSolver = anagramSolver;
-            _cookies = new CookiesActions(http);
+            _cookies = new CookiesActions();
         }
 
     
         public async Task<IActionResult> Index(string word)
         {
-            var anagrams = await _anagramSolver.GetAnagrams(word);
+            List<string> anagrams;
+            if (word ==null)
+            {
+                word = "";
+            }
+            if (Request.Cookies.ContainsKey(word))
+            {
+                anagrams = Request.Cookies[word].Split(";").ToList();
+                return View(anagrams);
+            }
+            anagrams = await _anagramSolver.GetAnagrams(word);
             
             if (anagrams == null)
                 anagrams = new List<string>();
             else
             {
                 @ViewData["Anagrams"] = "Anagrams:";
-                _cookies.CreateAnagramCookie(word, anagrams);
-
+                var cookie = _cookies.CreateAnagramCookie();
+                var anagramsString = string.Join(";", anagrams);
+                Response.Cookies.Append(word, anagramsString, cookie);
             }
             return View(anagrams);
         }

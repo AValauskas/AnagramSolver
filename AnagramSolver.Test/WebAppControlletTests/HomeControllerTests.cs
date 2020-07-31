@@ -23,7 +23,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         public void Setup()
         {
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
-            _homeController = new HomeController(_anagramSolverMock, new HttpContextAccessor());
+            _homeController = new HomeController(_anagramSolverMock);
             _words = new List<string>() { "visma", "praktika" };
         }
 

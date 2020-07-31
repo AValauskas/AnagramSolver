@@ -10,18 +10,15 @@ namespace AnagramSolver.BusinessLogic.Services
 {
     public class CookiesActions
     {
-        private readonly IHttpContextAccessor _http;
-
-        public CookiesActions(IHttpContextAccessor http)
+        public CookiesActions()
         {
-            _http = http;
+          
         }
-        public void CreateAnagramCookie(string word, IList<string> anagrams)
+        public CookieOptions CreateAnagramCookie()
         {
             CookieOptions cookies = new CookieOptions();
             cookies.Expires = DateTime.Now.AddDays(7);
-            var anagramsString = string.Join(";", anagrams);
-            _http.HttpContext.Response.Cookies.Append(word, anagramsString);
+            return cookies;
         }
 
        

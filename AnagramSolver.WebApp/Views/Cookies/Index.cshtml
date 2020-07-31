@@ -1,0 +1,23 @@
+﻿@model Dictionary<string, List<string>>
+@{
+    ViewData["Title"] = "Cookies";
+}
+
+<h1>Cookies</h1>
+
+
+<table class="table">
+    @foreach (var word in @Model)
+    {
+        <tr>
+            <td> <a> @word.Key</a> </td>
+            <td>
+                @foreach (var anagram in word.Value)
+                {
+                    <a> @anagram</a><br>
+
+                }
+            </td>
+        </tr>
+    }
+</table>
