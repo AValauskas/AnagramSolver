@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Contracts.Interfaces
 {
     public interface IAnagramSolver
     {
-        IList<string> GetAnagrams(string myWords);
-    
+        public Task<List<string>> GetAnagrams(string word);
+
     }
 }

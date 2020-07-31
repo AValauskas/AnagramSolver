@@ -18,7 +18,7 @@ namespace AnagramSolver.WebApp.ApiController
             _wordService = wordServie;
         }
 
-    [HttpGet()]
+        [HttpGet()]
         public async Task<IActionResult> GetDictionaryFile()
         {
             var stream = await _wordService.GetDictionaryFile();

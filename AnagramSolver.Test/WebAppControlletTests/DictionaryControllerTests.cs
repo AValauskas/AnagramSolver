@@ -70,19 +70,19 @@ namespace AnagramSolver.Test.WebAppControlletTests
 
             var result = await _doctionaryController.Anagrams(myWord);
 
-            _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
+            await _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
         }
 
         [Test]
         [TestCase("a")]
         public async Task Anagrams_NoAnagrams_returnViewDataEmpty(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
 
             var result =  await _doctionaryController.Anagrams(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
 
-            Assert.IsTrue(viewData["Empty"] == "There is no such anagrams");
+            Assert.AreEqual("There is no such anagrams", viewData["Empty"]);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
             var result = await _doctionaryController.OnWordWritten(myWord, languagePart) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
 
-            Assert.IsTrue(viewData["Error"] == "Word already exist in dictionary");
+            Assert.AreEqual("Word already exist in dictionary", viewData["Error"]);
         }
         [Test]
         [TestCase("daiktas", "dkt")]
@@ -126,7 +126,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
 
             var result = await _doctionaryController.OnWordWritten(myWord, languagePart) as ViewResult;
 
-            Assert.IsTrue(result.ViewName == "NewWord");
+            Assert.AreEqual("NewWord", result.ViewName);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         {
             var result = await _doctionaryController.WordAddition() as ViewResult;
 
-            Assert.IsTrue(result.ViewName == "NewWord");
+            Assert.AreEqual("NewWord", result.ViewName);
         }
     }
 }

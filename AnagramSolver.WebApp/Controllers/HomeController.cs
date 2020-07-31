@@ -23,7 +23,7 @@ namespace AnagramSolver.WebApp.Controllers
     
         public async Task<IActionResult> Index(string word)
         {
-            var anagrams = _anagramSolver.GetAnagrams(word);
+            var anagrams = await _anagramSolver.GetAnagrams(word);
             
             if (anagrams == null)
                 anagrams = new List<string>();
@@ -31,6 +31,7 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 @ViewData["Anagrams"] = "Anagrams:";
                 _cookies.CreateAnagramCookie(word, anagrams);
+
             }
             return View(anagrams);
         }

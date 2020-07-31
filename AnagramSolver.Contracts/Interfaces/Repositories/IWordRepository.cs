@@ -16,6 +16,5 @@ namespace AnagramSolver.Contracts.Interfaces
         bool AddWordToDataSet(string word, string languagePart);
         public List<Anagram> GetWordsByRange(int pageIndex, int range);
         public int GetTotalWordsCount();
-        public Task<Stream> GetDictionaryFile();
     }
 }

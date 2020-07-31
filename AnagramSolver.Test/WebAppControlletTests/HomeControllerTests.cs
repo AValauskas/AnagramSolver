@@ -31,18 +31,18 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase(null)]
         public async Task Index_CallGetAnagrams_ReceiveSignal(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
 
             var result = await _homeController.Index(myWord);
 
-            _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
+            await _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
         }
 
         [Test]
         [TestCase(null)]
         public async Task Index_WithoutWord_ReturnsIActionResult(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
 
             var result = await _homeController.Index(myWord);
 
@@ -57,17 +57,17 @@ namespace AnagramSolver.Test.WebAppControlletTests
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
-            Assert.IsTrue(viewData["Anagrams"] == "Anagrams:");
+            Assert.AreEqual("Anagrams:", viewData["Anagrams"]);
         }
         [Test]
         [TestCase("null")]
         public async Task Index_WithWord_DontGetViewData(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((IList<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
-            Assert.IsTrue(viewData["Anagrams"] == null);
+            Assert.IsNull(viewData["Anagrams"]);
         }
 
 
@@ -78,7 +78,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
             var result = await _homeController.OnWordWritten(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
 
-            Assert.IsTrue(viewData["Error"] == "Word mus be longer");
+            Assert.AreEqual("Word mus be longer",viewData["Error"]);
         }
 
         [Test]

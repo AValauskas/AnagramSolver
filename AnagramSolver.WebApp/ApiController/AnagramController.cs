@@ -18,7 +18,7 @@ namespace AnagramSolver.WebApp.ApiController
         [HttpGet("{word}")]
         public async Task<IActionResult> GetAnagrams([FromRoute] string word)
         {
-            var anagrams =  _anagramSolver.GetAnagrams(word);
+            var anagrams =  await _anagramSolver.GetAnagrams(word);
             var jsonAnagrams = JsonConvert.SerializeObject(anagrams);
     
             return Ok(jsonAnagrams);

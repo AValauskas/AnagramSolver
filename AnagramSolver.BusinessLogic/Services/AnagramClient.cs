@@ -1,4 +1,4 @@
-﻿using AnagramSolver.Contracts.Interfaces.Services;
+﻿using AnagramSolver.Contracts.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic.Services
 {
-    public class AnagramClient: IAnagramClient
+    public class AnagramClient: IAnagramSolver
     {
         private const string URL = "https://localhost:44321";
         private HttpClient client;

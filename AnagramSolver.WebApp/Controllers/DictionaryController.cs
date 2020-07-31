@@ -33,7 +33,7 @@ namespace AnagramSolver.WebApp.Controllers
         }
         public async Task<IActionResult> Anagrams(string word)
         {
-            var anagrams = _anagramSolver.GetAnagrams(word);
+            var anagrams = await _anagramSolver.GetAnagrams(word);
             @ViewData["Word"] = word;
             if (anagrams == null || anagrams.Count == 0)
             {

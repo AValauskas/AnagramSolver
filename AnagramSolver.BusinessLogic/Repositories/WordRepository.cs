@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 
@@ -10,11 +11,12 @@ namespace AnagramSolver.BusinessLogic
 {
     public class WordRepository : IWordRepository
     {
-        private const string filePath = "AnagramSolver.Contracts/Files/zodynas.txt";
+        private readonly string filePath;
         private  Dictionary<string, List<Anagram>> anagrams; 
         public WordRepository()
         {
             anagrams = new Dictionary<string, List<Anagram>>();
+            filePath = Settings.GetfilePath();
             ReadFile();
         }
         public WordRepository(Dictionary<string, List<Anagram>> anagram)
@@ -109,14 +111,6 @@ namespace AnagramSolver.BusinessLogic
                         }});
             }
             return true;
-        }
-
-        public async Task<Stream> GetDictionaryFile()
-        {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
-
-            var stream = File.OpenRead(path);
-            return stream;
         }
     }
 }

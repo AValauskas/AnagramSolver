@@ -5,6 +5,7 @@ using AnagramSolver.Contracts.Models;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Test
 {
@@ -47,23 +48,23 @@ namespace AnagramSolver.Test
 
         [Test]
         [TestCase("Labas")]
-        public void GetAnagrams_OneWord_Return2ElementList(string myWord)
+        public async Task GetAnagrams_OneWord_Return2ElementList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.AreEqual(2, anagrams.Count);
         }
 
         [Test]
         [TestCase("kompiuteris")]
-        public void GetAnagrams_OneWord_ReturnMaxSizeList(string myWord)
+        public async Task GetAnagrams_OneWord_ReturnMaxSizeList(string myWord)
         {
             var size = int.Parse(Settings.GetAnagramsCount());
             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.AreEqual(size, anagrams.Count);
         }
@@ -71,11 +72,11 @@ namespace AnagramSolver.Test
         [Test]
         [TestCase("Sveikas")]
         [TestCase("automobilis")]
-        public void GetAnagrams_OneWord_ReturnEmptyList(string myWord)
+        public async Task GetAnagrams_OneWord_ReturnEmptyList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.IsNull(anagrams);
         }
@@ -83,34 +84,34 @@ namespace AnagramSolver.Test
         [Test]
         [TestCase("Laba vakara")]
         [TestCase("grazi diena")]
-        public void GetAnagrams_TwoWords_ReturnEmptyList(string myWord)
+        public async Task GetAnagrams_TwoWords_ReturnEmptyList(string myWord)
         {
             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.IsNull(anagrams);
         }
 
         [Test]
         [TestCase("visma praktika")]
-        public void GetAnagrams_TwoWords_Return1ElementList(string myWord)
+        public async Task GetAnagrams_TwoWords_Return1ElementList(string myWord)
         {
-            _wordRepositoryMock.GetWords().Returns(words);
+             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.AreEqual(2, anagrams.Count);
         }
 
         [Test]
         [TestCase("Labas rytas")]
-        public void GetAnagrams_TwoWords_ReturnMaxSizeList(string myWord)
+        public async Task GetAnagrams_TwoWords_ReturnMaxSizeList(string myWord)
         {
             var size = int.Parse(Settings.GetAnagramsCount());
             _wordRepositoryMock.GetWords().Returns(words);
 
-            var anagrams = _anagramSolverMock.GetAnagrams(myWord);
+            var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
             Assert.AreEqual(size, anagrams.Count);
         }

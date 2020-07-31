@@ -1,22 +1,17 @@
-﻿using AnagramSolver.BusinessLogic;
-using AnagramSolver.BusinessLogic.Utils;
-using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.Contracts.Interfaces.Services;
-using System;
+﻿using AnagramSolver.Contracts.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.Console.UI
 {
     public class UIClass
     {
-        private readonly IAnagramClient _apiService;
-        private UIClass(IAnagramClient apiService)
+        private readonly IAnagramSolver _apiService;
+        private UIClass(IAnagramSolver apiService)
         {
             this._apiService = apiService;
         }
-        public static async Task Create(IAnagramClient requestService)
+        public static async Task Create(IAnagramSolver requestService)
         {
             var uiClass = new UIClass(requestService);
             await uiClass.ProcessAnagramManager();

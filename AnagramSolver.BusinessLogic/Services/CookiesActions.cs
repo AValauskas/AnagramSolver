@@ -16,12 +16,14 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             _http = http;
         }
-        public void CreateAnagramCookie(string side, IList<string> anagrams)
+        public void CreateAnagramCookie(string word, IList<string> anagrams)
         {
             CookieOptions cookies = new CookieOptions();
             cookies.Expires = DateTime.Now.AddDays(7);
             var anagramsString = string.Join(";", anagrams);
-            _http.HttpContext.Response.Cookies.Append(side, anagramsString);
+            _http.HttpContext.Response.Cookies.Append(word, anagramsString);
         }
+
+       
     }
 }

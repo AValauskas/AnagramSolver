@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic
 {
@@ -15,9 +16,9 @@ namespace AnagramSolver.BusinessLogic
         {
             _wordRepository = wordRepository;
         }
-       
 
-        public IList<string> GetAnagrams(string myWords)
+
+        public async Task<List<string>> GetAnagrams(string myWords)
         {
             if (myWords==null)
             {
@@ -38,7 +39,7 @@ namespace AnagramSolver.BusinessLogic
             }
         }
 
-        private IList<string> GetAnagramOneWord(string myWord, string sortedWord)
+        private List<string> GetAnagramOneWord(string myWord, string sortedWord)
         {
             var anagramsCount = Settings.GetAnagramsCount();
             var allWords = _wordRepository.GetWords();
@@ -52,7 +53,7 @@ namespace AnagramSolver.BusinessLogic
             return null;
         }
 
-        private IList<string> GetAnagramFewWords(string myWords, string sortedWord)
+        private List<string> GetAnagramFewWords(string myWords, string sortedWord)
          {
             var anagramsCount = Settings.GetAnagramsCount();
             var allWords = _wordRepository.GetWords();

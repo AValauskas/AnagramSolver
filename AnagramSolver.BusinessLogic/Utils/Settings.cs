@@ -34,6 +34,10 @@ namespace AnagramSolver.BusinessLogic.Utils
         {
             return int.Parse(_configBuilder.Build().GetSection("pageSize").Value);
         }
+        public static string GetfilePath()
+        {
+            return _configBuilder.Build().GetSection("filePath").Value;
+        }
     }
     
 }
