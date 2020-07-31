@@ -1,13 +1,13 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.Controllers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace AnagramSolver.Test.WebAppControlletTests
 {
@@ -17,14 +17,18 @@ namespace AnagramSolver.Test.WebAppControlletTests
         private Dictionary<string, List<Anagram>> _wordsDictionary;
         private HomeController _homeController;
         private List<string> _words;
-
+       
 
         [SetUp]
         public void Setup()
         {
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
-            _homeController = new HomeController(_anagramSolverMock);
+            _homeController = new HomeController(_anagramSolverMock);          
             _words = new List<string>() { "visma", "praktika" };
+   
+            _homeController.ControllerContext = new ControllerContext();
+            _homeController.ControllerContext.HttpContext = new DefaultHttpContext();
+            _homeController.ControllerContext.HttpContext.Request.Headers["device-id"] = "20317";
         }
 
         [Test]
@@ -60,7 +64,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
             Assert.AreEqual("Anagrams:", viewData["Anagrams"]);
         }
         [Test]
-        [TestCase("null")]
+        [TestCase(null)]
         public async Task Index_WithWord_DontGetViewData(string myWord)
         {
             _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);

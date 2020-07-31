@@ -18,7 +18,7 @@ namespace AnagramSolver.WebApp.Controllers
         public HomeController(IAnagramSolver anagramSolver)
         {
             _anagramSolver = anagramSolver;
-            _cookies = new CookiesActions();
+            _cookies = new CookiesActions();            
         }
 
     
@@ -31,13 +31,17 @@ namespace AnagramSolver.WebApp.Controllers
             }
             if (Request.Cookies.ContainsKey(word))
             {
+                @ViewData["Anagrams"] = "Anagrams:";
                 anagrams = Request.Cookies[word].Split(";").ToList();
                 return View(anagrams);
             }
             anagrams = await _anagramSolver.GetAnagrams(word);
-            
+
             if (anagrams == null)
+            {
                 anagrams = new List<string>();
+                @ViewData["Anagrams"] = null;
+            }
             else
             {
                 @ViewData["Anagrams"] = "Anagrams:";

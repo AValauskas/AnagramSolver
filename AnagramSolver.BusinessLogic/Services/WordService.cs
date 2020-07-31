@@ -1,4 +1,5 @@
-﻿using AnagramSolver.Contracts.Interfaces;
+﻿using AnagramSolver.BusinessLogic.Utils;
+using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -51,8 +52,11 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<FileStreamResult> GetDictionaryFile()
         {
             string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
-
             var stream = File.OpenRead(path);
+            if (stream==null)
+            {
+                throw new BusinessException("File doesn't Exist");
+            }
             var file = new FileStreamResult(stream, "application/octet-stream");
             file.FileDownloadName = "Zodynas.txt";
             return file;
