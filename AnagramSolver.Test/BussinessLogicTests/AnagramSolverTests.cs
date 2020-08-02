@@ -61,7 +61,7 @@ namespace AnagramSolver.Test
         [TestCase("kompiuteris")]
         public async Task GetAnagrams_OneWord_ReturnMaxSizeList(string myWord)
         {
-            var size = int.Parse(Settings.GetAnagramsCount());
+            var size = Settings.AnagramCount;
             _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
@@ -108,7 +108,7 @@ namespace AnagramSolver.Test
         [TestCase("Labas rytas")]
         public async Task GetAnagrams_TwoWords_ReturnMaxSizeList(string myWord)
         {
-            var size = int.Parse(Settings.GetAnagramsCount());
+            var size = Settings.AnagramCount;
             _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);

@@ -11,7 +11,7 @@ namespace AnagramSolver.Console.UI
         {
             if (myWord == null)
                 return false;
-            int minLength = Settings.GetMinLength();
+            int minLength = Settings.MinLength;
             if (myWord.Length >= minLength)
                 return true;
             return false;

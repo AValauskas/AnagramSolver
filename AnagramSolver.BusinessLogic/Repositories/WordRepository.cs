@@ -16,7 +16,7 @@ namespace AnagramSolver.BusinessLogic
         public WordRepository()
         {
             anagrams = new Dictionary<string, List<Anagram>>();
-            filePath = Settings.GetfilePath();
+            filePath = Settings.FilePath;
             ReadFile();
 
         }
@@ -27,7 +27,7 @@ namespace AnagramSolver.BusinessLogic
 
         private void ReadFile()
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"+ filePath));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath));
             string lastWord="";
             string sortedWord = "";
      
@@ -50,7 +50,7 @@ namespace AnagramSolver.BusinessLogic
         }
         private void WriteFile(string word, string languagePart)
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath));
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.WriteAsync("\n"+word+"\t" + languagePart);

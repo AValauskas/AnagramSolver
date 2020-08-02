@@ -6,8 +6,13 @@ namespace AnagramSolver.BusinessLogic.Utils
 {
     public class Settings
     {
+        private const int countResults = 10;
         private const string jsonPath = "AnagramSolver.WebApp";
         public static IConfigurationBuilder _configBuilder { get; set; }
+        public static int AnagramCount { get; private set; }
+        public static int MinLength { get; private set; }
+        public static int PageSize { get; private set; }
+        public static string FilePath { get; private set; }
         static Settings()
         {
             CallBuilder();
@@ -18,25 +23,20 @@ namespace AnagramSolver.BusinessLogic.Utils
             _configBuilder = new ConfigurationBuilder()
             .SetBasePath(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + jsonPath)))
             .AddJsonFile("appsettings.json");
+            AnagramCount = GetSettingsJsonIntValue("anagramCount", countResults);
+            MinLength = GetSettingsJsonIntValue("minLength", countResults);
+            PageSize = GetSettingsJsonIntValue("pageSize", countResults);
+            FilePath= _configBuilder.Build().GetSection("filePath").Value;
         }
 
-        public static string GetAnagramsCount()
+        private static int GetSettingsJsonIntValue(string field, int failureCaseInt)
         {
-            return _configBuilder.Build().GetSection("anagramCount").Value;
-        }
+            var anagramCount = _configBuilder.Build().GetSection(field).Value;
+            int result;
+            if (!int.TryParse(anagramCount, out result))
+                result = failureCaseInt;
 
-        public static int GetMinLength()
-        {
-            return int.Parse(_configBuilder.Build().GetSection("minLength").Value);
-        }
-
-        public static int GetPageSize()
-        {
-            return int.Parse(_configBuilder.Build().GetSection("pageSize").Value);
-        }
-        public static string GetfilePath()
-        {
-            return _configBuilder.Build().GetSection("filePath").Value;
+            return result;
         }
     }
     

@@ -25,7 +25,7 @@ namespace AnagramSolver.WebApp.Controllers
 
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            var pageSize = Settings.GetPageSize();
+            var pageSize = Settings.PageSize;
             var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
             var totalWordsCount = _wordService.GetTotalWordsCount();
             var paginnatedList = PaginatedList<Anagram>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);

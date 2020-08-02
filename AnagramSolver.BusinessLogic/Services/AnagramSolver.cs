@@ -41,13 +41,13 @@ namespace AnagramSolver.BusinessLogic
 
         private List<string> GetAnagramOneWord(string myWord, string sortedWord)
         {
-            var anagramsCount = Settings.GetAnagramsCount();
+            var anagramsCount = Settings.AnagramCount;
             var allWords = _wordRepository.GetWords();
             if (allWords.ContainsKey(sortedWord))
             {
                 return allWords[sortedWord].FindAll(x => x.Word.ToLower() != myWord.ToLower())
                     .Select(x => x.Word)
-                    .Take(int.Parse(anagramsCount))
+                    .Take(anagramsCount)
                     .ToList();
             }
             return null;
@@ -55,7 +55,7 @@ namespace AnagramSolver.BusinessLogic
 
         private List<string> GetAnagramFewWords(string myWords, string sortedWord)
          {
-            var anagramsCount = Settings.GetAnagramsCount();
+            var anagramsCount = Settings.AnagramCount;
             var allWords = _wordRepository.GetWords();
             var firstDic = FirstDictionaryIteration(allWords, sortedWord);
             var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
@@ -65,8 +65,8 @@ namespace AnagramSolver.BusinessLogic
                 return null;
             }
             var pairs = FormAllPairs(secondDic);
-            if (int.Parse(anagramsCount) < pairs.Count)
-                pairs.RemoveRange(int.Parse(anagramsCount), pairs.Count - int.Parse(anagramsCount));
+            if (anagramsCount < pairs.Count)
+                pairs.RemoveRange(anagramsCount, pairs.Count - anagramsCount);
 
             return pairs;
         }
