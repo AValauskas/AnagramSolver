@@ -53,24 +53,71 @@ namespace AnagramSolver.BusinessLogic
             return null;
         }
 
-        private List<string> GetAnagramFewWords(string myWords, string sortedWord)
-         {
+        /*  private List<string> GetAnagramFewWords(string myWords, string sortedWord)
+           {
+              var anagramsCount = Settings.AnagramCount;
+              var allWords = _wordRepository.GetWords();
+              var firstDic = FirstDictionaryIteration(allWords, sortedWord);
+              var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
+
+              if (secondDic.Count== 0)
+              {
+                  return null;
+              }
+              var pairs = FormAllPairs(secondDic);
+              if (anagramsCount < pairs.Count)
+                  pairs.RemoveRange(anagramsCount, pairs.Count - anagramsCount);
+
+              return pairs;
+          }*/
+        public List<string> GetAnagramFewWords(string myWords, string sortedWord)
+        {
             var anagramsCount = Settings.AnagramCount;
             var allWords = _wordRepository.GetWords();
             var firstDic = FirstDictionaryIteration(allWords, sortedWord);
-            var secondDic = SecondDictionaryIteration(allWords, firstDic, sortedWord);
-
-            if (secondDic.Count== 0)
-            {
-                return null;
-            }
-            var pairs = FormAllPairs(secondDic);
-            if (anagramsCount < pairs.Count)
-                pairs.RemoveRange(anagramsCount, pairs.Count - anagramsCount);
-
-            return pairs;
+            var finalAnagram = new List<List<List<Anagram>>>();
+            FormAnagramsDictionary(allWords, firstDic, finalAnagram, sortedWord);
+            //   var pairs = FormAllPairs(secondDic);
+            // pairs.RemoveRange(int.Parse(anagramsCount), pairs.Count - int.Parse(anagramsCount));
+            //  return pairs;
+            return null;
         }
 
+        private void FormAnagramsDictionary(Dictionary<string, List<Anagram>> anagrams,
+            Dictionary<string, List<List<Anagram>>> anagramSets,
+             List<List<List<Anagram>>> finalAnagram, string myWord)
+        {
+            var dic = new Dictionary<string, List<List<Anagram>>>();
+            foreach (var item in anagramSets)
+            {
+                foreach (var anagram in anagrams)
+                {
+                    if (anagram.Key.Length > item.Key.Length)
+                        continue;
+                    if (!StringProcessor.IsMatch(item.Key, anagram.Key))
+                        continue;
+                    var newKey = StringProcessor.RemoveSomeLettersString(myWord, anagram.Key);
+                    if (dic.ContainsKey(newKey))
+                    {
+                        dic[item.Key].Add(anagram.Value);
+                    }
+                    else
+                    {
+                        dic.Add(item.Key, item.Value);
+                        dic[item.Key].Add(anagram.Value);
+                    }
+                    if (anagram.Key.Length == item.Key.Length)
+                    {
+                        finalAnagram.Add(dic[item.Key]);
+                    }
+                    else
+                    {
+                        FormAnagramsDictionary(anagrams, dic, finalAnagram, myWord);
+                    }
+
+                }
+            }
+        }
 
 
         private Dictionary<string, List<List<Anagram>>> FirstDictionaryIteration(Dictionary<string, List<Anagram>> anagrams, string myWord)
