@@ -1,3 +1,4 @@
+using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Database;
 using AnagramSolver.Contracts.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +20,8 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
-                    .AddScoped<IWordRepository, DatabaseWordRepository>()
+                    //.AddScoped<IWordRepository, DatabaseWordRepository>()
+                    .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                     .AddHttpContextAccessor();
 

@@ -13,7 +13,7 @@ namespace AnagramSolver.BusinessLogic.Services
 {
     public class WordService : IWordService
     {
-        private const string filePath = "AnagramSolver.Contracts/Files/zodynas.txt";
+        private const string filePath = "Files/zodynas.txt";
         private readonly IWordRepository _wordRepository;
         public WordService(IWordRepository wordRepository)
         {
@@ -52,7 +52,7 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<FileStreamResult> GetDictionaryFile()
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + filePath));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath));
             var stream = File.OpenRead(path);
             if (stream==null)
             {
