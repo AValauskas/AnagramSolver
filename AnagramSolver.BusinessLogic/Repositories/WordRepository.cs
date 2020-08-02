@@ -18,6 +18,7 @@ namespace AnagramSolver.BusinessLogic
             anagrams = new Dictionary<string, List<Anagram>>();
             filePath = Settings.GetfilePath();
             ReadFile();
+
         }
         public WordRepository(Dictionary<string, List<Anagram>> anagram)
         {
@@ -98,7 +99,8 @@ namespace AnagramSolver.BusinessLogic
                     new Anagram()
                     {
                         Word = word,
-                        LanguagePart = languagePart
+                        LanguagePart = languagePart,
+                        SortedWord= sortedWord
                     });
             }
             else
@@ -107,7 +109,8 @@ namespace AnagramSolver.BusinessLogic
                     sortedWord, new List<Anagram>() {
                         new Anagram() {
                             Word = word,
-                            LanguagePart = languagePart
+                            LanguagePart = languagePart,
+                            SortedWord= sortedWord
                         }});
             }
             return true;

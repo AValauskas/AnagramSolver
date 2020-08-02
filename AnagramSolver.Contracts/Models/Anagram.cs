@@ -6,5 +6,6 @@ namespace AnagramSolver.Contracts.Models
     {
         public string Word { get; set; }
         public string LanguagePart {get;set;}
+        public string SortedWord { get; set; }
     }
 }
