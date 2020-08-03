@@ -34,7 +34,7 @@ namespace AnagramSolver.WebApp.Controllers
             else
              words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
 
-            var totalWordsCount = _wordService.GetTotalWordsCount();
+            var totalWordsCount = 40000;//_wordService.GetTotalWordsCount();
             var paginnatedList = PaginatedList<WordModel>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
             return View(paginnatedList);
         }

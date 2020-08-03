@@ -109,15 +109,16 @@ namespace AnagramSolver.DatabaseLogic
             var firstWordIndex = (pageIndex - 1) * range;
             var secondWordIndex = (pageIndex) * range;
             _sqlConnection.Open();
-            //var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex 
-            //    + " and Id <= " + secondWordIndex + "like '" + searchedWord + "'";
 
             var sqlQueryByRange = "Select * " +
                 "FROM( SELECT *, ROW_NUMBER() OVER(ORDER BY ID) AS RowNum " +
-                "FROM Word Where word like '"+ searchedWord + "') as MyDerivedTable" +
-                " WHERE MyDerivedTable.RowNum BETWEEN "+ firstWordIndex + " AND "+ secondWordIndex;
+                "FROM Word Where word like @Word) as MyDerivedTable" +
+                " WHERE MyDerivedTable.RowNum BETWEEN @IndexFrom AND @IndexTo";
 
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
+            command.Parameters.Add(new SqlParameter("@Word", searchedWord));
+            command.Parameters.Add(new SqlParameter("@IndexFrom", firstWordIndex));
+            command.Parameters.Add(new SqlParameter("@IndexTo", secondWordIndex));
             SqlDataReader dr = command.ExecuteReader();
             List<WordModel> words = new List<WordModel>();
             if (dr.HasRows)
@@ -135,6 +136,9 @@ namespace AnagramSolver.DatabaseLogic
             }
             _sqlConnection.Close();
             return words;
+
+
+      
         }
         public List<WordModel> FindSingleWordAnagrams(string sortedWord)
         {
