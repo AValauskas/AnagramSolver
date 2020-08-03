@@ -34,9 +34,6 @@ namespace AnagramSolver.DatabaseLogic
                     .ToList();
 
             return anagramsAsString;
-
-
-
         }
     }
 }

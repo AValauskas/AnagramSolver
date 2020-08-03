@@ -7,7 +7,6 @@ namespace AnagramSolver.BusinessLogic.Utils
     public class Settings
     {
         private const int countResults = 10;
-        private const string jsonPath = "AnagramSolver.WebApp";
         public static IConfigurationBuilder _configBuilder { get; set; }
         public static int AnagramCount { get; private set; }
         public static int MinLength { get; private set; }
@@ -21,7 +20,7 @@ namespace AnagramSolver.BusinessLogic.Utils
         private static void CallBuilder()
         {
             _configBuilder = new ConfigurationBuilder()
-            .SetBasePath(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\" + jsonPath)))
+            .SetBasePath(Path.GetFullPath(AppContext.BaseDirectory))
             .AddJsonFile("appsettings.json");
             AnagramCount = GetSettingsJsonIntValue("anagramCount", countResults);
             MinLength = GetSettingsJsonIntValue("minLength", countResults);
