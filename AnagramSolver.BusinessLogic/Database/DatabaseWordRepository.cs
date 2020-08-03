@@ -19,10 +19,6 @@ namespace AnagramSolver.BusinessLogic.Database
             _sqlConnection = new SqlConnection(connectionString);
             
         }
-        public bool AddWord(string sortedWord, string word, string languagePart)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool AddWordToDataSet(string word, string languagePart)
         {
@@ -73,23 +69,7 @@ namespace AnagramSolver.BusinessLogic.Database
 
         public Dictionary<string, List<WordModel>> GetWords()
         {
-            _sqlConnection.Open();
-            SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel() {
-                        Id = dr["Id"].ToString(),
-                        Word = dr["word"].ToString(),
-                        LanguagePart = dr["Category"].ToString(),
-                        SortedWord = dr["SortedWord"].ToString() });
-                }
-            }
-            _sqlConnection.Close();
-            return null;
+            throw new NotImplementedException();
         }
 
         public List<WordModel> GetWordsByRange(int pageIndex, int range)
@@ -97,8 +77,7 @@ namespace AnagramSolver.BusinessLogic.Database
             var firstWordIndex = (pageIndex - 1) * range;
             var secondWordIndex = (pageIndex) * range;
             _sqlConnection.Open();
-            var sqlQueryByRange = " SELECT* FROM(SELECT*, ROW_NUMBER() OVER (Word BY Id) as row FROM Word) a WHERE row > " + firstWordIndex + " and row <= " + secondWordIndex;
-           // var sqlQueryByRange = "Select * from Word BETWEEN " + firstWordIndex + " AND " + secondWordIndex;
+            var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex + " and Id <= " + secondWordIndex;
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
             List<WordModel> words = new List<WordModel>();
@@ -116,7 +95,7 @@ namespace AnagramSolver.BusinessLogic.Database
                 }
             }
             _sqlConnection.Close();
-            return null;
+            return words;
         }
 
     }
