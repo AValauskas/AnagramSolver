@@ -20,17 +20,17 @@ namespace AnagramSolver.BusinessLogic.Services
             _wordRepository = wordRepository;
         }
 
-        public bool AddWord(string sortedWord, string word, string languagePart)
-        {
-            return _wordRepository.AddWord(sortedWord, word, languagePart);
-        }
+        //public bool AddWord(string sortedWord, string word, string languagePart)
+        //{
+        //    return _wordRepository.AddWord(sortedWord, word, languagePart);
+        //}
 
         public bool AddWordToDataSet(string word, string languagePart)
         {
             return _wordRepository.AddWordToDataSet(word, languagePart);
         }
 
-        public List<Anagram> GetAllWords()
+        public List<WordModel> GetAllWords()
         {
             return _wordRepository.GetAllWords();
         }
@@ -40,12 +40,12 @@ namespace AnagramSolver.BusinessLogic.Services
             return _wordRepository.GetTotalWordsCount();
         }
 
-        public Dictionary<string, List<Anagram>> GetWords()
+        public Dictionary<string, List<WordModel>> GetWords()
         {
             return _wordRepository.GetWords();
         }
 
-        public List<Anagram> GetWordsByRange(int pageIndex, int range)
+        public List<WordModel> GetWordsByRange(int pageIndex, int range)
         {
             return _wordRepository.GetWordsByRange(pageIndex, range);
         }

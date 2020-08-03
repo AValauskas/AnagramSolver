@@ -28,7 +28,7 @@ namespace AnagramSolver.WebApp.Controllers
             var pageSize = Settings.PageSize;
             var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
             var totalWordsCount = _wordService.GetTotalWordsCount();
-            var paginnatedList = PaginatedList<Anagram>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
+            var paginnatedList = PaginatedList<WordModel>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
             return View(paginnatedList);
         }
         public async Task<IActionResult> Anagrams(string word)

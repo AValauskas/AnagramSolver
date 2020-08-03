@@ -12,15 +12,15 @@ namespace AnagramSolver.BusinessLogic
     public class WordRepository : IWordRepository
     {
         private readonly string filePath;
-        private  Dictionary<string, List<Anagram>> anagrams; 
+        private  Dictionary<string, List<WordModel>> anagrams; 
         public WordRepository()
         {
-            anagrams = new Dictionary<string, List<Anagram>>();
+            anagrams = new Dictionary<string, List<WordModel>>();
             filePath = Settings.FilePath;
             ReadFile();
 
         }
-        public WordRepository(Dictionary<string, List<Anagram>> anagram)
+        public WordRepository(Dictionary<string, List<WordModel>> anagram)
         {
             anagrams = anagram;
         }
@@ -67,16 +67,16 @@ namespace AnagramSolver.BusinessLogic
             return true;
         }
 
-        public Dictionary<string, List<Anagram>> GetWords()
+        public Dictionary<string, List<WordModel>> GetWords()
         {
                 return anagrams;
         }
-        public List<Anagram> GetAllWords()
+        public List<WordModel> GetAllWords()
         {
             return anagrams.Values.ToList().SelectMany(x => x).ToList();
         }
 
-        public List<Anagram> GetWordsByRange(int pageIndex, int range)
+        public List<WordModel> GetWordsByRange(int pageIndex, int range)
         {
             var allWordList = GetAllWords();
             return allWordList.Skip((pageIndex - 1) * range).Take(range).ToList();
@@ -87,7 +87,7 @@ namespace AnagramSolver.BusinessLogic
             return GetAllWords().Count;
         }
 
-        public bool AddWord(string sortedWord, string word, string languagePart)
+        private bool AddWord(string sortedWord, string word, string languagePart)
         {
             if (anagrams.ContainsKey(sortedWord))
             {
@@ -96,7 +96,7 @@ namespace AnagramSolver.BusinessLogic
                     return false;
                 }
                 anagrams[sortedWord].Add(
-                    new Anagram()
+                    new WordModel()
                     {
                         Word = word,
                         LanguagePart = languagePart,
@@ -106,8 +106,8 @@ namespace AnagramSolver.BusinessLogic
             else
             {
                 anagrams.Add(
-                    sortedWord, new List<Anagram>() {
-                        new Anagram() {
+                    sortedWord, new List<WordModel>() {
+                        new WordModel() {
                             Word = word,
                             LanguagePart = languagePart,
                             SortedWord= sortedWord

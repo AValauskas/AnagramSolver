@@ -27,7 +27,7 @@ namespace AnagramSolver.WebApp.Controllers
     
         public async Task<IActionResult> Index(string word)
         {
-            List<string> anagrams;
+            List<string> anagrams = null;
             if (word ==null)
             {
                 word = "";
@@ -38,7 +38,7 @@ namespace AnagramSolver.WebApp.Controllers
                 anagrams = Request.Cookies[word].Split(";").ToList();
                 return View(anagrams);
             }
-            anagrams = await _anagramSolver.GetAnagrams(word);
+         //   anagrams = await _anagramSolver.GetAnagrams(word);
 
             if (anagrams == null)
             {

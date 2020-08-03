@@ -26,6 +26,8 @@ namespace AnagramSolver.BusinessLogic.Database
 
         public bool AddWordToDataSet(string word, string languagePart)
         {
+            //TODO Check if not exist
+
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
             _sqlConnection.Open();
             SqlCommand cmd = new SqlCommand();
@@ -40,17 +42,17 @@ namespace AnagramSolver.BusinessLogic.Database
             return true;
         }
 
-        public List<Anagram> GetAllWords()
+        public List<WordModel> GetAllWords()
         {
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<Anagram> words = new List<Anagram>();
+            List<WordModel> words = new List<WordModel>();
             if (dr.HasRows)
             {
                 while (dr.Read())
                 {
-                    words.Add(new Anagram() { Word = dr["word"].ToString(), LanguagePart = dr["Category"].ToString(), 
+                    words.Add(new WordModel() { Word = dr["word"].ToString(), LanguagePart = dr["Category"].ToString(), 
                         SortedWord = dr["SortedWord"].ToString() });
                 }
             }
@@ -60,20 +62,29 @@ namespace AnagramSolver.BusinessLogic.Database
 
         public int GetTotalWordsCount()
         {
-            throw new NotImplementedException();
+            int count = 0;
+            _sqlConnection.Open();
+            SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word", _sqlConnection);
+            object obj = command.ExecuteScalar();
+            count = int.Parse(obj.ToString());
+            _sqlConnection.Close();
+            return count;
         }
 
-        public Dictionary<string, List<Anagram>> GetWords()
+        public Dictionary<string, List<WordModel>> GetWords()
         {
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<Anagram> words = new List<Anagram>();
+            List<WordModel> words = new List<WordModel>();
             if (dr.HasRows)
             {
                 while (dr.Read())
                 {
-                    words.Add(new Anagram() { Word = dr["word"].ToString(), LanguagePart = dr["Category"].ToString(),
+                    words.Add(new WordModel() {
+                        Id = dr["Id"].ToString(),
+                        Word = dr["word"].ToString(),
+                        LanguagePart = dr["Category"].ToString(),
                         SortedWord = dr["SortedWord"].ToString() });
                 }
             }
@@ -81,9 +92,31 @@ namespace AnagramSolver.BusinessLogic.Database
             return null;
         }
 
-        public List<Anagram> GetWordsByRange(int pageIndex, int range)
+        public List<WordModel> GetWordsByRange(int pageIndex, int range)
         {
-            throw new NotImplementedException();
+            var firstWordIndex = (pageIndex - 1) * range;
+            var secondWordIndex = (pageIndex) * range;
+            _sqlConnection.Open();
+            var sqlQueryByRange = " SELECT* FROM(SELECT*, ROW_NUMBER() OVER (Word BY Id) as row FROM Word) a WHERE row > " + firstWordIndex + " and row <= " + secondWordIndex;
+           // var sqlQueryByRange = "Select * from Word BETWEEN " + firstWordIndex + " AND " + secondWordIndex;
+            SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
+            SqlDataReader dr = command.ExecuteReader();
+            List<WordModel> words = new List<WordModel>();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    words.Add(new WordModel()
+                    {
+                        Id = dr["Id"].ToString(),
+                        Word = dr["word"].ToString(),
+                        LanguagePart = dr["Category"].ToString(),
+                        SortedWord = dr["SortedWord"].ToString()
+                    });
+                }
+            }
+            _sqlConnection.Close();
+            return null;
         }
 
     }

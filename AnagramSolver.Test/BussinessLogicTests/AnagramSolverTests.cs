@@ -15,7 +15,7 @@ namespace AnagramSolver.Test
         private IWordRepository _wordRepositoryMock;
         private IAnagramSolver _anagramSolver;
         private IAnagramSolver _anagramSolverMock;
-        private Dictionary<string, List<Anagram>> words;
+        private Dictionary<string, List<WordModel>> words;
 
         [SetUp]
         public void Setup()
@@ -25,24 +25,24 @@ namespace AnagramSolver.Test
             _anagramSolver = new BusinessLogic.AnagramSolver(_wordRepository);
             _anagramSolverMock = new BusinessLogic.AnagramSolver(_wordRepositoryMock);
 
-            words = new Dictionary<string, List<Anagram>>()
+            words = new Dictionary<string, List<WordModel>>()
             {
-                { "aabls", new List<Anagram>(){ 
-                    new Anagram() { Word="labas", LanguagePart="jst"},
-                    new Anagram() { Word="balas", LanguagePart="jst"},
-                    new Anagram() { Word="salab", LanguagePart="jst"}}},
-                { "iosv", new List<Anagram>(){ new Anagram() { Word="viso", LanguagePart="jst"}}},
-                { "aakv", new List<Anagram>(){ new Anagram() { Word="kava", LanguagePart="dkt"}}},
-                { "aiikmprst", new List<Anagram>(){ new Anagram() { Word="trikampis", LanguagePart="dkt"}}},
-                { "arsyt", new List<Anagram>(){ new Anagram() { Word="tyras", LanguagePart="bdv"}}},               
-                { "eiikmoprstu", new List<Anagram>(){
-                    new Anagram() { Word= "sompiuterik", LanguagePart="bdv"},
-                    new Anagram() { Word= "piuteriskom", LanguagePart="bdv"},
-                    new Anagram() { Word= "teriskompiu", LanguagePart="bdv"},
-                    new Anagram() { Word= "riskompiute", LanguagePart="bdv"},
-                    new Anagram() { Word= "iuteriskomp", LanguagePart="bdv"},
-                    new Anagram() { Word= "kopmiuteris", LanguagePart="bdv"},
-                    new Anagram() { Word= "kompiuteris", LanguagePart="bdv"}}},
+                { "aabls", new List<WordModel>(){ 
+                    new WordModel() { Word="labas", LanguagePart="jst"},
+                    new WordModel() { Word="balas", LanguagePart="jst"},
+                    new WordModel() { Word="salab", LanguagePart="jst"}}},
+                { "iosv", new List<WordModel>(){ new WordModel() { Word="viso", LanguagePart="jst"}}},
+                { "aakv", new List<WordModel>(){ new WordModel() { Word="kava", LanguagePart="dkt"}}},
+                { "aiikmprst", new List<WordModel>(){ new WordModel() { Word="trikampis", LanguagePart="dkt"}}},
+                { "arsyt", new List<WordModel>(){ new WordModel() { Word="tyras", LanguagePart="bdv"}}},               
+                { "eiikmoprstu", new List<WordModel>(){
+                    new WordModel() { Word= "sompiuterik", LanguagePart="bdv"},
+                    new WordModel() { Word= "piuteriskom", LanguagePart="bdv"},
+                    new WordModel() { Word= "teriskompiu", LanguagePart="bdv"},
+                    new WordModel() { Word= "riskompiute", LanguagePart="bdv"},
+                    new WordModel() { Word= "iuteriskomp", LanguagePart="bdv"},
+                    new WordModel() { Word= "kopmiuteris", LanguagePart="bdv"},
+                    new WordModel() { Word= "kompiuteris", LanguagePart="bdv"}}},
             };
         }
 

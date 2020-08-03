@@ -73,9 +73,9 @@ namespace AnagramSolver.BusinessLogic
 
 
 
-        private Dictionary<string, List<List<Anagram>>> FirstDictionaryIteration(Dictionary<string, List<Anagram>> anagrams, string myWord)
+        private Dictionary<string, List<List<WordModel>>> FirstDictionaryIteration(Dictionary<string, List<WordModel>> anagrams, string myWord)
         {
-            Dictionary<string, List<List<Anagram>>> newDictionary = new Dictionary<string, List<List<Anagram>>>();
+            Dictionary<string, List<List<WordModel>>> newDictionary = new Dictionary<string, List<List<WordModel>>>();
 
             foreach (var anagram in anagrams)
             {
@@ -88,16 +88,16 @@ namespace AnagramSolver.BusinessLogic
                 }
                 else
                 {
-                    newDictionary.Add(newString, new List<List<Anagram>>() { anagram.Value });
+                    newDictionary.Add(newString, new List<List<WordModel>>() { anagram.Value });
                 }
             }
             return newDictionary;
         }
 
-        private Dictionary<string, List<List<Anagram>>> SecondDictionaryIteration(Dictionary<string, List<Anagram>> anagrams,
-             Dictionary<string, List<List<Anagram>>>changedDictionary, string myWord)
+        private Dictionary<string, List<List<WordModel>>> SecondDictionaryIteration(Dictionary<string, List<WordModel>> anagrams,
+             Dictionary<string, List<List<WordModel>>>changedDictionary, string myWord)
         {
-            var dic = new Dictionary<string, List<List<Anagram>>>();
+            var dic = new Dictionary<string, List<List<WordModel>>>();
 
             foreach (var item in changedDictionary)
             {
@@ -122,7 +122,7 @@ namespace AnagramSolver.BusinessLogic
             return dic;
         }
 
-        private List<string> FormAllPairs(Dictionary<string, List<List<Anagram>>> dictionaries)
+        private List<string> FormAllPairs(Dictionary<string, List<List<WordModel>>> dictionaries)
         {
             var pairs = new List<string>();
             foreach (var item in dictionaries)

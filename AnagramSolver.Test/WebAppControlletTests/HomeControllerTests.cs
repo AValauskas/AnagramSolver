@@ -14,7 +14,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
     public class HomeControllerTests
     {
         private IAnagramSolver _anagramSolverMock;
-        private Dictionary<string, List<Anagram>> _wordsDictionary;
+        private Dictionary<string, List<WordModel>> _wordsDictionary;
         private HomeController _homeController;
         private List<string> _words;
        

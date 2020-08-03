@@ -10,12 +10,12 @@ namespace AnagramSolver.Contracts.Interfaces
 {
     public interface IWordService
     {
-        public Dictionary<string, List<Anagram>> GetWords();
-        public List<Anagram> GetAllWords();
+        public Dictionary<string, List<WordModel>> GetWords();
+        public List<WordModel> GetAllWords();
 
-        public bool AddWord(string sortedWord, string word, string languagePart);
+       // public bool AddWord(string sortedWord, string word, string languagePart);
         bool AddWordToDataSet(string word, string languagePart);
-        public List<Anagram> GetWordsByRange(int pageIndex, int range);
+        public List<WordModel> GetWordsByRange(int pageIndex, int range);
         public int GetTotalWordsCount();
         public Task<FileStreamResult> GetDictionaryFile();
     }
