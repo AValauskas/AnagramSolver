@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace AnagramSolver.BusinessLogic.Database
+namespace AnagramSolver.DatabaseLogic
 {
     public class DatabaseWordRepository : IWordRepository
     {
@@ -61,6 +61,7 @@ namespace AnagramSolver.BusinessLogic.Database
             int count = 0;
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word", _sqlConnection);
+            SqlDataReader dr = command.ExecuteReader();
             object obj = command.ExecuteScalar();
             count = int.Parse(obj.ToString());
             _sqlConnection.Close();
@@ -88,6 +89,29 @@ namespace AnagramSolver.BusinessLogic.Database
                     words.Add(new WordModel()
                     {
                         Id = dr["Id"].ToString(),
+                        Word = dr["word"].ToString(),
+                        LanguagePart = dr["Category"].ToString(),
+                        SortedWord = dr["SortedWord"].ToString()
+                    });
+                }
+            }
+            _sqlConnection.Close();
+            return words;
+        }
+
+        public List<WordModel> FindSingleAnagrams(string sortedWord)
+        {
+            _sqlConnection.Open();
+            var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord+"'";
+            SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
+            SqlDataReader dr = command.ExecuteReader();
+            List<WordModel> words = new List<WordModel>();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    words.Add(new WordModel()
+                    {
                         Word = dr["word"].ToString(),
                         LanguagePart = dr["Category"].ToString(),
                         SortedWord = dr["SortedWord"].ToString()

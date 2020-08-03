@@ -115,5 +115,10 @@ namespace AnagramSolver.BusinessLogic
             }
             return true;
         }
+
+        public List<WordModel> FindSingleAnagrams(string word)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

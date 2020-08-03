@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using AnagramSolver.BusinessLogic;
-using AnagramSolver.BusinessLogic.Database;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -38,7 +37,7 @@ namespace AnagramSolver.WebApp.Controllers
                 anagrams = Request.Cookies[word].Split(";").ToList();
                 return View(anagrams);
             }
-         //   anagrams = await _anagramSolver.GetAnagrams(word);
+            anagrams = await _anagramSolver.GetAnagrams(word);
 
             if (anagrams == null)
             {
