@@ -18,7 +18,7 @@ namespace AnagramSolver.DatabaseLogic
         {
             var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
-            
+
         }
 
         public bool AddWordToDataSet(string word, string languagePart)
@@ -44,18 +44,7 @@ namespace AnagramSolver.DatabaseLogic
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel() {
-                        Id = dr["Id"].ToString(),
-                        Word = dr["word"].ToString(), 
-                        LanguagePart = dr["Category"].ToString(), 
-                        SortedWord = dr["SortedWord"].ToString() });
-                }
-            }
+            List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
@@ -85,20 +74,7 @@ namespace AnagramSolver.DatabaseLogic
             var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex + " and Id <= " + secondWordIndex;
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel()
-                    {
-                        Id = dr["Id"].ToString(),
-                        Word = dr["word"].ToString(),
-                        LanguagePart = dr["Category"].ToString(),
-                        SortedWord = dr["SortedWord"].ToString()
-                    });
-                }
-            }
+            List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
@@ -120,72 +96,55 @@ namespace AnagramSolver.DatabaseLogic
             command.Parameters.Add(new SqlParameter("@IndexFrom", firstWordIndex));
             command.Parameters.Add(new SqlParameter("@IndexTo", secondWordIndex));
             SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel()
-                    {
-                        Id = dr["Id"].ToString(),
-                        Word = dr["word"].ToString(),
-                        LanguagePart = dr["Category"].ToString(),
-                        SortedWord = dr["SortedWord"].ToString()
-                    });
-                }
-            }
+            List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
 
 
-      
+
         }
         public List<WordModel> FindSingleWordAnagrams(string sortedWord)
         {
             _sqlConnection.Open();
-            var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord+"'";
+            var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel()
-                    {
-                        Word = dr["word"].ToString(),
-                        LanguagePart = dr["Category"].ToString(),
-                        SortedWord = dr["SortedWord"].ToString()
-                    });
-                }
-            }
+            List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
         public List<WordModel> SearchWords(string word)
         {
-            word +="%";
+            word += "%";
             _sqlConnection.Open();
 
             var sqlQuery = "Select * from Word where Word like '" + word + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader dr = command.ExecuteReader();
-            List<WordModel> words = new List<WordModel>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    words.Add(new WordModel()
-                    {
-                        Word = dr["word"].ToString(),
-                        LanguagePart = dr["Category"].ToString(),
-                        SortedWord = dr["SortedWord"].ToString()
-                    });
-                }
-            }
+            List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
+
+        private List<WordModel> GenerateWordsList(SqlDataReader dataReader)
+        {
+            var words = new List<WordModel>();
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    words.Add(new WordModel()
+                    {
+                        Id = dataReader["Id"].ToString(),
+                        Word = dataReader["word"].ToString(),
+                        LanguagePart = dataReader["Category"].ToString(),
+                        SortedWord = dataReader["SortedWord"].ToString()
+                    });
+                }
+            }
+            return words;
+        }
+           
     }
 }
