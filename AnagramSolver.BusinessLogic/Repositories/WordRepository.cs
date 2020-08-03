@@ -116,7 +116,17 @@ namespace AnagramSolver.BusinessLogic
             return true;
         }
 
-        public List<WordModel> FindSingleAnagrams(string word)
+        public List<WordModel> FindSingleWordAnagrams(string word)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<WordModel> SearchWords(string word)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             throw new NotImplementedException();
         }

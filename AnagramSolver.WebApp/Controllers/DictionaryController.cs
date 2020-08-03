@@ -23,10 +23,17 @@ namespace AnagramSolver.WebApp.Controllers
             _anagramSolver = anagramSolver;           
         }
 
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber, string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var pageSize = Settings.PageSize;
-            var words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
+            List<WordModel> words;
+
+            if (!String.IsNullOrEmpty(searchString))
+                 words = _wordService.SearchWordsByRangeAndFilter(pageNumber ?? 1, pageSize, searchString);
+            else
+             words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
+
             var totalWordsCount = _wordService.GetTotalWordsCount();
             var paginnatedList = PaginatedList<WordModel>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
             return View(paginnatedList);

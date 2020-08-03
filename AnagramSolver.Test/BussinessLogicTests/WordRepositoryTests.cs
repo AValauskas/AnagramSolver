@@ -53,42 +53,6 @@ namespace WordModelSolver.Test
             Assert.AreEqual(words.Count, 14);
         }
 
-        //[Test]
-        //[TestCase("aabls", "labas", "jst")]
-        //[TestCase("iosv", "viso", "jst")]
-        //public void AddWord_AddExistingWordDefault_AlreadyExist( string sortedWord, string word, string languagePart)
-        //{
-        //    bool isAdded = _wordRepositoryMyDic.AddWord(sortedWord, word, languagePart);
-
-        //    Assert.IsFalse(isAdded);
-        //}
-
-        //[Test]
-        //[TestCase("iosv", "sovi", "jst")]
-        //public void AddWord_AddNewWordSameLetters_ReturnsSameSize(string sortedWord, string word, string languagePart)
-        //{
-        //    int sizeBeforeAction = _wordRepositoryMyDic.GetWords().Count;
-
-        //    bool isAdded = _wordRepositoryMyDic.AddWord(sortedWord, word, languagePart);
-
-        //    Assert.IsTrue(isAdded);
-        //    Assert.AreEqual(sizeBeforeAction, _wordRepositoryMyDic.GetWords().Count);
-
-        //}
-
-        //[Test]
-        //[TestCase("diena", "adein", "dkt")]
-        //[TestCase("daina", "aadin", "dkt")]
-        //public void AddWord_AddNewWordSameLetters_ReturnsDifferentSize(string sortedWord, string word, string languagePart)
-        //{
-        //    int sizeBeforeAction = _wordRepositoryMyDic.GetWords().Count;
-
-        //    bool isAdded = _wordRepositoryMyDic.AddWord(sortedWord, word, languagePart);
-
-        //    Assert.IsTrue(isAdded);
-        //    Assert.Greater(_wordRepositoryMyDic.GetWords().Count, sizeBeforeAction);
-        //}
-
         [Test]
         public void GetAllWords_GetAll_Equals22()
         {

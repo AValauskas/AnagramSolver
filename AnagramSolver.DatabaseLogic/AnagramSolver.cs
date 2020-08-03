@@ -26,7 +26,7 @@ namespace AnagramSolver.DatabaseLogic
             var spacelessWord = Regex.Replace(word, @"\s+", "");
             var sortedWord = String.Concat(spacelessWord.ToLower().OrderBy(c => c));
 
-            var anagrams = _wordRepository.FindSingleAnagrams(sortedWord);
+            var anagrams = _wordRepository.FindSingleWordAnagrams(sortedWord);
             var anagramsCount = Settings.AnagramCount;
             var anagramsAsString = anagrams
                     .Select(x => x.Word)

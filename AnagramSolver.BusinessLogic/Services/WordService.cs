@@ -63,5 +63,9 @@ namespace AnagramSolver.BusinessLogic.Services
             return file;
         }
 
+        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        {
+            return _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
+        }
     }
 }

@@ -18,5 +18,6 @@ namespace AnagramSolver.Contracts.Interfaces
         public List<WordModel> GetWordsByRange(int pageIndex, int range);
         public int GetTotalWordsCount();
         public Task<FileStreamResult> GetDictionaryFile();
+        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
     }
 }

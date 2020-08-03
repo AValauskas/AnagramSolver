@@ -12,6 +12,7 @@ namespace AnagramSolver.BusinessLogic.Utils
         public static int MinLength { get; private set; }
         public static int PageSize { get; private set; }
         public static string FilePath { get; private set; }
+        public static string ConnectionString { get; private set; }
         static Settings()
         {
             CallBuilder();
@@ -25,7 +26,9 @@ namespace AnagramSolver.BusinessLogic.Utils
             AnagramCount = GetSettingsJsonIntValue("anagramCount", countResults);
             MinLength = GetSettingsJsonIntValue("minLength", countResults);
             PageSize = GetSettingsJsonIntValue("pageSize", countResults);
-            FilePath= _configBuilder.Build().GetSection("filePath").Value;
+            FilePath = _configBuilder.Build().GetSection("filePath").Value;
+            ConnectionString = _configBuilder.Build().GetSection("ConnectionStrings").Value;
+
         }
 
         private static int GetSettingsJsonIntValue(string field, int failureCaseInt)

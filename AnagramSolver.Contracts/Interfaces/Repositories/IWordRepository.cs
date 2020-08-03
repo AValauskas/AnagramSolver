@@ -12,10 +12,11 @@ namespace AnagramSolver.Contracts.Interfaces
         public Dictionary<string, List<WordModel>> GetWords();
         public List<WordModel> GetAllWords();
 
-        //public bool AddWord(string sortedWord, string word, string languagePart);
         bool AddWordToDataSet(string word, string languagePart);
         public List<WordModel> GetWordsByRange(int pageIndex, int range);
         public int GetTotalWordsCount();
-        public List<WordModel> FindSingleAnagrams(string sortedWord);
+        public List<WordModel> FindSingleWordAnagrams(string sortedWord);
+        public List<WordModel> SearchWords(string word);
+        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
     }
 }

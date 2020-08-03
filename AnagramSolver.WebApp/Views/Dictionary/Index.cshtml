@@ -1,4 +1,4 @@
-﻿@model AnagramSolver.WebApp.Logic.PaginatedList<AnagramSolver.Contracts.Models.Anagram>
+﻿@model AnagramSolver.WebApp.Logic.PaginatedList<AnagramSolver.Contracts.Models.WordModel>
 @{
     ViewData["Title"] = "Dictionary";
 }
@@ -10,7 +10,19 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-<br><br>
+<br>
+<br>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<br>
+<br>
 <a asp-action="Index"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    class="btn btn-default @prevDisabled">

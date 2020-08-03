@@ -1,4 +1,5 @@
-﻿using AnagramSolver.Contracts.Interfaces;
+﻿using AnagramSolver.BusinessLogic.Utils;
+using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -15,7 +16,7 @@ namespace AnagramSolver.DatabaseLogic
         private readonly SqlConnection _sqlConnection;
         public DatabaseWordRepository()
         {
-            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolver;";//config.GetConnectionString("Development");
+            var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
             
         }
@@ -48,7 +49,10 @@ namespace AnagramSolver.DatabaseLogic
             {
                 while (dr.Read())
                 {
-                    words.Add(new WordModel() { Word = dr["word"].ToString(), LanguagePart = dr["Category"].ToString(), 
+                    words.Add(new WordModel() {
+                        Id = dr["Id"].ToString(),
+                        Word = dr["word"].ToString(), 
+                        LanguagePart = dr["Category"].ToString(), 
                         SortedWord = dr["SortedWord"].ToString() });
                 }
             }
@@ -99,7 +103,40 @@ namespace AnagramSolver.DatabaseLogic
             return words;
         }
 
-        public List<WordModel> FindSingleAnagrams(string sortedWord)
+        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        {
+            searchedWord += "%";
+            var firstWordIndex = (pageIndex - 1) * range;
+            var secondWordIndex = (pageIndex) * range;
+            _sqlConnection.Open();
+            //var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex 
+            //    + " and Id <= " + secondWordIndex + "like '" + searchedWord + "'";
+
+            var sqlQueryByRange = "Select * " +
+                "FROM( SELECT *, ROW_NUMBER() OVER(ORDER BY ID) AS RowNum " +
+                "FROM Word Where word like '"+ searchedWord + "') as MyDerivedTable" +
+                " WHERE MyDerivedTable.RowNum BETWEEN "+ firstWordIndex + " AND "+ secondWordIndex;
+
+            SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
+            SqlDataReader dr = command.ExecuteReader();
+            List<WordModel> words = new List<WordModel>();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    words.Add(new WordModel()
+                    {
+                        Id = dr["Id"].ToString(),
+                        Word = dr["word"].ToString(),
+                        LanguagePart = dr["Category"].ToString(),
+                        SortedWord = dr["SortedWord"].ToString()
+                    });
+                }
+            }
+            _sqlConnection.Close();
+            return words;
+        }
+        public List<WordModel> FindSingleWordAnagrams(string sortedWord)
         {
             _sqlConnection.Open();
             var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord+"'";
@@ -122,5 +159,29 @@ namespace AnagramSolver.DatabaseLogic
             return words;
         }
 
+        public List<WordModel> SearchWords(string word)
+        {
+            word +="%";
+            _sqlConnection.Open();
+
+            var sqlQuery = "Select * from Word where Word like '" + word + "'";
+            SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
+            SqlDataReader dr = command.ExecuteReader();
+            List<WordModel> words = new List<WordModel>();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    words.Add(new WordModel()
+                    {
+                        Word = dr["word"].ToString(),
+                        LanguagePart = dr["Category"].ToString(),
+                        SortedWord = dr["SortedWord"].ToString()
+                    });
+                }
+            }
+            _sqlConnection.Close();
+            return words;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         private IAnagramSolver _anagramSolverMock;
         private DictionaryController _doctionaryController;
         private List<string> _words;
-        private List<Anagram> _anagrams;
+        private List<WordModel> _anagrams;
 
         [SetUp]
         public void Setup()
@@ -31,10 +31,10 @@ namespace AnagramSolver.Test.WebAppControlletTests
             _wordServiceMock = Substitute.For<IWordService>();
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
             _doctionaryController = new DictionaryController(_wordServiceMock, _anagramSolverMock);
-            _anagrams = new List<Anagram>() {
-                new Anagram(){ Word="alus", LanguagePart = "dkt"},
-                new Anagram(){ Word="sula", LanguagePart = "dkt"},
-                new Anagram(){ Word="lusa", LanguagePart = "dkt"},};
+            _anagrams = new List<WordModel>() {
+                new WordModel(){ Word="alus", LanguagePart = "dkt"},
+                new WordModel(){ Word="sula", LanguagePart = "dkt"},
+                new WordModel(){ Word="lusa", LanguagePart = "dkt"},};
             _words = new List<string>() { "visma", "praktika" };
         }
 
@@ -44,7 +44,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         {
             _wordServiceMock.GetWordsByRange(Arg.Any<int>(), Arg.Any<int>()).Returns(_anagrams);
 
-            var result = await _doctionaryController.Index(pageNumber);
+            var result = await _doctionaryController.Index(pageNumber,"");
 
             _wordServiceMock.Received().GetWordsByRange(Arg.Any<int>(), Arg.Any<int>());
         }
@@ -56,7 +56,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
             _wordServiceMock.GetWordsByRange(Arg.Any<int>(), Arg.Any<int>()).Returns(_anagrams);
             _wordServiceMock.GetTotalWordsCount().Returns(1);
 
-            var result = await _doctionaryController.Index(pageNumber);
+            var result = await _doctionaryController.Index(pageNumber,"");
 
             _wordServiceMock.Received().GetTotalWordsCount();
         }
