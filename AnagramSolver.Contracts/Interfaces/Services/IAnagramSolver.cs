@@ -8,7 +8,7 @@ namespace AnagramSolver.Contracts.Interfaces
 {
     public interface IAnagramSolver
     {
-        public Task<List<string>> GetAnagrams(string word);
+        public Task<List<WordModel>> GetAnagrams(string word);
 
     }
 }

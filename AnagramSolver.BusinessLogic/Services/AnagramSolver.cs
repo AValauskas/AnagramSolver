@@ -18,7 +18,7 @@ namespace AnagramSolver.BusinessLogic
         }
 
 
-        public async Task<List<string>> GetAnagrams(string myWords)
+        public async Task<List<WordModel>> GetAnagrams(string myWords)
         {
             if (myWords==null || myWords == "")
             {
@@ -29,8 +29,7 @@ namespace AnagramSolver.BusinessLogic
 
             var anagrams = _wordRepository.FindSingleWordAnagrams(sortedWord);
             var anagramsCount = Settings.AnagramCount;
-            var anagramsAsString = anagrams
-                    .Select(x => x.Word)
+            var anagramsAsString = anagrams                    
                     .Take(anagramsCount)
                     .ToList();
 

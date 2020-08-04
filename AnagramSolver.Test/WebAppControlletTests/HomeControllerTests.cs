@@ -35,7 +35,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase(null)]
         public async Task Index_CallGetAnagrams_ReceiveSignal(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
 
             var result = await _homeController.Index(myWord);
 
@@ -46,7 +46,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase(null)]
         public async Task Index_WithoutWord_ReturnsIActionResult(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
 
             var result = await _homeController.Index(myWord);
 
@@ -57,7 +57,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase("naujas")]
         public async Task Index_WithWord_GetViewData(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
+           // _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
@@ -67,7 +67,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase(null)]
         public async Task Index_WithWord_DontGetViewData(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
+            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;

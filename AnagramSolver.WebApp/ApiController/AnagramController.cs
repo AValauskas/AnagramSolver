@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Services;
@@ -24,14 +25,18 @@ namespace AnagramSolver.WebApp.ApiController
         public async Task<IActionResult> GetAnagrams([FromRoute] string word)
         {
             var exist = await _cachedWordService.CheckIfCachedWordExist(word);
-            List<string> anagrams;
+            //List<WordModel> anagramsobject;
+            List<WordModel> anagrams;
             if (exist)
             {
                  anagrams = await _cachedWordService.GetCachedAnagrams(word);
             }
-            anagrams =  await _anagramSolver.GetAnagrams(word);
+            else
+            {
+                anagrams = await _anagramSolver.GetAnagrams(word);
+                await _cachedWordService.InsertCachedWord(word, anagrams);
+            }
             var jsonAnagrams = JsonConvert.SerializeObject(anagrams);
-    
             return Ok(jsonAnagrams);
         }
 

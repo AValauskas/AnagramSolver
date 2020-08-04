@@ -1,5 +1,6 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.Console.UI
@@ -33,7 +34,8 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 System.Console.WriteLine("Anagramos:\n");
-                var anagrams = await _apiService.GetAnagrams(myWord);
+                var anagramsobject = await _apiService.GetAnagrams(myWord);
+                var anagrams = anagramsobject.Select(x => x.Word).ToList();
                 DisplayAnagrams(anagrams);
 
             }

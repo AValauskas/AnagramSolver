@@ -1,4 +1,5 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace AnagramSolver.BusinessLogic.Services
             client = new HttpClient();
             client.BaseAddress = new Uri(URL);
         }
-        public async Task<List<string>> GetAnagrams(string word)
+        public async Task<List<WordModel>> GetAnagrams(string word)
         {
             var URLParameter = "/api/Anagram/" + word;
 
@@ -26,7 +27,7 @@ namespace AnagramSolver.BusinessLogic.Services
             if (response.IsSuccessStatusCode)
             {
                 var dataObjects = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<List<string>>(dataObjects);
+                return JsonConvert.DeserializeObject<List<WordModel>>(dataObjects);
             }
             return null;
         }

@@ -19,7 +19,7 @@ namespace AnagramSolver.Data.Database
         public async Task<List<CachedWord>> GetByWord(string word)
         {
             _sqlConnection.Open();
-            var sqlQueryByRange = "Select * from CachedWord where";
+            var sqlQueryByRange = "Select * from CachedWord where Word = @Word";
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
             command.CommandType = CommandType.Text;
             command.Parameters.Add(new SqlParameter("@Word", word));
@@ -32,14 +32,15 @@ namespace AnagramSolver.Data.Database
         {
 
             _sqlConnection.Open();
-            var sqlQueryByRange = "INSERT INTO CachedWord (Word) VALUES (@Word)";
+            var sqlQueryByRange = "INSERT INTO CachedWord (Word) output INSERTED.ID VALUES (@Word)";
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
             command.CommandType = CommandType.Text;
             command.Parameters.Add(new SqlParameter("@Word", word));
-            var result = await command.ExecuteNonQueryAsync();
+            object obj = await command.ExecuteScalarAsync();
+            var Id = int.Parse(obj.ToString());
             _sqlConnection.Close();
 
-            return result;
+            return Id;
         }
         public async Task<bool> AddCachedWord_Word(int wordId , int cachedWordID)
         {
@@ -55,10 +56,10 @@ namespace AnagramSolver.Data.Database
 
             return true;
         }
-        public async Task<List<CachedWord>> GetAnagrams(string word)
+        public async Task<List<WordModel>> GetAnagrams(string word)
         {
             _sqlConnection.Open();
-            var sqlQueryByRange = "SELECT Word.Word FROM CachedWord " +
+            var sqlQueryByRange = "SELECT Word.Word, Word.Id, Word.Category, Word.SortedWord FROM CachedWord " +
                                     "INNER JOIN CachedWord_Word ON CachedWord.Id = CachedWord_Word.CachedWordId" +
                                     " INNER JOIN Word ON wordID = Word.Id " +
                                     "WHERE CachedWord.Word = @Word";
@@ -66,7 +67,7 @@ namespace AnagramSolver.Data.Database
             command.CommandType = CommandType.Text;
             command.Parameters.Add(new SqlParameter("@Word", word));
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            var cahcedWords = GenerateCachedWordsList(dr);
+            var cahcedWords = GenerateWordsList(dr);
             _sqlConnection.Close();
             return cahcedWords;
         }
@@ -88,6 +89,25 @@ namespace AnagramSolver.Data.Database
             return words;
         }
 
-        
+        private List<WordModel> GenerateWordsList(SqlDataReader dataReader)
+        {
+            var words = new List<WordModel>();
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    words.Add(new WordModel()
+                    {
+                        Id = int.Parse(dataReader["Id"].ToString()),
+                        Word = dataReader["word"].ToString(),
+                        LanguagePart = dataReader["Category"].ToString(),
+                        SortedWord = dataReader["SortedWord"].ToString()
+                    });
+                }
+            }
+            return words;
+        }
+
+
     }
 }

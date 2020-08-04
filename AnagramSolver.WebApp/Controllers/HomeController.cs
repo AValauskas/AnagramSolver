@@ -37,9 +37,9 @@ namespace AnagramSolver.WebApp.Controllers
                 anagrams = Request.Cookies[word].Split(";").ToList();
                 return View(anagrams);
             }
-            anagrams = await _anagramSolver.GetAnagrams(word);
+           var anagramsobject = await _anagramSolver.GetAnagrams(word);
 
-            if (anagrams == null)
+            if (anagramsobject == null)
             {
                 anagrams = new List<string>();
                 @ViewData["Anagrams"] = null;
@@ -48,6 +48,7 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 @ViewData["Anagrams"] = "Anagrams:";
                 var cookie = _cookies.CreateAnagramCookie();
+                anagrams = anagramsobject.Select(x => x.Word).ToList();
                 var anagramsString = string.Join(";", anagrams);
                 Response.Cookies.Append(word, anagramsString, cookie);
             }

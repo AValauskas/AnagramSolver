@@ -1,7 +1,9 @@
-﻿using AnagramSolver.Contracts.Interfaces.Repositories;
+﻿using AnagramSolver.BusinessLogic.Utils;
+using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic.Services
@@ -26,14 +28,17 @@ namespace AnagramSolver.BusinessLogic.Services
             var id = await _cachedWordRepository.AddCachedWord(word);
             foreach (var anagram in anagrams)
             {
-                await _cachedWordRepository.AddCachedWord_Word(id, anagram.Id);
+                await _cachedWordRepository.AddCachedWord_Word(anagram.Id, id);
             }
         }
 
-        public async Task<List<string>> GetCachedAnagrams(string word)
+        public async Task<List<WordModel>> GetCachedAnagrams(string word)
         {
-
-            return null;
+            var anagrams = await _cachedWordRepository.GetAnagrams(word);
+            var anagramsCount = Settings.AnagramCount;
+            return anagrams
+                    .Take(anagramsCount)
+                    .ToList();
         }
     }
 }
