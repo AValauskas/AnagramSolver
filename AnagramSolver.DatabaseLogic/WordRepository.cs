@@ -136,5 +136,10 @@ namespace AnagramSolver.Data
         {
             throw new NotImplementedException();
         }
+
+        public int GetWordsCountBySerachedWord(string searchedWord)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -60,6 +60,19 @@ namespace AnagramSolver.Data
             return count;
         }
 
+        public int GetWordsCountBySerachedWord(string searchedWord)
+        {
+            searchedWord += "%";
+            int count = 0;
+            _sqlConnection.Open();
+            SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word Where word like @Word", _sqlConnection);
+            command.Parameters.Add(new SqlParameter("@Word", searchedWord));
+            object obj = command.ExecuteScalar();
+            count = int.Parse(obj.ToString());
+            _sqlConnection.Close();
+            return count;
+        }
+
         public Dictionary<string, List<WordModel>> GetWords()
         {
             throw new NotImplementedException();

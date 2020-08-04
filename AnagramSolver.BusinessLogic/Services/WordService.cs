@@ -35,8 +35,12 @@ namespace AnagramSolver.BusinessLogic.Services
             return _wordRepository.GetAllWords();
         }
 
-        public int GetTotalWordsCount()
+        public int GetTotalWordsCount(string searchedWord)
         {
+            if (!String.IsNullOrEmpty(searchedWord))
+            {
+                return _wordRepository.GetWordsCountBySerachedWord(searchedWord);
+            }
             return _wordRepository.GetTotalWordsCount();
         }
 
