@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace AnagramSolver.DatabaseLogic
+namespace AnagramSolver.Data
 {
     public class DatabaseWordRepository : IWordRepository
     {
@@ -54,7 +54,6 @@ namespace AnagramSolver.DatabaseLogic
             int count = 0;
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word", _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
             object obj = command.ExecuteScalar();
             count = int.Parse(obj.ToString());
             _sqlConnection.Close();

@@ -2,6 +2,7 @@
 using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using AnagramSolver.Data;
 using AnagramSolver.WebApp.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

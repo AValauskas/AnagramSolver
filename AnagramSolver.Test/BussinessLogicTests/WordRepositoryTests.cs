@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.BusinessLogic;
+using AnagramSolver.Data;
 
 namespace WordModelSolver.Test
 {

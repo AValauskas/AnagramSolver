@@ -2,6 +2,7 @@ using AnagramSolver.BusinessLogic;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using AnagramSolver.Data;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;

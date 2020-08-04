@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.Test", "Anagr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnagramSolver.WebApp", "AnagramSolver.WebApp\AnagramSolver.WebApp.csproj", "{BBBD3D31-A5B5-45B8-B5E2-D32B4BA9EF74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.DatabaseLogic", "AnagramSolver.DatabaseLogic\AnagramSolver.DatabaseLogic.csproj", "{C2C7A212-76B0-40D5-9E31-7263641040CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramSolver.Data", "AnagramSolver.DatabaseLogic\AnagramSolver.Data.csproj", "{C2C7A212-76B0-40D5-9E31-7263641040CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,7 +7,7 @@ using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
 
-namespace AnagramSolver.BusinessLogic
+namespace AnagramSolver.Data
 {
     public class WordRepository : IWordRepository
     {
@@ -116,9 +116,15 @@ namespace AnagramSolver.BusinessLogic
             return true;
         }
 
-        public List<WordModel> FindSingleWordAnagrams(string word)
+        public List<WordModel> FindSingleWordAnagrams(string sortedWord)
         {
-            throw new NotImplementedException();
+            var anagramsCount = Settings.AnagramCount;
+            var allWords = GetWords();
+            if (allWords.ContainsKey(sortedWord))
+            {
+                return allWords[sortedWord];
+            }
+            return null;
         }
 
         public List<WordModel> SearchWords(string word)

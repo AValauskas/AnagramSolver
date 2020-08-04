@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic;
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.DatabaseLogic;
+using AnagramSolver.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;

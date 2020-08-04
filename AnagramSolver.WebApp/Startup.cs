@@ -1,11 +1,10 @@
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.DatabaseLogic;
+using AnagramSolver.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Data.SqlClient;
 
 namespace AnagramSolver.WebApp
 {
@@ -18,17 +17,13 @@ namespace AnagramSolver.WebApp
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAnagramSolver, DatabaseLogic.AnagramSolver>()
+            services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                     .AddScoped<IWordRepository, DatabaseWordRepository>()
-                    //.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                     // .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                     .AddHttpContextAccessor();
 
-
-            services.AddControllersWithViews();
-
-         
+            services.AddControllersWithViews();  
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
