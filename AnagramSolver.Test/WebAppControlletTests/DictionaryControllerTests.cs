@@ -54,11 +54,11 @@ namespace AnagramSolver.Test.WebAppControlletTests
         public async Task Index_CallTotalWordsCount_ReceiveSignal(int pageNumber)
         {
             _wordServiceMock.GetWordsByRange(Arg.Any<int>(), Arg.Any<int>()).Returns(_anagrams);
-            _wordServiceMock.GetTotalWordsCount().Returns(1);
+            _wordServiceMock.GetTotalWordsCount(Arg.Any<string>()).Returns(1);
 
             var result = await _doctionaryController.Index(pageNumber,"");
 
-            _wordServiceMock.Received().GetTotalWordsCount();
+            _wordServiceMock.Received().GetTotalWordsCount(Arg.Any<string>());
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         public async Task Anagrams_CallGetAnagrams_ReceiveSignal(string myWord)
         {
            
-            _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
+           // _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
 
             var result = await _doctionaryController.Anagrams(myWord);
 
@@ -77,7 +77,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase("a")]
         public async Task Anagrams_NoAnagrams_returnViewDataEmpty(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
+           //_anagramSolverMock.GetAnagrams(myWord).Returns((List<string>)null);
 
             var result =  await _doctionaryController.Anagrams(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;

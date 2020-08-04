@@ -1,4 +1,5 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.WebApp.ApiController;
 using AnagramSolver.WebApp.Controllers;
@@ -15,14 +16,16 @@ namespace AnagramSolver.Test.WebAppControlletTests
     public class AnagramApiController
     {
         private IAnagramSolver _anagramSolverMock;
+        private ICachedWordService _cachedWordServiceMock;
         private AnagramController _anagramApiController;
         private List<string> _anagrams;
         
         [SetUp]
         public void Setup()
         {
+            _cachedWordServiceMock = Substitute.For<ICachedWordService>();
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
-            _anagramApiController = new AnagramController(_anagramSolverMock);
+            _anagramApiController = new AnagramController(_anagramSolverMock, _cachedWordServiceMock);
             _anagrams = new List<string>() { "labas","salab","balas"};
         }
 
@@ -30,7 +33,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase("sabal")]
         public async Task GetAnagrams_Get_OkBojectResultType(string word)
         {
-            _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
+           // _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
 
             var result = await _anagramApiController.GetAnagrams(word);
 
@@ -41,7 +44,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         [TestCase("sabal")]
         public async Task GetAnagrams_Get_AnagramSolverReceivedSignal(string word)
         {
-            _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
+           // _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
 
             var result = await _anagramApiController.GetAnagrams(word);
 
