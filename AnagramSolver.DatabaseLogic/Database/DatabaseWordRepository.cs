@@ -18,7 +18,6 @@ namespace AnagramSolver.Data
         {
             var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
-
         }
 
         public bool AddWordToDataSet(string word, string languagePart)
@@ -148,7 +147,7 @@ namespace AnagramSolver.Data
                 {
                     words.Add(new WordModel()
                     {
-                        Id = dataReader["Id"].ToString(),
+                        Id = int.Parse(dataReader["Id"].ToString()),
                         Word = dataReader["word"].ToString(),
                         LanguagePart = dataReader["Category"].ToString(),
                         SortedWord = dataReader["SortedWord"].ToString()

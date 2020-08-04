@@ -1,4 +1,6 @@
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Repositories;
+using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +23,8 @@ namespace AnagramSolver.WebApp
                     .AddScoped<IWordRepository, DatabaseWordRepository>()
                     // .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
+                    .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()
+                    .AddScoped<ICachedWordRepository, Data.Database.CachedWordRepository>()
                     .AddHttpContextAccessor();
 
             services.AddControllersWithViews();  

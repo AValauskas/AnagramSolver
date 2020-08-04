@@ -4,9 +4,9 @@ using System.Text;
 
 namespace AnagramSolver.Contracts.Models
 {
-    public class CachedWord
+    public class CachedWord_Word
     {
-        public string Word { get; set; }
-        public int Id { get; set; }
+        public int WordId { get; set; }
+        public int CachedWordId { get; set; }
     }
 }
