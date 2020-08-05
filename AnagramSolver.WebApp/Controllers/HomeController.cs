@@ -10,38 +10,43 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using AnagramSolver.BusinessLogic;
+using System;
+using AnagramSolver.Contracts.Interfaces.Services;
 
 namespace AnagramSolver.WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IAnagramSolver _anagramSolver;
+        private readonly ILogService _logService;
         private readonly CookiesActions _cookies;
-        public HomeController(IAnagramSolver anagramSolver)
+        public HomeController(IAnagramSolver anagramSolver, ILogService logService)
         {
             _anagramSolver = anagramSolver;
-            _cookies = new CookiesActions();            
+            _cookies = new CookiesActions();
+            _logService = logService;
         }
 
     
         public async Task<IActionResult> Index(string word)
         {
-            List<string> anagrams = null;
+            var anagrams = new List<string>();
             if (word ==null)
             {
                 word = "";
+                return View(anagrams);
             }
             if (Request.Cookies.ContainsKey(word))
             {
                 @ViewData["Anagrams"] = "Anagrams:";
                 anagrams = Request.Cookies[word].Split(";").ToList();
-                return View(anagrams);
+                await _logService.CreateLog(word, anagrams);
+                return View(anagrams); 
             }
            var anagramsobject = await _anagramSolver.GetAnagrams(word);
 
             if (anagramsobject == null)
             {
-                anagrams = new List<string>();
                 @ViewData["Anagrams"] = null;
             }
             else
@@ -52,6 +57,7 @@ namespace AnagramSolver.WebApp.Controllers
                 var anagramsString = string.Join(";", anagrams);
                 Response.Cookies.Append(word, anagramsString, cookie);
             }
+            await _logService.CreateLog(word, anagrams);
             return View(anagrams);
         }
 
@@ -77,6 +83,8 @@ namespace AnagramSolver.WebApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+       
 
     }
 }

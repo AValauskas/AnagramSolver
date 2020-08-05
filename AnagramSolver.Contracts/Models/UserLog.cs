@@ -9,5 +9,6 @@ namespace AnagramSolver.Contracts.Models
         public string UserIp { get; set; }
         public string Word { get; set; }
         public DateTime Time { get; set; }
+        public string Anagrams { get; set; }
     }
 }

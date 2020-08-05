@@ -24,7 +24,7 @@ namespace WordModelSolver.Test.Databse
         [Test]
         public void Testitng()
         {
-            _tableHandler.CleanTables("CachedWord_Word");
+            _tableHandler.CleanTables("CachedWord");
         }
 
     }
