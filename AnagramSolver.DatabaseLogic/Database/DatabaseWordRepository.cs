@@ -157,5 +157,9 @@ namespace AnagramSolver.Data
             return words;
         }
 
+        public void AddManyWordsToDataSet(List<WordModel> words)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

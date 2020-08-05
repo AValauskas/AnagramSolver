@@ -9,6 +9,7 @@ using AnagramSolver.BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using AnagramSolver.Contracts.Interfaces.Services;
+using AnagramSolver.Data;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -81,17 +82,7 @@ namespace AnagramSolver.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //private string GetUserIP()
-        //{
-        //    string ipList = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-        //    if (!string.IsNullOrEmpty(ipList))
-        //    {
-        //        return ipList.Split(',')[0];
-        //    }
-
-        //    return Request.ServerVariables["REMOTE_ADDR"];
-        //}
+        
 
 
     }

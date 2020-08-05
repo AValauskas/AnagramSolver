@@ -141,5 +141,10 @@ namespace AnagramSolver.Data
         {
             throw new NotImplementedException();
         }
+
+        public void AddManyWordsToDataSet(List<WordModel> words)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

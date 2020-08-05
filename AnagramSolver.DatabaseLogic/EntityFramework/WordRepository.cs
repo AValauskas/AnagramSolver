@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using AnagramSolver.EF.DatabaseFirst;
 
-namespace AnagramSolver.EF.DatabaseFirst.Repositories
+namespace AnagramSolver.Data.EntityFramework
 {
     public class WordRepository :IWordRepository
     {
@@ -18,7 +19,20 @@ namespace AnagramSolver.EF.DatabaseFirst.Repositories
 
         public bool AddWordToDataSet(string word, string languagePart)
         {
-            throw new NotImplementedException();
+            var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
+            var wordModel = new WordModel() 
+            { Word = word,
+            LanguagePart = languagePart,
+            SortedWord= sortedWord
+            };
+            _context.Words.Add(wordModel);
+            _context.SaveChanges();
+            return true;
+        }
+        public void AddManyWordsToDataSet(List<WordModel> words)
+        {
+            _context.Words.AddRange(words);
+            _context.SaveChanges();
         }
 
         public List<WordModel> FindSingleWordAnagrams(string sortedWord)
@@ -75,6 +89,7 @@ namespace AnagramSolver.EF.DatabaseFirst.Repositories
 
         public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
+            //FillDatabase();
             var skip = pageIndex * range;
             var words = _context.Words
                 .Where(x => x.Word
@@ -83,6 +98,14 @@ namespace AnagramSolver.EF.DatabaseFirst.Repositories
                 .Take(range)
                 .ToList();
             return words;
+        }
+        private void FillDatabase()
+        {
+            IWordRepository wordRepo = new AnagramSolver.Data.WordRepository();
+            var words = wordRepo.GetAllWords();
+
+            _context.Words.AddRange(words);
+            _context.SaveChanges();           
         }
     }
 }

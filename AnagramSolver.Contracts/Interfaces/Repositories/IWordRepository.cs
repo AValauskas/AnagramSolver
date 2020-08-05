@@ -19,5 +19,6 @@ namespace AnagramSolver.Contracts.Interfaces
         public List<WordModel> FindSingleWordAnagrams(string sortedWord);
         public List<WordModel> SearchWords(string word);
         public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
+        public void AddManyWordsToDataSet(List<WordModel> words);
     }
 }

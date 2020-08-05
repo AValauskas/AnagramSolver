@@ -35,8 +35,7 @@ namespace AnagramSolver.BusinessLogic
 
             return anagramsAsString;
         }
+             
 
-      
-       
     }
 }
