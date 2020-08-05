@@ -20,7 +20,7 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             //TODO Fix ip
             var time = DateTime.Now;
-            var ip = "22:22";
+            var ip = GetIp();
 
             var anagramsString = string.Join(";", anagrams.ToArray());
             var userLog = new UserLog()
@@ -37,6 +37,10 @@ namespace AnagramSolver.BusinessLogic.Services
             return await _uerLogRepository.GetLogs();
         }
 
-
+        private string GetIp()
+        {
+            var ip = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList[1].ToString();
+            return ip;
+        }
     }
 }

@@ -62,5 +62,6 @@ namespace AnagramSolver.Data.Database
             }
             return words;
         }
+       
     }
 }
