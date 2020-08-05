@@ -3,6 +3,7 @@ using AnagramSolver.Contracts.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace AnagramSolver.EF.DatabaseFirst.Repositories
 {
@@ -22,17 +23,22 @@ namespace AnagramSolver.EF.DatabaseFirst.Repositories
 
         public List<WordModel> FindSingleWordAnagrams(string sortedWord)
         {
-            throw new NotImplementedException();
+            var anagrams = _context.Words.Where(x => x.SortedWord == sortedWord).ToList();
+
+            return anagrams;
         }
 
         public List<WordModel> GetAllWords()
         {
-            throw new NotImplementedException();
+            var words = _context.Words.Where(x => true).ToList();
+
+            return words;
         }
 
         public int GetTotalWordsCount()
         {
-            throw new NotImplementedException();
+            var count = _context.Words.Count();
+            return count;
         }
 
         public Dictionary<string, List<WordModel>> GetWords()
@@ -42,22 +48,41 @@ namespace AnagramSolver.EF.DatabaseFirst.Repositories
 
         public List<WordModel> GetWordsByRange(int pageIndex, int range)
         {
-            throw new NotImplementedException();
+            var skip = pageIndex * range;
+            var words = _context.Words
+                .Where(x => true)
+                .Skip(skip)
+                .Take(range)
+                .ToList();
+            return words;
         }
 
         public int GetWordsCountBySerachedWord(string searchedWord)
         {
-            throw new NotImplementedException();
+            var count = _context.Words
+                .Where(x=> x.Word.Contains(searchedWord))
+                .Count();
+            return count;
         }
 
         public List<WordModel> SearchWords(string word)
         {
-            throw new NotImplementedException();
+            var words = _context.Words
+                .Where(x => x.Word.Contains(word))
+                .ToList();
+            return words;
         }
 
         public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-            throw new NotImplementedException();
+            var skip = pageIndex * range;
+            var words = _context.Words
+                .Where(x => x.Word
+                .Contains(searchedWord))
+                .Skip(skip)
+                .Take(range)
+                .ToList();
+            return words;
         }
     }
 }

@@ -23,7 +23,8 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
-                    .AddScoped<IWordRepository, DatabaseWordRepository>()
+                    .AddScoped<IWordRepository, EF.DatabaseFirst.Repositories.WordRepository>()
+                    //.AddScoped<IWordRepository, DatabaseWordRepository>()
                     // .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                     .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()
