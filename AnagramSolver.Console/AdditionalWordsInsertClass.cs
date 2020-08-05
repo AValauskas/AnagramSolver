@@ -25,10 +25,10 @@ namespace AnagramSolver.Console
             
            // IWordRepository eFdatabasewords = new AnagramSolver.EF.DatabaseFirst.Repositories.WordRepository(serviceProvider.GetService<AnagramSolverDBContext>());
             var words = fileWords.GetAllWords();
-            foreach (var word in words)
-            {
-               // eFdatabasewords.AddWordToDataSet(word.Word, word.LanguagePart);
-            }
+            //foreach (var word in words)
+            //{
+            //   // eFdatabasewords.AddWordToDataSet(word.Word, word.LanguagePart);
+            //}
             
 
         }

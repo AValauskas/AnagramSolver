@@ -11,7 +11,7 @@ namespace AnagramSolver.WebApp.Logic
         public bool HasPreviousPage { get => PageIndex > 1; }
         public bool HasNextPage { get => PageIndex < TotalPages; }
 
-        private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        private PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
@@ -19,7 +19,7 @@ namespace AnagramSolver.WebApp.Logic
             this.AddRange(items);
         }
 
-        public static PaginatedList<T> Create(List<T> items,int totalWordsCount, int pageIndex, int pageSize)
+        public static PaginatedList<T> Create(IEnumerable<T> items,int totalWordsCount, int pageIndex, int pageSize)
         {
             return new PaginatedList<T>(items, totalWordsCount, pageIndex, pageSize);
         }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace AnagramSolver.BusinessLogic
 {
@@ -27,7 +28,7 @@ namespace AnagramSolver.BusinessLogic
             var spacelessWord = Regex.Replace(myWords, @"\s+", "");
             var sortedWord = String.Concat(spacelessWord.ToLower().OrderBy(c => c));
 
-            var anagrams = _wordRepository.FindSingleWordAnagrams(sortedWord);
+            var anagrams = await _wordRepository.FindSingleWordAnagrams(sortedWord);
             var anagramsCount = Settings.AnagramCount;
             var anagramsAsString = anagrams                    
                     .Take(anagramsCount)

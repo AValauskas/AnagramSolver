@@ -20,38 +20,33 @@ namespace AnagramSolver.BusinessLogic.Services
             _wordRepository = wordRepository;
         }
 
-        //public bool AddWord(string sortedWord, string word, string languagePart)
-        //{
-        //    return _wordRepository.AddWord(sortedWord, word, languagePart);
-        //}
-
-        public bool AddWordToDataSet(string word, string languagePart)
+        public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
-            return _wordRepository.AddWordToDataSet(word, languagePart);
+            return await _wordRepository.AddWordToDataSet(word, languagePart);
         }
 
-        public List<WordModel> GetAllWords()
+        public async Task<IEnumerable<WordModel>> GetAllWords()
         {
-            return _wordRepository.GetAllWords();
+            return await _wordRepository.GetAllWords();
         }
 
-        public int GetTotalWordsCount(string searchedWord)
+        public async Task<int> GetTotalWordsCount(string searchedWord)
         {
             if (!String.IsNullOrEmpty(searchedWord))
             {
-                return _wordRepository.GetWordsCountBySerachedWord(searchedWord);
+                return await _wordRepository.GetWordsCountBySerachedWord(searchedWord);
             }
-            return _wordRepository.GetTotalWordsCount();
+            return await _wordRepository.GetTotalWordsCount();
         }
 
-        public Dictionary<string, List<WordModel>> GetWords()
+        public Task<Dictionary<string, List<WordModel>>> GetWords()
         {
             return _wordRepository.GetWords();
         }
 
-        public List<WordModel> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
-            return _wordRepository.GetWordsByRange(pageIndex, range);
+            return await _wordRepository.GetWordsByRange(pageIndex, range);
         }
 
         public async Task<FileStreamResult> GetDictionaryFile()
@@ -67,9 +62,9 @@ namespace AnagramSolver.BusinessLogic.Services
             return file;
         }
 
-        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-            return _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
+            return await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
         }
     }
 }

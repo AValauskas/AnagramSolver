@@ -56,7 +56,7 @@ namespace AnagramSolver.Data
                 sw.WriteAsync("\n"+word+"\t" + languagePart);
             }
         }
-        public bool AddWordToDataSet(string word, string languagePart)
+        public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
             if (AddWord(sortedWord, word, languagePart))
@@ -67,24 +67,26 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public Dictionary<string, List<WordModel>> GetWords()
+        public async Task <Dictionary<string, List<WordModel>>> GetWords()
         {
                 return anagrams;
         }
-        public List<WordModel> GetAllWords()
+        public async Task<IEnumerable<WordModel>> GetAllWords()
         {
             return anagrams.Values.ToList().SelectMany(x => x).ToList();
         }
 
-        public List<WordModel> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
-            var allWordList = GetAllWords();
+            var allWordList = await GetAllWords();
             return allWordList.Skip((pageIndex - 1) * range).Take(range).ToList();
         }
 
-        public int GetTotalWordsCount()
+        public async Task<int> GetTotalWordsCount()
         {
-            return GetAllWords().Count;
+            var words = await GetAllWords();
+            var count = words.ToList().Count;
+            return count;
         }
 
         private bool AddWord(string sortedWord, string word, string languagePart)
@@ -116,10 +118,10 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public List<WordModel> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<WordModel>> FindSingleWordAnagrams(string sortedWord)
         {
             var anagramsCount = Settings.AnagramCount;
-            var allWords = GetWords();
+            var allWords = await GetWords();
             if (allWords.ContainsKey(sortedWord))
             {
                 return allWords[sortedWord];
@@ -127,22 +129,22 @@ namespace AnagramSolver.Data
             return null;
         }
 
-        public List<WordModel> SearchWords(string word)
+        public async Task<IEnumerable<WordModel>> SearchWords(string word)
         {
             throw new NotImplementedException();
         }
 
-        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             throw new NotImplementedException();
         }
 
-        public int GetWordsCountBySerachedWord(string searchedWord)
+        public Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
             throw new NotImplementedException();
         }
 
-        public void AddManyWordsToDataSet(List<WordModel> words)
+        public Task AddManyWordsToDataSet(List<WordModel> words)
         {
             throw new NotImplementedException();
         }

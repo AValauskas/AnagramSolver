@@ -27,14 +27,14 @@ namespace AnagramSolver.WebApp.Controllers
         {
             ViewData["CurrentFilter"] = searchString;
             var pageSize = Settings.PageSize;
-            List<WordModel> words;
+            IEnumerable<WordModel> words;
 
             if (!String.IsNullOrEmpty(searchString))
-                 words = _wordService.SearchWordsByRangeAndFilter(pageNumber ?? 1, pageSize, searchString);
+                words = await _wordService.SearchWordsByRangeAndFilter(pageNumber ?? 1, pageSize, searchString);
             else
-             words = _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
+                words = await _wordService.GetWordsByRange(pageNumber ?? 1, pageSize);
 
-            var totalWordsCount = _wordService.GetTotalWordsCount(searchString);
+            var totalWordsCount =await _wordService.GetTotalWordsCount(searchString);
             var paginnatedList = PaginatedList<WordModel>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
             return View(paginnatedList);
         }
@@ -59,7 +59,7 @@ namespace AnagramSolver.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> OnWordWritten(string myWord, string languagePart)
         {
-            if (_wordService.AddWordToDataSet(myWord, languagePart))
+            if (await _wordService.AddWordToDataSet(myWord, languagePart))
                 return RedirectToAction("Anagrams", new { word = myWord });
             else
             {

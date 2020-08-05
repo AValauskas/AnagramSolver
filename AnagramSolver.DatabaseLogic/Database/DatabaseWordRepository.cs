@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.Data
 {
@@ -20,7 +21,7 @@ namespace AnagramSolver.Data
             _sqlConnection = new SqlConnection(connectionString);
         }
 
-        public bool AddWordToDataSet(string word, string languagePart)
+        public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
             //TODO Check if not exist
 
@@ -33,64 +34,64 @@ namespace AnagramSolver.Data
             cmd.Parameters.Add(new SqlParameter("@Word", word));
             cmd.Parameters.Add(new SqlParameter("@Category", languagePart));
             cmd.Parameters.Add(new SqlParameter("@SortedWord", sortedWord));
-            cmd.ExecuteNonQuery();
+            await cmd.ExecuteNonQueryAsync();
             _sqlConnection.Close();
             return true;
         }
 
-        public List<WordModel> GetAllWords()
+        public async Task<IEnumerable<WordModel>> GetAllWords()
         {
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
+            SqlDataReader dr = await command.ExecuteReaderAsync();
             List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        public int GetTotalWordsCount()
+        public async Task<int> GetTotalWordsCount()
         {
             int count = 0;
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word", _sqlConnection);
-            object obj = command.ExecuteScalar();
+            object obj = await command.ExecuteScalarAsync();
             count = int.Parse(obj.ToString());
             _sqlConnection.Close();
             return count;
         }
 
-        public int GetWordsCountBySerachedWord(string searchedWord)
+        public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
             searchedWord += "%";
             int count = 0;
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word Where word like @Word", _sqlConnection);
             command.Parameters.Add(new SqlParameter("@Word", searchedWord));
-            object obj = command.ExecuteScalar();
+            object obj = command.ExecuteScalarAsync();
             count = int.Parse(obj.ToString());
             _sqlConnection.Close();
             return count;
         }
 
-        public Dictionary<string, List<WordModel>> GetWords()
+        public Task<Dictionary<string, List<WordModel>>> GetWords()
         {
             throw new NotImplementedException();
         }
 
-        public List<WordModel> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
             var firstWordIndex = (pageIndex - 1) * range;
             var secondWordIndex = (pageIndex) * range;
             _sqlConnection.Open();
             var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex + " and Id <= " + secondWordIndex;
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
+            SqlDataReader dr = await command.ExecuteReaderAsync();
             List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             searchedWord += "%";
             var firstWordIndex = (pageIndex - 1) * range;
@@ -106,7 +107,7 @@ namespace AnagramSolver.Data
             command.Parameters.Add(new SqlParameter("@Word", searchedWord));
             command.Parameters.Add(new SqlParameter("@IndexFrom", firstWordIndex));
             command.Parameters.Add(new SqlParameter("@IndexTo", secondWordIndex));
-            SqlDataReader dr = command.ExecuteReader();
+            SqlDataReader dr = await command.ExecuteReaderAsync();
             List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
@@ -114,25 +115,25 @@ namespace AnagramSolver.Data
 
 
         }
-        public List<WordModel> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<WordModel>> FindSingleWordAnagrams(string sortedWord)
         {
             _sqlConnection.Open();
             var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
+            SqlDataReader dr = await command.ExecuteReaderAsync();
             List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        public List<WordModel> SearchWords(string word)
+        public async Task<IEnumerable<WordModel>> SearchWords(string word)
         {
             word += "%";
             _sqlConnection.Open();
 
             var sqlQuery = "Select * from Word where Word like '" + word + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
-            SqlDataReader dr = command.ExecuteReader();
+            SqlDataReader dr = await command.ExecuteReaderAsync();
             List<WordModel> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
@@ -157,7 +158,7 @@ namespace AnagramSolver.Data
             return words;
         }
 
-        public void AddManyWordsToDataSet(List<WordModel> words)
+        public Task AddManyWordsToDataSet(List<WordModel> words)
         {
             throw new NotImplementedException();
         }

@@ -9,16 +9,16 @@ namespace AnagramSolver.Contracts.Interfaces
 {
     public interface IWordRepository
     {
-        public Dictionary<string, List<WordModel>> GetWords();
-        public List<WordModel> GetAllWords();
+        public Task<Dictionary<string, List<WordModel>>> GetWords();
+        public Task<IEnumerable<WordModel>> GetAllWords();
 
-        bool AddWordToDataSet(string word, string languagePart);
-        public List<WordModel> GetWordsByRange(int pageIndex, int range);
-        public int GetTotalWordsCount();
-        public int GetWordsCountBySerachedWord(string searchedWord);
-        public List<WordModel> FindSingleWordAnagrams(string sortedWord);
-        public List<WordModel> SearchWords(string word);
-        public List<WordModel> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
-        public void AddManyWordsToDataSet(List<WordModel> words);
+        public Task<bool> AddWordToDataSet(string word, string languagePart);
+        public Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range);
+        public Task<int> GetTotalWordsCount();
+        public Task<int> GetWordsCountBySerachedWord(string searchedWord);
+        public Task<IEnumerable<WordModel>> FindSingleWordAnagrams(string sortedWord);
+        public Task<IEnumerable<WordModel>> SearchWords(string word);
+        public Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
+        public Task AddManyWordsToDataSet(List<WordModel> words);
     }
 }
