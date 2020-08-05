@@ -13,7 +13,8 @@ namespace AnagramSolver.WebApp.Controllers
             var anagrams = new Dictionary<string, List<string>>();
             foreach (var item in Request.Cookies)
             {
-                anagrams.Add(item.Key, item.Value.Split(";").ToList());
+                var oneWordAnagrams = item.Value.Split(";").ToList();
+                anagrams.Add(item.Key, oneWordAnagrams);
             }
 
             return View(anagrams);

@@ -18,10 +18,11 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task CreateLog(string word, List<string> anagrams)
         {
-            //TODO Fix ip and anagrams string
+            //TODO Fix ip
             var time = DateTime.Now;
             var ip = "22:22";
-            var anagramsString = anagrams.ToString();
+
+            var anagramsString = string.Join(";", anagrams.ToArray());
             var userLog = new UserLog()
             {
                 Anagrams = anagramsString,

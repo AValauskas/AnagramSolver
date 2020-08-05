@@ -8,9 +8,6 @@ using AnagramSolver.Console.UI;
 using AnagramSolver.BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-using AnagramSolver.BusinessLogic;
-using System;
 using AnagramSolver.Contracts.Interfaces.Services;
 
 namespace AnagramSolver.WebApp.Controllers
@@ -27,11 +24,11 @@ namespace AnagramSolver.WebApp.Controllers
             _logService = logService;
         }
 
-    
+
         public async Task<IActionResult> Index(string word)
         {
             var anagrams = new List<string>();
-            if (word ==null)
+            if (word == null)
             {
                 word = "";
                 return View(anagrams);
@@ -41,9 +38,9 @@ namespace AnagramSolver.WebApp.Controllers
                 @ViewData["Anagrams"] = "Anagrams:";
                 anagrams = Request.Cookies[word].Split(";").ToList();
                 await _logService.CreateLog(word, anagrams);
-                return View(anagrams); 
+                return View(anagrams);
             }
-           var anagramsobject = await _anagramSolver.GetAnagrams(word);
+            var anagramsobject = await _anagramSolver.GetAnagrams(word);
 
             if (anagramsobject == null)
             {
@@ -84,7 +81,18 @@ namespace AnagramSolver.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-       
+        //private string GetUserIP()
+        //{
+        //    string ipList = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+        //    if (!string.IsNullOrEmpty(ipList))
+        //    {
+        //        return ipList.Split(',')[0];
+        //    }
+
+        //    return Request.ServerVariables["REMOTE_ADDR"];
+        //}
+
 
     }
 }

@@ -31,7 +31,7 @@ namespace AnagramSolver.BusinessLogic.Services
                 await _cachedWordRepository.AddCachedWord_Word(anagram.Id, id);
             }
         }
-
+        
         public async Task<List<WordModel>> GetCachedAnagrams(string word)
         {
             var anagrams = await _cachedWordRepository.GetAnagrams(word);

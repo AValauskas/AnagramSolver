@@ -82,7 +82,7 @@ namespace AnagramSolver.Data.Database
                     words.Add(new CachedWord()
                     {
                         Word = dataReader["word"].ToString(),
-                        Id = int.Parse(dataReader["id"].ToString())
+                        CachedWordId = int.Parse(dataReader["id"].ToString())
                     });
                 }
             }

@@ -2,11 +2,14 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Data;
+using AnagramSolver.EF.DatabaseFirst;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using AnagramSolver.BusinessLogic.Utils;
 
 namespace AnagramSolver.WebApp
 {
@@ -29,7 +32,9 @@ namespace AnagramSolver.WebApp
                     .AddScoped<IUserLogRepository, Data.Database.UserLogRepository>()
                     .AddHttpContextAccessor();
 
-            services.AddControllersWithViews();  
+            services.AddControllersWithViews();
+            services.AddDbContext<AnagramSolverDBContext>(opt =>            
+            opt.UseSqlServer(Settings.ConnectionString));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
