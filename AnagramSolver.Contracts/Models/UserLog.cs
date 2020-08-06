@@ -10,6 +10,6 @@ namespace AnagramSolver.Contracts.Models
         public string Word { get; set; }
         public DateTime Time { get; set; }
         public string Anagrams { get; set; }
-        public string UserLogId { get; set; }
+        public int UserLogId { get; set; }
     }
 }

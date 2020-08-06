@@ -16,8 +16,8 @@ namespace AnagramSolver.WebApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var logs = await _logService.GetAllLogs();
-
+            var logsEnum = await _logService.GetAllLogs();
+            var logs = logsEnum.ToList();
             return View(logs);
         }
     }

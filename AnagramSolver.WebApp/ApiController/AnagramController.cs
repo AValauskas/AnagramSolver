@@ -29,7 +29,8 @@ namespace AnagramSolver.WebApp.ApiController
             List<WordModel> anagrams;
             if (exist)
             {
-                 anagrams = await _cachedWordService.GetCachedAnagrams(word);
+                var enumerableAnagrams = await _cachedWordService.GetCachedAnagrams(word);
+                 anagrams = enumerableAnagrams.ToList();
             }
             else
             {

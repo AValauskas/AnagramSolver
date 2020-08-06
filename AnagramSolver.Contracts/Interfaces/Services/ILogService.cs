@@ -9,6 +9,6 @@ namespace AnagramSolver.Contracts.Interfaces.Services
     public interface ILogService
     {
         public Task CreateLog(string word, List<string> anagrams);
-        Task<List<UserLog>> GetAllLogs();
+        Task<IEnumerable<UserLog>> GetAllLogs();
     }
 }

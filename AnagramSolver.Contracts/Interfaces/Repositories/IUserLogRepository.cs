@@ -9,6 +9,6 @@ namespace AnagramSolver.Contracts.Interfaces.Repositories
     public interface IUserLogRepository
     {
         public Task CreateLog(UserLog log);
-        public Task<List<UserLog>> GetLogs();
+        public Task<IEnumerable<UserLog>> GetLogs();
     }
 }

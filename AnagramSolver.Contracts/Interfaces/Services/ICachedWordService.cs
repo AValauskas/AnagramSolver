@@ -10,6 +10,6 @@ namespace AnagramSolver.Contracts.Interfaces.Services
     {
         public Task InsertCachedWord(string word, List<WordModel> anagrams);
         public Task<bool> CheckIfCachedWordExist(string word);
-        public  Task<List<WordModel>> GetCachedAnagrams(string word);
+        public  Task<IEnumerable<WordModel>> GetCachedAnagrams(string word);
     }
 }

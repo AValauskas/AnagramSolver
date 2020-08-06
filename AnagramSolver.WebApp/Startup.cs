@@ -30,7 +30,8 @@ namespace AnagramSolver.WebApp
                     .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()
                     .AddScoped<ICachedWordRepository, Data.Database.CachedWordRepository>()
                     .AddScoped<ILogService, BusinessLogic.Services.LogService>()
-                    .AddScoped<IUserLogRepository, Data.Database.UserLogRepository>()
+                    //.AddScoped<IUserLogRepository, Data.Database.UserLogRepository>()
+                    .AddScoped<IUserLogRepository, Data.EntityFramework.UserLogRepositoryEF>()
                     .AddHttpContextAccessor();
 
             services.AddControllersWithViews();

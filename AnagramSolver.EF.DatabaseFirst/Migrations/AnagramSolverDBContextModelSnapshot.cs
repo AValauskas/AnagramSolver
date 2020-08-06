@@ -36,8 +36,10 @@ namespace AnagramSolver.EF.DatabaseFirst.Migrations
 
             modelBuilder.Entity("AnagramSolver.Contracts.Models.CachedWord_WordEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CachedWordId")
                         .HasColumnType("int");
@@ -56,8 +58,10 @@ namespace AnagramSolver.EF.DatabaseFirst.Migrations
 
             modelBuilder.Entity("AnagramSolver.Contracts.Models.UserLog", b =>
                 {
-                    b.Property<string>("UserLogId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserLogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Anagrams")
                         .HasColumnType("nvarchar(max)");

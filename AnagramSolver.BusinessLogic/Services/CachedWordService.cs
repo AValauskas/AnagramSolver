@@ -18,7 +18,8 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<bool> CheckIfCachedWordExist(string word)
         {
             var cachedWord = await _cachedWordRepository.GetByWord(word);
-            if ( cachedWord.Count == 0 )
+            var cachedWordList = cachedWord.ToList();
+            if (cachedWordList.Count == 0 )
                 return false;
 
             return true;
@@ -32,7 +33,7 @@ namespace AnagramSolver.BusinessLogic.Services
             }
         }
         
-        public async Task<List<WordModel>> GetCachedAnagrams(string word)
+        public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)
         {
             var anagrams = await _cachedWordRepository.GetAnagrams(word);
             var anagramsCount = Settings.AnagramCount;

@@ -8,6 +8,6 @@ namespace AnagramSolver.Contracts.Models
     {
         public WordModel Word { get; set; }
         public CachedWord CachedWord { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

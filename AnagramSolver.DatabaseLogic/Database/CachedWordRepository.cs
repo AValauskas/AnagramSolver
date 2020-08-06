@@ -16,7 +16,7 @@ namespace AnagramSolver.Data.Database
             var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
         }
-        public async Task<List<CachedWord>> GetByWord(string word)
+        public async Task<IEnumerable<CachedWord>> GetByWord(string word)
         {
             _sqlConnection.Open();
             var sqlQuery = "Select * from CachedWord where Word = @Word";
@@ -56,7 +56,7 @@ namespace AnagramSolver.Data.Database
 
             return true;
         }
-        public async Task<List<WordModel>> GetAnagrams(string word)
+        public async Task<IEnumerable<WordModel>> GetAnagrams(string word)
         {
             _sqlConnection.Open();
             var sqlQuery = "SELECT Word.Word, Word.Id, Word.Category, Word.SortedWord FROM CachedWord " +
@@ -72,7 +72,7 @@ namespace AnagramSolver.Data.Database
             return cahcedWords;
         }
 
-        private List<CachedWord> GenerateCachedWordsList(SqlDataReader dataReader)
+        private IEnumerable<CachedWord> GenerateCachedWordsList(SqlDataReader dataReader)
         {
             var words = new List<CachedWord>();
             if (dataReader.HasRows)
@@ -89,7 +89,7 @@ namespace AnagramSolver.Data.Database
             return words;
         }
 
-        private List<WordModel> GenerateWordsList(SqlDataReader dataReader)
+        private IEnumerable<WordModel> GenerateWordsList(SqlDataReader dataReader)
         {
             var words = new List<WordModel>();
             if (dataReader.HasRows)

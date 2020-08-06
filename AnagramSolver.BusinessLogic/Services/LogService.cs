@@ -32,7 +32,7 @@ namespace AnagramSolver.BusinessLogic.Services
             };
            await _uerLogRepository.CreateLog(userLog);
         }
-        public async Task<List<UserLog>> GetAllLogs()
+        public async Task<IEnumerable<UserLog>> GetAllLogs()
         {
             return await _uerLogRepository.GetLogs();
         }

@@ -32,7 +32,7 @@ namespace AnagramSolver.Data.Database
             _sqlConnection.Close();
         }
 
-        public async Task<List<UserLog>> GetLogs()
+        public async Task<IEnumerable<UserLog>> GetLogs()
         {
             _sqlConnection.Open();
             var sqlQuery = "SELECT * from UserLog";
@@ -44,7 +44,7 @@ namespace AnagramSolver.Data.Database
             return cahcedWords;
         }
 
-        private List<UserLog> GenerateLogList(SqlDataReader dataReader)
+        private IEnumerable<UserLog> GenerateLogList(SqlDataReader dataReader)
         {
             var words = new List<UserLog>();
             if (dataReader.HasRows)
