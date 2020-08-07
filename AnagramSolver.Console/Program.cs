@@ -11,7 +11,7 @@ namespace AnagramSolver.Console
      
         static async Task Main(string[] args)
         {
-            AdditionalWordsInsertClass.InsertWords();
+            //AdditionalWordsInsertClass.InsertWords();
             //IAnagramSolver requestService = new BusinessLogic.AnagramSolver(new WordRepository());
             IAnagramSolver requestService = new AnagramClient();
             await UIClass.Create(requestService);

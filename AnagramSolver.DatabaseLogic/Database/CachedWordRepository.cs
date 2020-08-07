@@ -28,7 +28,7 @@ namespace AnagramSolver.Data.Database
             _sqlConnection.Close();
             return cahcedWords;
         }
-        public async Task<int> AddCachedWord(string word)
+        public async Task<CachedWord> AddCachedWord(string word)
         {
 
             _sqlConnection.Open();
@@ -39,18 +39,18 @@ namespace AnagramSolver.Data.Database
             object obj = await command.ExecuteScalarAsync();
             var Id = int.Parse(obj.ToString());
             _sqlConnection.Close();
-
-            return Id;
+            var cachedWord = new CachedWord() { Word = word, CachedWordId = Id };
+            return cachedWord;
         }
-        public async Task<bool> AddCachedWord_Word(int wordId , int cachedWordID)
+        public async Task<bool> AddCachedWord_Word(WordModel word , CachedWord cachedWord)
         {
 
             _sqlConnection.Open();
             var sqlQueryinsert = "INSERT INTO CachedWord_Word (WordId, CachedWordId) VALUES (@WordId, @CachedWordId)";
             SqlCommand command = new SqlCommand(sqlQueryinsert, _sqlConnection);
             command.CommandType = CommandType.Text;
-            command.Parameters.Add(new SqlParameter("@WordId", wordId));
-            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWordID));
+            command.Parameters.Add(new SqlParameter("@WordId", word.Id));
+            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWord.CachedWordId));
             await command.ExecuteNonQueryAsync();
             _sqlConnection.Close();
 

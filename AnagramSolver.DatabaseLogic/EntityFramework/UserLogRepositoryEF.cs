@@ -19,7 +19,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task CreateLog(UserLog log)
         {
-            _context.Add(log);
+            _context.UserLogs.Add(log);
             await _context.SaveChangesAsync();
 
         }

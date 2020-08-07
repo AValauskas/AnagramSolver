@@ -162,5 +162,10 @@ namespace AnagramSolver.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<WordModel> GetWordByName(string word)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

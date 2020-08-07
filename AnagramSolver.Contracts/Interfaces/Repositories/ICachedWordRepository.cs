@@ -8,8 +8,8 @@ namespace AnagramSolver.Contracts.Interfaces.Repositories
 {
     public interface ICachedWordRepository
     {
-        public Task<int> AddCachedWord(string word);
-        public Task<bool> AddCachedWord_Word(int wordId, int cachedWordID);
+        public Task<CachedWord> AddCachedWord(string word);
+        public Task<bool> AddCachedWord_Word(WordModel word, CachedWord cachedWord);
         public Task<IEnumerable<CachedWord>> GetByWord(string word);
         public Task<IEnumerable<WordModel>> GetAnagrams(string word);
 
