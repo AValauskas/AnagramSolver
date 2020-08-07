@@ -17,6 +17,10 @@ namespace AnagramSolver.Data.EntityFramework
         {
             _context = context;
         }
+        //public CachedWordRepositoryEF(EF.DatabaseFirst.Models. context)
+        //{
+        //    _context = context;
+        //}
         public async Task<CachedWord> AddCachedWord(string word)
         {
             var cachedWord = new CachedWord() { Word = word };
