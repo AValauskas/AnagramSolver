@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
-using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.EF.CodeFirst;
 using System;
 using System.Collections.Generic;
 using System.Linq;

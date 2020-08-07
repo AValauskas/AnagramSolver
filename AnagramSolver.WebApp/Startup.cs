@@ -1,15 +1,14 @@
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
-using AnagramSolver.Data;
-using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.EF.CodeFirst;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using AnagramSolver.BusinessLogic.Utils;
 
 namespace AnagramSolver.WebApp
 {
@@ -36,7 +35,7 @@ namespace AnagramSolver.WebApp
                     .AddHttpContextAccessor();
 
             services.AddControllersWithViews();
-            services.AddDbContext<AnagramSolverDBContext>(opt =>            
+            services.AddDbContext<AnagramSolverDBContext>(opt =>
             opt.UseSqlServer(Settings.ConnectionString));
         }
 

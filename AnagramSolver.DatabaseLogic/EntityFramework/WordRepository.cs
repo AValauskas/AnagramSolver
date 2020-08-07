@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using AnagramSolver.EF.DatabaseFirst;
 using System.Threading.Tasks;
+using AnagramSolver.EF.CodeFirst;
 
 namespace AnagramSolver.Data.EntityFramework
 {

@@ -2,7 +2,7 @@
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Data;
-using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.EF.CodeFirst;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;

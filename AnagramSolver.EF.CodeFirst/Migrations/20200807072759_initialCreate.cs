@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AnagramSolver.EF.DatabaseFirst.Migrations
+namespace AnagramSolver.EF.CodeFirst.Migrations
 {
     public partial class initialCreate : Migration
     {
@@ -24,7 +24,8 @@ namespace AnagramSolver.EF.DatabaseFirst.Migrations
                 name: "UserLogs",
                 columns: table => new
                 {
-                    UserLogId = table.Column<string>(nullable: false),
+                    UserLogId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserIp = table.Column<string>(nullable: true),
                     Word = table.Column<string>(nullable: true),
                     Time = table.Column<DateTime>(nullable: false),
@@ -54,7 +55,8 @@ namespace AnagramSolver.EF.DatabaseFirst.Migrations
                 name: "CachedWord_WordEntityes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     WordId = table.Column<int>(nullable: true),
                     CachedWordId = table.Column<int>(nullable: true)
                 },

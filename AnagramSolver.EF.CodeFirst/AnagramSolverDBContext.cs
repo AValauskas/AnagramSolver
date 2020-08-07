@@ -1,11 +1,10 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace AnagramSolver.EF.DatabaseFirst
+namespace AnagramSolver.EF.CodeFirst
 {
-    public class AnagramSolverDBContext :DbContext
+    public class AnagramSolverDBContext : DbContext
     {
         public AnagramSolverDBContext()
         {
