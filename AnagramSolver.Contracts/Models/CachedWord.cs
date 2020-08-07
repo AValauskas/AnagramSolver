@@ -4,9 +4,16 @@ using System.Text;
 
 namespace AnagramSolver.Contracts.Models
 {
-    public class CachedWord
+    public partial class CachedWord
     {
+        public CachedWord()
+        {
+            CachedWordWord = new HashSet<CachedWordWord>();
+        }
+
         public string Word { get; set; }
-        public int CachedWordId { get; set; }
+        public int Id { get; set; }
+
+        public virtual ICollection<CachedWordWord> CachedWordWord { get; set; }
     }
 }

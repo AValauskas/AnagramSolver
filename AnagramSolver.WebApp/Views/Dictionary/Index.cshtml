@@ -41,8 +41,8 @@
     @foreach (var word in @Model)
     {
         <tr>
-            <td> <a asp-action="Anagrams" asp-route-word="@word.Word"> @word.Word</a> </td>
-            <td> @word.LanguagePart</td>
+            <td> <a asp-action="Anagrams" asp-route-word="@word.Word1"> @word.Word1</a> </td>
+            <td> @word.Category</td>
         </tr>
     }
 </table>

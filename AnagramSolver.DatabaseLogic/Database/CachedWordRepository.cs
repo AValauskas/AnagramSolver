@@ -39,7 +39,7 @@ namespace AnagramSolver.Data.Database
             object obj = await command.ExecuteScalarAsync();
             var Id = int.Parse(obj.ToString());
             _sqlConnection.Close();
-            var cachedWord = new CachedWord() { Word = word, CachedWordId = Id };
+            var cachedWord = new CachedWord() { Word = word, Id = Id };
             return cachedWord;
         }
         public async Task<bool> AddCachedWord_Word(WordModel word , CachedWord cachedWord)
@@ -50,7 +50,7 @@ namespace AnagramSolver.Data.Database
             SqlCommand command = new SqlCommand(sqlQueryinsert, _sqlConnection);
             command.CommandType = CommandType.Text;
             command.Parameters.Add(new SqlParameter("@WordId", word.Id));
-            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWord.CachedWordId));
+            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWord.Id));
             await command.ExecuteNonQueryAsync();
             _sqlConnection.Close();
 
@@ -82,7 +82,7 @@ namespace AnagramSolver.Data.Database
                     words.Add(new CachedWord()
                     {
                         Word = dataReader["word"].ToString(),
-                        CachedWordId = int.Parse(dataReader["id"].ToString())
+                        Id = int.Parse(dataReader["id"].ToString())
                     });
                 }
             }
@@ -99,8 +99,8 @@ namespace AnagramSolver.Data.Database
                     words.Add(new WordModel()
                     {
                         Id = int.Parse(dataReader["Id"].ToString()),
-                        Word = dataReader["word"].ToString(),
-                        LanguagePart = dataReader["Category"].ToString(),
+                        Word1 = dataReader["word"].ToString(),
+                        Category = dataReader["Category"].ToString(),
                         SortedWord = dataReader["SortedWord"].ToString()
                     });
                 }

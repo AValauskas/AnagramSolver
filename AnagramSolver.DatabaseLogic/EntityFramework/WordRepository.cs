@@ -22,8 +22,8 @@ namespace AnagramSolver.Data.EntityFramework
         {
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
             var wordModel = new WordModel() 
-            { Word = word,
-            LanguagePart = languagePart,
+            { Word1 = word,
+            Category = languagePart,
             SortedWord= sortedWord
             };
             _context.Words.Add(wordModel);
@@ -74,7 +74,7 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
             var count = _context.Words
-                .Where(x=> x.Word.Contains(searchedWord))
+                .Where(x=> x.Word1.Contains(searchedWord))
                 .Count();
             return count;
         }
@@ -82,7 +82,7 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<IEnumerable<WordModel>> SearchWords(string word)
         {
             var words = _context.Words
-                .Where(x => x.Word.Contains(word));
+                .Where(x => x.Word1.Contains(word));
             return words;
         }
 
@@ -92,7 +92,7 @@ namespace AnagramSolver.Data.EntityFramework
 
             var skip = pageIndex * range;
             var words = _context.Words
-                .Where(x => x.Word
+                .Where(x => x.Word1
                 .Contains(searchedWord))
                 .Skip(skip)
                 .Take(range);                
@@ -109,7 +109,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<WordModel> GetWordByName(string word)
         {
-            var foundWord = _context.Words.First(x => x.Word == word);
+            var foundWord = _context.Words.First(x => x.Word1 == word);
 
             return foundWord;
         }

@@ -51,7 +51,7 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 @ViewData["Anagrams"] = "Anagrams:";
                 var cookie = _cookies.CreateAnagramCookie();
-                anagrams = anagramsobject.Select(x => x.Word).ToList();
+                anagrams = anagramsobject.Select(x => x.Word1).ToList();
                 var anagramsString = string.Join(";", anagrams);
                 Response.Cookies.Append(word, anagramsString, cookie);
             }

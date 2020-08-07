@@ -41,7 +41,7 @@ namespace AnagramSolver.WebApp.Controllers
         public async Task<IActionResult> Anagrams(string word)
         {
             var anagramsobject = await _anagramSolver.GetAnagrams(word);
-            var anagrams = anagramsobject.Select(x => x.Word).ToList();
+            var anagrams = anagramsobject.Select(x => x.Word1).ToList();
             @ViewData["Word"] = word;
             if (anagrams == null || anagrams.Count == 0)
             {

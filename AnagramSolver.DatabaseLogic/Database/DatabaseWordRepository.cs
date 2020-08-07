@@ -149,8 +149,8 @@ namespace AnagramSolver.Data
                     words.Add(new WordModel()
                     {
                         Id = int.Parse(dataReader["Id"].ToString()),
-                        Word = dataReader["word"].ToString(),
-                        LanguagePart = dataReader["Category"].ToString(),
+                        Word1 = dataReader["word"].ToString(),
+                        Category = dataReader["Category"].ToString(),
                         SortedWord = dataReader["SortedWord"].ToString()
                     });
                 }
