@@ -91,10 +91,9 @@ namespace AnagramSolver.Data.EntityFramework
         {
             //TODO Fix filtering  ///Contains should be different
 
-            var skip = pageIndex * range;
+            var skip = (pageIndex-1) * range;
             var words = _context.Word
-                .Where(x => x.Word1
-                .Contains(searchedWord))
+                .Where(x => x.Word1.StartsWith(searchedWord))
                 .Skip(skip)
                 .Take(range);                
             return words;
