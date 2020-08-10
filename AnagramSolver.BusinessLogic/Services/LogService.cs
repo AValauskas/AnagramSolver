@@ -1,9 +1,10 @@
 ﻿using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
-
+using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,11 @@ namespace AnagramSolver.BusinessLogic.Services
     public class LogService : ILogService
     {
         private readonly IUserLogRepository _uerLogRepository;
-        public LogService(IUserLogRepository uerLogRepository)
+        private readonly IMapper _mapper;
+        public LogService(IUserLogRepository uerLogRepository, IMapper mapper)
         {
             _uerLogRepository = uerLogRepository;
+            _mapper = mapper;
         }
 
         public async Task CreateLog(string word, List<string> anagrams)
@@ -36,18 +39,9 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var repoLogs = await _uerLogRepository.GetLogs();
 
-            var logs = new List<UserLog>();
-            foreach (var log in repoLogs)
-            {
-                logs.Add(
-                    new UserLog()
-                    {
-                        Anagrams = log.Anagrams,
-                        Time= log.Time,
-                        UserIp = log.UserIp,
-                        Word=log.SearchedWord
-                    });
-            }
+            var logsList = repoLogs.ToList();
+            var logs = _mapper.Map<List<UserLog>>(logsList);
+           
             return logs;
         }
 

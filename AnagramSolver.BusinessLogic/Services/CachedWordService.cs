@@ -3,6 +3,7 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +14,12 @@ namespace AnagramSolver.BusinessLogic.Services
     {
         private readonly ICachedWordRepository _cachedWordRepository;
         private readonly IWordRepository _wordRepository;
-        public CachedWordService(ICachedWordRepository cachedWordRepository, IWordRepository wordRepository)
+        private readonly IMapper _mapper;
+        public CachedWordService(ICachedWordRepository cachedWordRepository, IWordRepository wordRepository, IMapper mapper)
         {
             _cachedWordRepository = cachedWordRepository;
             _wordRepository = wordRepository;
+            _mapper = mapper;
         }
         public async Task<bool> CheckIfCachedWordExist(string word)
         {
@@ -41,18 +44,8 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var repoAnagrams = await _cachedWordRepository.GetAnagrams(word);
 
-            var anagrams = new List<WordModel>();
-            foreach (var repoWord in repoAnagrams)
-            {
-                anagrams.Add(
-                    new WordModel()
-                    {
-                        Word = repoWord.Word1,
-                        LanguagePart = repoWord.Category,
-                        SortedWord = repoWord.SortedWord,
-                        Id = repoWord.Id
-                    });
-            }            
+            var anagramList = repoAnagrams.ToList();
+            var anagrams = _mapper.Map<List<WordModel>>(anagramList);
             var anagramsCount = Settings.AnagramCount;
             return anagrams
                     .Take(anagramsCount)

@@ -51,7 +51,7 @@ namespace AnagramSolver.Test
         [TestCase("Labas")]
         public async Task GetAnagrams_OneWord_Return2ElementList(string myWord)
         {
-            _wordRepositoryMock.GetWords().Returns(words);
+           // _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
@@ -63,7 +63,7 @@ namespace AnagramSolver.Test
         public async Task GetAnagrams_OneWord_ReturnMaxSizeList(string myWord)
         {
             var size = Settings.AnagramCount;
-            _wordRepositoryMock.GetWords().Returns(words);
+         //   _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
@@ -75,7 +75,7 @@ namespace AnagramSolver.Test
         [TestCase("automobilis")]
         public async Task GetAnagrams_OneWord_ReturnEmptyList(string myWord)
         {
-            _wordRepositoryMock.GetWords().Returns(words);
+          //  _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
@@ -87,7 +87,7 @@ namespace AnagramSolver.Test
         [TestCase("grazi diena")]
         public async Task GetAnagrams_TwoWords_ReturnEmptyList(string myWord)
         {
-            _wordRepositoryMock.GetWords().Returns(words);
+         //   _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
@@ -98,7 +98,7 @@ namespace AnagramSolver.Test
         [TestCase("visma praktika")]
         public async Task GetAnagrams_TwoWords_Return1ElementList(string myWord)
         {
-             _wordRepositoryMock.GetWords().Returns(words);
+          //   _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 
@@ -110,7 +110,7 @@ namespace AnagramSolver.Test
         public async Task GetAnagrams_TwoWords_ReturnMaxSizeList(string myWord)
         {
             var size = Settings.AnagramCount;
-            _wordRepositoryMock.GetWords().Returns(words);
+         //   _wordRepositoryMock.GetWords().Returns(words);
 
             var anagrams = await _anagramSolverMock.GetAnagrams(myWord);
 

@@ -1,6 +1,8 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.DatabaseFirst.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,11 @@ namespace AnagramSolver.BusinessLogic.Services
     {
         private const string filePath = "Files/zodynas.txt";
         private readonly IWordRepository _wordRepository;
-        public WordService(IWordRepository wordRepository)
+        private readonly IMapper _mapper;
+        public WordService(IWordRepository wordRepository, IMapper mapper)
         {
             _wordRepository = wordRepository;
+            _mapper = mapper;
         }
 
         public async Task<bool> AddWordToDataSet(string word, string languagePart)
@@ -29,18 +33,8 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var repoWords = await _wordRepository.GetAllWords();
 
-            var words = new List<WordModel>();
-            foreach (var word in repoWords)
-            {
-                words.Add(
-                    new WordModel()
-                    {
-                        Word = word.Word1,
-                        LanguagePart=word.Category,
-                        SortedWord=word.SortedWord,
-                        Id= word.Id
-                    });
-            }
+            var wordsList = repoWords.ToList();
+            var words = _mapper.Map<List<WordModel>>(wordsList);
             return words;
         }
 
@@ -60,17 +54,10 @@ namespace AnagramSolver.BusinessLogic.Services
            
             foreach (var words in dictionaryRepo)
             {
-                var words2 = new List<WordModel>();
-                foreach (var word in words.Value)
-                {
-                    words2.Add(new WordModel()
-                    {
-                        Word = word.Word1,
-                        SortedWord = word.SortedWord,
-                        LanguagePart = word.Category
-                    });
-                }
-                dictionary.Add(words.Key, words2);
+                var wordsList = words.Value;
+                var mappedWord = _mapper.Map<List<WordModel>>(wordsList);
+
+                dictionary.Add(words.Key, mappedWord);
             }
             return dictionary;
         }
@@ -78,19 +65,8 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
             var repoWords = await _wordRepository.GetWordsByRange(pageIndex, range);
-
-            var words = new List<WordModel>();
-            foreach (var word in repoWords.ToList())
-            {
-                words.Add(
-                    new WordModel()
-                    {
-                        Word = word.Word1,
-                        LanguagePart = word.Category,
-                        SortedWord = word.SortedWord,
-                        Id = word.Id
-                    });
-            }
+            var wordsList = repoWords.ToList();           
+            var words = _mapper.Map<List<WordModel>>(wordsList);           
             return words;
         }
 
@@ -111,18 +87,8 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var repoWords = await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
 
-            var words = new List<WordModel>();
-            foreach (var word in repoWords)
-            {
-                words.Add(
-                    new WordModel()
-                    {
-                        Word = word.Word1,
-                        LanguagePart = word.Category,
-                        SortedWord = word.SortedWord,
-                        Id = word.Id
-                    });
-            }
+            var wordsList = repoWords.ToList();
+            var words = _mapper.Map<List<WordModel>>(wordsList);
             return words;
         }
     }

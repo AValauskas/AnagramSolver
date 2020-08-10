@@ -2,8 +2,10 @@ using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
+using AnagramSolver.Contracts.Profiles;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,16 @@ namespace AnagramSolver.WebApp
                     //.AddScoped<IUserLogRepository, Data.Database.UserLogRepository>()
                     .AddScoped<IUserLogRepository, Data.EntityFramework.UserLogRepositoryEF>()
                     .AddHttpContextAccessor();
+
+            //services.AddAutoMapper(typeof(Startup));
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();
 
             services.AddControllersWithViews();
             services.AddDbContext<AnagramSolverContext>(opt =>
