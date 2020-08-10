@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnagramSolver.EF.DatabaseFirst\AnagramSolver.EF.DatabaseFirst.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Files\zodynas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces.Repositories;
-using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.DatabaseFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,7 +24,7 @@ namespace AnagramSolver.Data.Database
             var sqlQuery = "INSERT INTO UserLog (UserIp,SearchedWord,Time,Anagrams)  VALUES (@Ip,@Word,@Time,@Anagrams)";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
             command.CommandType = CommandType.Text;
-            command.Parameters.Add(new SqlParameter("@Word", log.Word));
+            command.Parameters.Add(new SqlParameter("@Word", log.SearchedWord));
             command.Parameters.Add(new SqlParameter("@Ip", log.UserIp));
             command.Parameters.Add(new SqlParameter("@Time", log.Time));
             command.Parameters.Add(new SqlParameter("@Anagrams", log.Anagrams));
@@ -54,7 +54,7 @@ namespace AnagramSolver.Data.Database
                     words.Add(new UserLog()
                     {
                         Anagrams = dataReader["Anagrams"].ToString(),
-                        Word = dataReader["SearchedWord"].ToString(),
+                        SearchedWord = dataReader["SearchedWord"].ToString(),
                         UserIp = dataReader["UserIp"].ToString(),
                         Time = DateTime.Parse(dataReader["Time"].ToString())
                     });

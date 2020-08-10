@@ -9,5 +9,6 @@ namespace AnagramSolver.EF.DatabaseFirst.Models
         public string SearchedWord { get; set; }
         public DateTime Time { get; set; }
         public string Anagrams { get; set; }
+        public int UserLogId { get; set; }
     }
 }

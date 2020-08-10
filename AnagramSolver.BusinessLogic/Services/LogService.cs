@@ -1,6 +1,7 @@
 ﻿using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,23 +19,36 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task CreateLog(string word, List<string> anagrams)
         {
-            //TODO Fix ip
             var time = DateTime.Now;
             var ip = GetIp();
 
             var anagramsString = string.Join(";", anagrams.ToArray());
-            var userLog = new UserLog()
+            var userLog = new EF.DatabaseFirst.Models.UserLog()
             {
                 Anagrams = anagramsString,
                 Time = time,
                 UserIp = ip,
-                Word = word
+                SearchedWord = word
             };
            await _uerLogRepository.CreateLog(userLog);
         }
         public async Task<IEnumerable<UserLog>> GetAllLogs()
         {
-            return await _uerLogRepository.GetLogs();
+            var repoLogs = await _uerLogRepository.GetLogs();
+
+            var logs = new List<UserLog>();
+            foreach (var log in repoLogs)
+            {
+                logs.Add(
+                    new UserLog()
+                    {
+                        Anagrams = log.Anagrams,
+                        Time= log.Time,
+                        UserIp = log.UserIp,
+                        Word=log.SearchedWord
+                    });
+            }
+            return logs;
         }
 
         private string GetIp()

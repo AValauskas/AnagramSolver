@@ -39,7 +39,20 @@ namespace AnagramSolver.BusinessLogic.Services
         
         public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)
         {
-            var anagrams = await _cachedWordRepository.GetAnagrams(word);
+            var repoAnagrams = await _cachedWordRepository.GetAnagrams(word);
+
+            var anagrams = new List<WordModel>();
+            foreach (var repoWord in repoAnagrams)
+            {
+                anagrams.Add(
+                    new WordModel()
+                    {
+                        Word = repoWord.Word1,
+                        LanguagePart = repoWord.Category,
+                        SortedWord = repoWord.SortedWord,
+                        Id = repoWord.Id
+                    });
+            }            
             var anagramsCount = Settings.AnagramCount;
             return anagrams
                     .Take(anagramsCount)

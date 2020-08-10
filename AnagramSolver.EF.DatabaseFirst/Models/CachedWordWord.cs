@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace AnagramSolver.EF.DatabaseFirst.Models
-{
+{   
     public partial class CachedWordWord
     {
         public int WordId { get; set; }
@@ -10,5 +10,7 @@ namespace AnagramSolver.EF.DatabaseFirst.Models
 
         public virtual CachedWord CachedWord { get; set; }
         public virtual Word Word { get; set; }
+        public void HasNoKey()
+        { }
     }
 }

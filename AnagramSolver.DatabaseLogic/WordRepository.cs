@@ -5,22 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.DatabaseFirst.Models;
 
 namespace AnagramSolver.Data
 {
     public class WordRepository : IWordRepository
     {
         private readonly string filePath;
-        private  Dictionary<string, List<WordModel>> anagrams; 
+        private  Dictionary<string, List<Word>> anagrams; 
         public WordRepository()
         {
-            anagrams = new Dictionary<string, List<WordModel>>();
+            anagrams = new Dictionary<string, List<Word>>();
             filePath = Settings.FilePath;
             ReadFile();
 
         }
-        public WordRepository(Dictionary<string, List<WordModel>> anagram)
+        public WordRepository(Dictionary<string, List<Word>> anagram)
         {
             anagrams = anagram;
         }
@@ -67,16 +67,16 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public async Task <Dictionary<string, List<WordModel>>> GetWords()
+        public async Task <Dictionary<string, List<Word>>> GetWords()
         {
                 return anagrams;
         }
-        public async Task<IEnumerable<WordModel>> GetAllWords()
+        public async Task<IEnumerable<Word>> GetAllWords()
         {
             return anagrams.Values.ToList().SelectMany(x => x).ToList();
         }
 
-        public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<Word>> GetWordsByRange(int pageIndex, int range)
         {
             var allWordList = await GetAllWords();
             return allWordList.Skip((pageIndex - 1) * range).Take(range).ToList();
@@ -93,32 +93,32 @@ namespace AnagramSolver.Data
         {
             if (anagrams.ContainsKey(sortedWord))
             {
-                if (anagrams[sortedWord].Select(x=>x.Word).Contains(word))
+                if (anagrams[sortedWord].Select(x=>x.Word1).Contains(word))
                 {
                     return false;
                 }
                 anagrams[sortedWord].Add(
-                    new WordModel()
+                    new Word()
                     {
-                        Word = word,
-                        LanguagePart = languagePart,
+                        Word1 = word,
+                        Category = languagePart,
                         SortedWord= sortedWord
                     });
             }
             else
             {
                 anagrams.Add(
-                    sortedWord, new List<WordModel>() {
-                        new WordModel() {
-                            Word = word,
-                            LanguagePart = languagePart,
+                    sortedWord, new List<Word>() {
+                        new Word() {
+                            Word1 = word,
+                            Category = languagePart,
                             SortedWord= sortedWord
                         }});
             }
             return true;
         }
 
-        public async Task<IEnumerable<WordModel>> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord)
         {
             var anagramsCount = Settings.AnagramCount;
             var allWords = await GetWords();
@@ -129,12 +129,12 @@ namespace AnagramSolver.Data
             return null;
         }
 
-        public async Task<IEnumerable<WordModel>> SearchWords(string word)
+        public async Task<IEnumerable<Word>> SearchWords(string word)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             throw new NotImplementedException();
         }
@@ -144,12 +144,12 @@ namespace AnagramSolver.Data
             throw new NotImplementedException();
         }
 
-        public Task AddManyWordsToDataSet(List<WordModel> words)
+        public Task AddManyWordsToDataSet(List<Word> words)
         {
             throw new NotImplementedException();
         }
 
-        public Task<WordModel> GetWordByName(string word)
+        public Task<Word> GetWordByName(string word)
         {
             throw new NotImplementedException();
         }

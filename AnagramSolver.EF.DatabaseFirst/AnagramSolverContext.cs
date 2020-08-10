@@ -1,8 +1,9 @@
 ﻿using System;
+using AnagramSolver.EF.DatabaseFirst.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace AnagramSolver.EF.DatabaseFirst.Models
+namespace AnagramSolver.EF.DatabaseFirst
 {
     public partial class AnagramSolverContext : DbContext
     {
@@ -60,8 +61,6 @@ namespace AnagramSolver.EF.DatabaseFirst.Models
 
             modelBuilder.Entity<UserLog>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.Property(e => e.Anagrams)
                     .IsRequired()
                     .HasMaxLength(255)

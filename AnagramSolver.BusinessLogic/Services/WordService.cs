@@ -27,7 +27,21 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<IEnumerable<WordModel>> GetAllWords()
         {
-            return await _wordRepository.GetAllWords();
+            var repoWords = await _wordRepository.GetAllWords();
+
+            var words = new List<WordModel>();
+            foreach (var word in repoWords)
+            {
+                words.Add(
+                    new WordModel()
+                    {
+                        Word = word.Word1,
+                        LanguagePart=word.Category,
+                        SortedWord=word.SortedWord,
+                        Id= word.Id
+                    });
+            }
+            return words;
         }
 
         public async Task<int> GetTotalWordsCount(string searchedWord)
@@ -39,14 +53,45 @@ namespace AnagramSolver.BusinessLogic.Services
             return await _wordRepository.GetTotalWordsCount();
         }
 
-        public Task<Dictionary<string, List<WordModel>>> GetWords()
+        public async Task<Dictionary<string, List<WordModel>>> GetWords()
         {
-            return _wordRepository.GetWords();
+            var dictionary = new Dictionary<string, List<WordModel>>();
+            var dictionaryRepo = await _wordRepository.GetWords();
+           
+            foreach (var words in dictionaryRepo)
+            {
+                var words2 = new List<WordModel>();
+                foreach (var word in words.Value)
+                {
+                    words2.Add(new WordModel()
+                    {
+                        Word = word.Word1,
+                        SortedWord = word.SortedWord,
+                        LanguagePart = word.Category
+                    });
+                }
+                dictionary.Add(words.Key, words2);
+            }
+            return dictionary;
         }
 
         public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
-            return await _wordRepository.GetWordsByRange(pageIndex, range);
+            var repoWords = await _wordRepository.GetWordsByRange(pageIndex, range);
+
+            var words = new List<WordModel>();
+            foreach (var word in repoWords.ToList())
+            {
+                words.Add(
+                    new WordModel()
+                    {
+                        Word = word.Word1,
+                        LanguagePart = word.Category,
+                        SortedWord = word.SortedWord,
+                        Id = word.Id
+                    });
+            }
+            return words;
         }
 
         public async Task<FileStreamResult> GetDictionaryFile()
@@ -64,7 +109,21 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-            return await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
+            var repoWords = await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
+
+            var words = new List<WordModel>();
+            foreach (var word in repoWords)
+            {
+                words.Add(
+                    new WordModel()
+                    {
+                        Word = word.Word1,
+                        LanguagePart = word.Category,
+                        SortedWord = word.SortedWord,
+                        Id = word.Id
+                    });
+            }
+            return words;
         }
     }
 }

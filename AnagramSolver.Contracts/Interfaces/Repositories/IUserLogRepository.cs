@@ -1,4 +1,4 @@
-﻿using AnagramSolver.Contracts.Models;
+﻿using AnagramSolver.EF.DatabaseFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

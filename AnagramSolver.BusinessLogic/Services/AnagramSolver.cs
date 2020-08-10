@@ -28,7 +28,21 @@ namespace AnagramSolver.BusinessLogic
             var spacelessWord = Regex.Replace(myWords, @"\s+", "");
             var sortedWord = String.Concat(spacelessWord.ToLower().OrderBy(c => c));
 
-            var anagrams = await _wordRepository.FindSingleWordAnagrams(sortedWord);
+            var repoAnagrams = await _wordRepository.FindSingleWordAnagrams(sortedWord);
+
+            var anagrams = new List<WordModel>();
+            foreach (var repoWord in repoAnagrams)
+            {
+                anagrams.Add(
+                    new WordModel()
+                    {
+                        Word = repoWord.Word1,
+                        LanguagePart = repoWord.Category,
+                        SortedWord = repoWord.SortedWord,
+                        Id = repoWord.Id
+                    });
+            }
+
             var anagramsCount = Settings.AnagramCount;
             var anagramsAsString = anagrams                    
                     .Take(anagramsCount)

@@ -3,6 +3,7 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.EF.CodeFirst;
+using AnagramSolver.EF.DatabaseFirst;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ namespace AnagramSolver.WebApp
                     .AddHttpContextAccessor();
 
             services.AddControllersWithViews();
-            services.AddDbContext<AnagramSolverDBContext>(opt =>
+            services.AddDbContext<AnagramSolverContext>(opt =>
             opt.UseSqlServer(Settings.ConnectionString));
         }
 

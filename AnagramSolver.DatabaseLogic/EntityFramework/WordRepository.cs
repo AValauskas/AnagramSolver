@@ -1,19 +1,20 @@
-﻿using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.Contracts.Models;
+﻿using AnagramSolver.EF.DatabaseFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.EF.CodeFirst;
+using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.Contracts.Interfaces;
 
 namespace AnagramSolver.Data.EntityFramework
 {
     public class WordRepository :IWordRepository
     {
-        private readonly AnagramSolverDBContext _context;
+        private readonly AnagramSolverContext _context;
 
-        public WordRepository(AnagramSolverDBContext context)
+        public WordRepository(AnagramSolverContext context)
         {
             _context = context;
         }
@@ -21,50 +22,50 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
-            var wordModel = new WordModel() 
-            { Word = word,
-            LanguagePart = languagePart,
+            var wordModel = new Word() 
+            { Word1 = word,
+            Category = languagePart,
             SortedWord= sortedWord
             };
-            _context.Words.Add(wordModel);
+            _context.Word.Add(wordModel);
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task AddManyWordsToDataSet(List<WordModel> words)
+        public async Task AddManyWordsToDataSet(List<Word> words)
         {
-            _context.Words.AddRange(words);
+            _context.Word.AddRange(words);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<WordModel>> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord)
         {
-            var anagrams = _context.Words.Where(x => x.SortedWord == sortedWord);
+            var anagrams = _context.Word.Where(x => x.SortedWord == sortedWord);
 
             return anagrams;
         }
 
-        public async Task<IEnumerable<WordModel>> GetAllWords()
+        public async Task<IEnumerable<Word>> GetAllWords()
         {
-            var words = _context.Words.Where(x => true);
+            var words = _context.Word.Where(x => true);
 
             return words;
         }
 
         public async Task<int> GetTotalWordsCount()
         {
-            var count = _context.Words.Count();
+            var count = _context.Word.Count();
             return count;
         }
 
-        public Task<Dictionary<string, List<WordModel>>> GetWords()
+        public Task<Dictionary<string, List<Word>>> GetWords()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<Word>> GetWordsByRange(int pageIndex, int range)
         {
             var skip = pageIndex * range;
-            var words = _context.Words
+            var words = _context.Word
                 .Where(x => true)
                 .Skip(skip)
                 .Take(range);
@@ -73,26 +74,26 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
-            var count = _context.Words
-                .Where(x=> x.Word.Contains(searchedWord))
+            var count = _context.Word
+                .Where(x=> x.Word1.Contains(searchedWord))
                 .Count();
             return count;
         }
 
-        public async Task<IEnumerable<WordModel>> SearchWords(string word)
+        public async Task<IEnumerable<Word>> SearchWords(string word)
         {
-            var words = _context.Words
-                .Where(x => x.Word.Contains(word));
+            var words = _context.Word
+                .Where(x => x.Word1.Contains(word));
             return words;
         }
 
-        public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             //TODO Fix filtering  ///Contains should be different
 
             var skip = pageIndex * range;
-            var words = _context.Words
-                .Where(x => x.Word
+            var words = _context.Word
+                .Where(x => x.Word1
                 .Contains(searchedWord))
                 .Skip(skip)
                 .Take(range);                
@@ -103,13 +104,13 @@ namespace AnagramSolver.Data.EntityFramework
             IWordRepository wordRepo = new AnagramSolver.Data.WordRepository();
             var words = wordRepo.GetAllWords().Result;
 
-            _context.Words.AddRange(words);
+            _context.Word.AddRange(words);
             _context.SaveChanges();           
         }
 
-        public async Task<WordModel> GetWordByName(string word)
+        public async Task<Word> GetWordByName(string word)
         {
-            var foundWord = _context.Words.First(x => x.Word == word);
+            var foundWord = _context.Word.First(x => x.Word1 == word);
 
             return foundWord;
         }
