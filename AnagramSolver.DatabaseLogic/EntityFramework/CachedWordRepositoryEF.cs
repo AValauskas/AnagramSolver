@@ -31,7 +31,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<bool> AddCachedWord_Word(WordModel word, CachedWord cachedWord)
         {
-            var word_cachedWord = new CachedWordWord() { 
+            var word_cachedWord = new CachedWord_WordEntity() { 
                 Word = word, 
                 CachedWord = cachedWord };
             _context.CachedWord_WordEntityes.Add(word_cachedWord);
@@ -43,8 +43,8 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<IEnumerable<WordModel>> GetAnagrams(string word)
         {
             var anagrams = from cached in _context.CachedWords
-                           join cachedWord_Word in _context.CachedWord_WordEntityes on cached.Id equals cachedWord_Word.CachedWordId
-                           join dWord in _context.Words on cachedWord_Word.CachedWordId equals dWord.Id
+                           join cachedWord_Word in _context.CachedWord_WordEntityes on cached.CachedWordId equals cachedWord_Word.Id
+                           join dWord in _context.Words on cachedWord_Word.Id equals dWord.Id
                            where cached.Word == word
                            select dWord;
 

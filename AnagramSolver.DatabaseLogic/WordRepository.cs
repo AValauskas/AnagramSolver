@@ -93,15 +93,15 @@ namespace AnagramSolver.Data
         {
             if (anagrams.ContainsKey(sortedWord))
             {
-                if (anagrams[sortedWord].Select(x=>x.Word1).Contains(word))
+                if (anagrams[sortedWord].Select(x=>x.Word).Contains(word))
                 {
                     return false;
                 }
                 anagrams[sortedWord].Add(
                     new WordModel()
                     {
-                        Word1 = word,
-                        Category = languagePart,
+                        Word = word,
+                        LanguagePart = languagePart,
                         SortedWord= sortedWord
                     });
             }
@@ -110,8 +110,8 @@ namespace AnagramSolver.Data
                 anagrams.Add(
                     sortedWord, new List<WordModel>() {
                         new WordModel() {
-                            Word1 = word,
-                            Category = languagePart,
+                            Word = word,
+                            LanguagePart = languagePart,
                             SortedWord= sortedWord
                         }});
             }

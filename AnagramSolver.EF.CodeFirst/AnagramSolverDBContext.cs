@@ -16,7 +16,7 @@ namespace AnagramSolver.EF.CodeFirst
         public DbSet<WordModel> Words { get; set; }
         public DbSet<CachedWord> CachedWords { get; set; }
         public DbSet<UserLog> UserLogs { get; set; }
-        public DbSet<CachedWordWord> CachedWord_WordEntityes { get; set; }
+        public DbSet<CachedWord_WordEntity> CachedWord_WordEntityes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(Settings.ConnectionString);

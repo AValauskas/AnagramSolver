@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnagramSolver.Contracts.OldModels
+namespace AnagramSolver.Contracts.Models
 {
-    public class CachedWordWord
+    public class CachedWord_WordEntity
     {
         public WordModel Word { get; set; }
         public CachedWord CachedWord { get; set; }

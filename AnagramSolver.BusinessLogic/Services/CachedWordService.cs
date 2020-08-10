@@ -32,7 +32,7 @@ namespace AnagramSolver.BusinessLogic.Services
             var cachedWord = await _cachedWordRepository.AddCachedWord(word);
             foreach (var anagram in anagrams)
             {
-                var wordObject = await _wordRepository.GetWordByName(anagram.Word1);
+                var wordObject = await _wordRepository.GetWordByName(anagram.Word);
                 await _cachedWordRepository.AddCachedWord_Word(wordObject, cachedWord);
             }
         }

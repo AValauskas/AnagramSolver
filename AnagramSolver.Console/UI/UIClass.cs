@@ -35,7 +35,7 @@ namespace AnagramSolver.Console.UI
                 }
                 System.Console.WriteLine("Anagramos:\n");
                 var anagramsobject = await _apiService.GetAnagrams(myWord);
-                var anagrams = anagramsobject.Select(x => x.Word1).ToList();
+                var anagrams = anagramsobject.Select(x => x.Word).ToList();
                 DisplayAnagrams(anagrams);
 
             }
