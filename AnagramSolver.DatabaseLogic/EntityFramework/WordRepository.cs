@@ -64,7 +64,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<IEnumerable<Word>> GetWordsByRange(int pageIndex, int range)
         {
-            var skip = pageIndex * range;
+            var skip = (pageIndex-1) * range;
             var words = _context.Word
                 .Where(x => true)
                 .Skip(skip)

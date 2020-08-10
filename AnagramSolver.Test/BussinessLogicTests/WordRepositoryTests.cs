@@ -45,7 +45,7 @@ namespace WordModelSolver.Test
                     new WordModel() { Word= "kopmiuteris", LanguagePart="bdv"},
                     new WordModel() { Word= "kompiuteris", LanguagePart="bdv"}}},
             };
-            _wordRepositoryMyDic = new WordRepository(words);
+          //  _wordRepositoryMyDic = new WordRepository(words);
         }
 
         [Test]

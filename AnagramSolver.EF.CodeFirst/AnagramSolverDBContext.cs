@@ -1,5 +1,5 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
-using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.DatabaseFirst.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnagramSolver.EF.CodeFirst
@@ -13,10 +13,10 @@ namespace AnagramSolver.EF.CodeFirst
             : base(options)
         {
         }
-        public DbSet<WordModel> Words { get; set; }
-        public DbSet<CachedWord> CachedWords { get; set; }
-        public DbSet<UserLog> UserLogs { get; set; }
-        public DbSet<CachedWord_WordEntity> CachedWord_WordEntityes { get; set; }
+        public DbSet<Word> Word { get; set; }
+        public DbSet<CachedWord> CachedWord { get; set; }
+        public DbSet<UserLog> UserLog { get; set; }
+        public DbSet<CachedWordWord> CachedWordWord { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(Settings.ConnectionString);

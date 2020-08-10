@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnagramSolver.EF.CodeFirst.Migrations
 {
     [DbContext(typeof(AnagramSolverDBContext))]
-    [Migration("20200807072759_initialCreate")]
-    partial class initialCreate
+    [Migration("20200810103254_CodeFirst")]
+    partial class CodeFirst
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,9 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AnagramSolver.Contracts.Models.CachedWord", b =>
+            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWord", b =>
                 {
-                    b.Property<int>("CachedWordId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -31,22 +31,22 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.Property<string>("Word")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CachedWordId");
+                    b.HasKey("Id");
 
-                    b.ToTable("CachedWords");
+                    b.ToTable("CachedWord");
                 });
 
-            modelBuilder.Entity("AnagramSolver.Contracts.Models.CachedWord_WordEntity", b =>
+            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWordWord", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CachedWordId")
+                    b.Property<int>("CachedWordId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("WordId")
+                    b.Property<int>("WordId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -55,10 +55,10 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
 
                     b.HasIndex("WordId");
 
-                    b.ToTable("CachedWord_WordEntityes");
+                    b.ToTable("CachedWordWord");
                 });
 
-            modelBuilder.Entity("AnagramSolver.Contracts.Models.UserLog", b =>
+            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.UserLog", b =>
                 {
                     b.Property<int>("UserLogId")
                         .ValueGeneratedOnAdd()
@@ -68,50 +68,54 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.Property<string>("Anagrams")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SearchedWord")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserIp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Word")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("UserLogId");
 
-                    b.ToTable("UserLogs");
+                    b.ToTable("UserLog");
                 });
 
-            modelBuilder.Entity("AnagramSolver.Contracts.Models.WordModel", b =>
+            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.Word", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("LanguagePart")
+                    b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SortedWord")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Word")
+                    b.Property<string>("Word1")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Words");
+                    b.ToTable("Word");
                 });
 
-            modelBuilder.Entity("AnagramSolver.Contracts.Models.CachedWord_WordEntity", b =>
+            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWordWord", b =>
                 {
-                    b.HasOne("AnagramSolver.Contracts.Models.CachedWord", "CachedWord")
-                        .WithMany()
-                        .HasForeignKey("CachedWordId");
+                    b.HasOne("AnagramSolver.EF.DatabaseFirst.Models.CachedWord", "CachedWord")
+                        .WithMany("CachedWordWord")
+                        .HasForeignKey("CachedWordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("AnagramSolver.Contracts.Models.WordModel", "Word")
-                        .WithMany()
-                        .HasForeignKey("WordId");
+                    b.HasOne("AnagramSolver.EF.DatabaseFirst.Models.Word", "Word")
+                        .WithMany("CachedWordWord")
+                        .HasForeignKey("WordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

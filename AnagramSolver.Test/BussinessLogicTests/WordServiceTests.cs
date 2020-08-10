@@ -23,7 +23,7 @@ namespace AnagramSolver.Test
         public void Setup()
         {
             _wordRepository = new WordRepository();
-            _wordService = new WordService(_wordRepository); 
+          //  _wordService = new WordService(_wordRepository); 
         }
 
         [Test]
