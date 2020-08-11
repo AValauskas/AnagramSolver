@@ -52,7 +52,10 @@
                    asp-route-pageNumber="@(Model.PageIndex)"
                    asp-route-searchString="@ViewData["CurrentFilter"]"> Delete</a>
             </td>
-            <td> <a asp-action="UpdateWord" asp-route-word="@word.Word"> Update</a> </td>
+            <td> <a asp-action="OpenUpdateWordView" 
+                   asp-route-word="@word.Word"
+                   asp-route-pageNumber="@(Model.PageIndex)"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"> Update</a> </td>
         </tr>
     }
 </table>

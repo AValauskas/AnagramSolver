@@ -158,5 +158,15 @@ namespace AnagramSolver.Data
         {
             throw new NotImplementedException();
         }
+
+        public Task<Word> GetWordById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Word> UpdateWord(Word word)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

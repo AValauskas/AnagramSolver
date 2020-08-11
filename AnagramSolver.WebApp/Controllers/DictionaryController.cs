@@ -38,8 +38,7 @@ namespace AnagramSolver.WebApp.Controllers
             if (TempData["Error"] != null)
             {
                 @ViewData["Error"] = TempData["Error"];
-            }
-            
+            }            
 
             if (!String.IsNullOrEmpty(searchString))
                 words = await _wordService.SearchWordsByRangeAndFilter(pageNumber ?? 1, pageSize, searchString);
@@ -58,26 +57,41 @@ namespace AnagramSolver.WebApp.Controllers
         }
 
         public async Task<IActionResult> WordAddition()
-        {
-          
-            return View("NewWord");
+        {          
+            return View("Word");
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnWordWritten(string myWord, string languagePart)
+        public async Task<IActionResult> OnWordWritten(string myWord, string languagePart, int? id, int pageNumber, string searchString)
+        {
+            if (id == null)
+                return await InsertWord(myWord, languagePart);
+            else
+                return await UpdateWord(myWord, languagePart, id.Value, pageNumber, searchString);
+
+
+        }
+        public async Task<IActionResult> InsertWord(string myWord, string languagePart)
         {
             if (await _wordService.AddWordToDataSet(myWord, languagePart))
-            {               
+            {
                 var anagrams = await FormAnagramView(myWord);
                 await _logService.CreateLog(myWord, anagrams, TaskType.CreateWord);
                 return View("Anagrams", anagrams);
-
             }
             else
             {
                 @ViewData["Error"] = "Word already exist in dictionary";
-                return View("NewWord");
+                return View("Word");
             }
+        }
+
+        public async Task<IActionResult> UpdateWord(string myWord, string languagePart, int id, int pageNumber, string searchString)
+        {
+            await _wordService.UpdateWord(myWord, languagePart, id);
+            var anagrams = await FormAnagramView(myWord);
+            await _logService.CreateLog(myWord, anagrams, TaskType.UpdateWord);
+            return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
         }
 
         private async Task<List<string>> FormAnagramView( string word)
@@ -105,10 +119,15 @@ namespace AnagramSolver.WebApp.Controllers
 
             return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
         }
-        public async Task<IActionResult> UpdateWord()
+        public async Task<IActionResult> OpenUpdateWordView(string word, int? pageNumber, string searchString)
         {
-
-            return View("NewWord");
+            var wordModel = await _wordService.GetWordByName(word);
+            @ViewData["Name"] = wordModel.Word;
+            @ViewData["Category"] = wordModel.LanguagePart;
+            @ViewData["Id"] = wordModel.Id;
+            @ViewData["PageNumber"] = pageNumber;
+            @ViewData["SearchString"] = searchString;
+            return View("Word");
         }
 
     }

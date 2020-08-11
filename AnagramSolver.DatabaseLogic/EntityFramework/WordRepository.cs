@@ -121,5 +121,20 @@ namespace AnagramSolver.Data.EntityFramework
             _context.Word.Remove(itemToRemove);
             _context.SaveChanges();
         }
+
+        public async Task<Word> GetWordById(int id)
+        {
+            var foundWord = _context.Word.FirstOrDefault(x => x.Id == id);
+
+            return foundWord;
+        }
+
+        public async Task<Word> UpdateWord(Word word)
+        {
+           var wordEntity = _context.Word.Update(word).Entity;
+            _context.SaveChanges();
+            return wordEntity;
+           
+        }
     }
 }

@@ -102,5 +102,23 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             await _wordRepository.DeleteWordByName(word);
         }
+        public async Task<WordModel> GetWordByName(string word)
+        {
+            var wordRepo = await _wordRepository.GetWordByName(word);
+            var wordModel = _mapper.Map<WordModel>(wordRepo);
+            return wordModel;
+        }
+
+        public async Task<WordModel> UpdateWord(string word, string languagePart, int id)
+        {
+            var wordEntity = await _wordRepository.GetWordById(id);
+            wordEntity.Word1 = word;
+            wordEntity.Category = languagePart;
+
+            wordEntity = await _wordRepository.UpdateWord(wordEntity);
+            var wordModel = _mapper.Map<WordModel>(wordEntity);
+            return wordModel;
+        }
+
     }
 }

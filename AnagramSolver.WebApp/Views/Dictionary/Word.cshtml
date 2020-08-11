@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Word";
+}
+<h2>Enter Word data</h2>
+<div>
+    <form method="post" asp-action="OnWordWritten"
+          asp-route-id="@ViewData["Id"]"
+          asp-route-pageNumber="@ViewData["PageNumber"]"
+           asp-route-searchString="@ViewData["SearchString"]">
+        <input type="text" id="myWord" name="myWord" placeholder="Enter Word" required value = @ViewData["Name"] >
+        <input type="text" id="languagePart" name="languagePart" placeholder="Enter language part" required value = @ViewData["Category"] >
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<br>
+@ViewData["Error"]
+
