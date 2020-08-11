@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AnagramSolver.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace AnagramSolver.EF.DatabaseFirst.Models
@@ -10,5 +11,6 @@ namespace AnagramSolver.EF.DatabaseFirst.Models
         public DateTime Time { get; set; }
         public string Anagrams { get; set; }
         public int UserLogId { get; set; }
+        public TaskType Type { get; set; }
     }
 }

@@ -29,6 +29,7 @@ namespace AnagramSolver.WebApp
                     //.AddScoped<IWordRepository, DatabaseWordRepository>()
                     // .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
+                    .AddScoped<IRestrictionService, BusinessLogic.Services.RestrictionService>()
                     .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()
                     //.AddScoped<ICachedWordRepository, Data.Database.CachedWordRepository>()
                     .AddScoped<ICachedWordRepository, Data.EntityFramework.CachedWordRepositoryEF>()
@@ -37,7 +38,6 @@ namespace AnagramSolver.WebApp
                     .AddScoped<IUserLogRepository, Data.EntityFramework.UserLogRepositoryEF>()
                     .AddHttpContextAccessor();
 
-            //services.AddAutoMapper(typeof(Startup));
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());

@@ -1,4 +1,5 @@
-﻿using AnagramSolver.Contracts.Interfaces.Repositories;
+﻿using AnagramSolver.Contracts.Enums;
+using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
 using AutoMapper;
@@ -20,7 +21,7 @@ namespace AnagramSolver.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task CreateLog(string word, List<string> anagrams)
+        public async Task CreateLog(string word, List<string> anagrams, TaskType type)
         {
             var time = DateTime.Now;
             var ip = GetIp();
@@ -31,7 +32,8 @@ namespace AnagramSolver.BusinessLogic.Services
                 Anagrams = anagramsString,
                 Time = time,
                 UserIp = ip,
-                SearchedWord = word
+                SearchedWord = word,
+                Type= type
             };
            await _uerLogRepository.CreateLog(userLog);
         }

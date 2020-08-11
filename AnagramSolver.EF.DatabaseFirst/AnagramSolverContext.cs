@@ -77,6 +77,11 @@ namespace AnagramSolver.EF.DatabaseFirst
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsFixedLength();
+
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Word>(entity =>

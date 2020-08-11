@@ -19,11 +19,13 @@ namespace AnagramSolver.Contracts.Profiles
                     dest.Word,
                     opt => opt.MapFrom(src => src.Word1))
                 .ReverseMap();
+
             CreateMap<EF.DatabaseFirst.Models.UserLog, Contracts.Models.UserLog>()
                  .ForMember(dest =>
                     dest.Word,
                     opt => opt.MapFrom(src => src.SearchedWord))
                .ReverseMap();
+
             CreateMap<EF.DatabaseFirst.Models.CachedWord, Contracts.Models.CachedWord>()
              .ReverseMap();
         }

@@ -25,6 +25,12 @@ namespace AnagramSolver.Data.EntityFramework
 
         }
 
+        public async Task<IEnumerable<UserLog>> GetByIP(string ip)
+        {
+            var logs = _context.UserLog.Where(x => x.UserIp == ip);
+            return logs;
+        }
+
         public async Task<IEnumerable<UserLog>> GetLogs()
         {
             var logs = _context.UserLog.Where(x => true);

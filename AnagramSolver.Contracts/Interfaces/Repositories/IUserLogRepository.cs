@@ -1,4 +1,5 @@
-﻿using AnagramSolver.EF.DatabaseFirst.Models;
+﻿using AnagramSolver.Contracts.Enums;
+using AnagramSolver.EF.DatabaseFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace AnagramSolver.Contracts.Interfaces.Repositories
     {
         public Task CreateLog(UserLog log);
         public Task<IEnumerable<UserLog>> GetLogs();
+        public Task<IEnumerable<UserLog>> GetByIP(string ip);
     }
 }
