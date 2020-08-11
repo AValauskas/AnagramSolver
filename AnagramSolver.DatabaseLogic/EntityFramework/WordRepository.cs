@@ -109,7 +109,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<Word> GetWordByName(string word)
         {
-            var foundWord = _context.Word.First(x => x.Word1 == word);
+            var foundWord = _context.Word.FirstOrDefault(x => x.Word1 == word);
 
             return foundWord;
         }

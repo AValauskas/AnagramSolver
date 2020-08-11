@@ -26,7 +26,13 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
-            return await _wordRepository.AddWordToDataSet(word, languagePart);
+            var foundWord = await _wordRepository.GetWordByName(word);
+            if (foundWord != null)
+            {
+                return false;
+            }
+            await _wordRepository.AddWordToDataSet(word, languagePart);
+            return true;
         }
 
         public async Task<IEnumerable<WordModel>> GetAllWords()

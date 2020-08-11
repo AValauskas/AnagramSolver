@@ -25,8 +25,13 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var time = DateTime.Now;
             var ip = GetIp();
+            string anagramsString;
 
-            var anagramsString = string.Join(";", anagrams.ToArray());
+            if (anagrams==null)            
+                anagramsString = "";
+           else
+            anagramsString = string.Join(";", anagrams.ToArray());
+
             var userLog = new EF.DatabaseFirst.Models.UserLog()
             {
                 Anagrams = anagramsString,

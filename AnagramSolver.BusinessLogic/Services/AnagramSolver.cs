@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
+using AutoMapper;
 
 namespace AnagramSolver.BusinessLogic
 {
     public class AnagramSolver : IAnagramSolver
     {
         private readonly IWordRepository _wordRepository;
-        public AnagramSolver(IWordRepository wordRepository)
+        private readonly IMapper _mapper;
+        public AnagramSolver(IWordRepository wordRepository, IMapper mapper)
         {
             _wordRepository = wordRepository;
+            _mapper = mapper;
         }
 
 
@@ -30,18 +33,7 @@ namespace AnagramSolver.BusinessLogic
 
             var repoAnagrams = await _wordRepository.FindSingleWordAnagrams(sortedWord);
 
-            var anagrams = new List<WordModel>();
-            foreach (var repoWord in repoAnagrams)
-            {
-                anagrams.Add(
-                    new WordModel()
-                    {
-                        Word = repoWord.Word1,
-                        LanguagePart = repoWord.Category,
-                        SortedWord = repoWord.SortedWord,
-                        Id = repoWord.Id
-                    });
-            }
+            var anagrams = _mapper.Map<List<WordModel>>(repoAnagrams);
 
             var anagramsCount = Settings.AnagramCount;
             var anagramsAsString = anagrams                    

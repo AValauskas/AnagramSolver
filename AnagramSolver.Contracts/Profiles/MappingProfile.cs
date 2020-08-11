@@ -24,6 +24,9 @@ namespace AnagramSolver.Contracts.Profiles
                  .ForMember(dest =>
                     dest.Word,
                     opt => opt.MapFrom(src => src.SearchedWord))
+                  .ForMember(dest =>
+                    dest.TaskType,
+                    opt => opt.MapFrom(src => src.Type))
                .ReverseMap();
 
             CreateMap<EF.DatabaseFirst.Models.CachedWord, Contracts.Models.CachedWord>()
