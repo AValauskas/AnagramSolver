@@ -5,6 +5,9 @@
 
 <h1>Dictionary</h1>
 <br>
+<p style="color:red">@ViewData["Error"]</p>
+
+<br>
 <a asp-action="WordAddition"> Add new word</a>
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
@@ -43,6 +46,13 @@
         <tr>
             <td> <a asp-action="Anagrams" asp-route-word="@word.Word"> @word.Word</a> </td>
             <td> @word.LanguagePart</td>
+            <td>
+                <a asp-action="DeleteWord"
+                   asp-route-word="@word.Word"
+                   asp-route-pageNumber="@(Model.PageIndex)"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"> Delete</a>
+            </td>
+            <td> <a asp-action="UpdateWord" asp-route-word="@word.Word"> Update</a> </td>
         </tr>
     }
 </table>

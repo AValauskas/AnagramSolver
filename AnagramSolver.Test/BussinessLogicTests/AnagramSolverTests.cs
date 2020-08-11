@@ -23,8 +23,8 @@ namespace AnagramSolver.Test
         {
             _wordRepository = new WordRepository();
             _wordRepositoryMock = Substitute.For<IWordRepository>();
-            _anagramSolver = new BusinessLogic.AnagramSolver(_wordRepository);
-            _anagramSolverMock = new BusinessLogic.AnagramSolver(_wordRepositoryMock);
+        //    _anagramSolver = new BusinessLogic.AnagramSolver(_wordRepository);
+          //  _anagramSolverMock = new BusinessLogic.AnagramSolver(_wordRepositoryMock);
 
             words = new Dictionary<string, List<WordModel>>()
             {

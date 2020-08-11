@@ -113,5 +113,13 @@ namespace AnagramSolver.Data.EntityFramework
 
             return foundWord;
         }
+
+        public async Task DeleteWordByName(string word)
+        {
+            var itemToRemove = _context.Word.SingleOrDefault(x => x.Word1 == word);
+
+            _context.Word.Remove(itemToRemove);
+            _context.SaveChanges();
+        }
     }
 }

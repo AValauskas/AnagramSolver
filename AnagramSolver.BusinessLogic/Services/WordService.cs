@@ -97,5 +97,10 @@ namespace AnagramSolver.BusinessLogic.Services
             var words = _mapper.Map<List<WordModel>>(wordsList);
             return words;
         }
+
+        public async Task DeleteWordByName(string word)
+        {
+            await _wordRepository.DeleteWordByName(word);
+        }
     }
 }

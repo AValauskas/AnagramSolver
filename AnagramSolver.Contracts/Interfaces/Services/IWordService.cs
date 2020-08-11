@@ -16,6 +16,7 @@ namespace AnagramSolver.Contracts.Interfaces
         public Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range);
         public Task<int> GetTotalWordsCount(string searchedWord);
         public Task<FileStreamResult> GetDictionaryFile();
-        public Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);        
+        public Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
+        public Task DeleteWordByName(string word);
     }
 }

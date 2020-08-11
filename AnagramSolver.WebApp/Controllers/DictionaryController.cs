@@ -19,12 +19,14 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IWordService _wordService;
         private readonly IAnagramSolver _anagramSolver;
         private readonly ILogService _logService;
+        private readonly IRestrictionService _restrictionService;
 
-        public DictionaryController(IWordService wordService, IAnagramSolver anagramSolver, ILogService logService )
+        public DictionaryController(IWordService wordService, IAnagramSolver anagramSolver, ILogService logService, IRestrictionService restrictionService )
         {
             _wordService = wordService;
             _anagramSolver = anagramSolver;
             _logService = logService;
+            _restrictionService = restrictionService;
         }
 
         public async Task<IActionResult> Index(int? pageNumber, string searchString)
@@ -32,6 +34,12 @@ namespace AnagramSolver.WebApp.Controllers
             ViewData["CurrentFilter"] = searchString;
             var pageSize = Settings.PageSize;
             IEnumerable<WordModel> words;
+
+            if (TempData["Error"] != null)
+            {
+                @ViewData["Error"] = TempData["Error"];
+            }
+            
 
             if (!String.IsNullOrEmpty(searchString))
                 words = await _wordService.SearchWordsByRangeAndFilter(pageNumber ?? 1, pageSize, searchString);
@@ -83,6 +91,24 @@ namespace AnagramSolver.WebApp.Controllers
                 @ViewData["Empty"] = "There is no such anagrams";
             }
             return anagrams;
+        }
+        public async Task<IActionResult> DeleteWord(string word, int? pageNumber, string searchString)
+        {
+            if (!await _restrictionService.CheckIfActionCanBePerformed())
+            {
+                TempData["Error"] = "You don't have points to delete word, if you want to get points add or update words";
+                return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
+            }
+            await _wordService.DeleteWordByName(word);
+            var anagrams = await FormAnagramView(word);
+            await _logService.CreateLog(word, anagrams, TaskType.DeleteWord);
+
+            return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
+        }
+        public async Task<IActionResult> UpdateWord()
+        {
+
+            return View("NewWord");
         }
 
     }

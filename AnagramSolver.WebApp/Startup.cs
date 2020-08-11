@@ -26,15 +26,11 @@ namespace AnagramSolver.WebApp
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                     .AddScoped<IWordRepository, Data.EntityFramework.WordRepository>()
-                    //.AddScoped<IWordRepository, DatabaseWordRepository>()
-                    // .AddScoped<IWordRepository, WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                     .AddScoped<IRestrictionService, BusinessLogic.Services.RestrictionService>()
                     .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()
-                    //.AddScoped<ICachedWordRepository, Data.Database.CachedWordRepository>()
                     .AddScoped<ICachedWordRepository, Data.EntityFramework.CachedWordRepositoryEF>()
                     .AddScoped<ILogService, BusinessLogic.Services.LogService>()
-                    //.AddScoped<IUserLogRepository, Data.Database.UserLogRepository>()
                     .AddScoped<IUserLogRepository, Data.EntityFramework.UserLogRepositoryEF>()
                     .AddHttpContextAccessor();
 

@@ -21,6 +21,7 @@ namespace AnagramSolver.Contracts.Interfaces
         public Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
         public Task AddManyWordsToDataSet(List<Word> words);
         public Task<Word> GetWordByName(string word);
+        public Task DeleteWordByName(string word);
 
 
     }
