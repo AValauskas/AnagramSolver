@@ -1,5 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Console.UI;
+using AnagramSolver.Contracts.Interfaces;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,12 +15,16 @@ namespace AnagramSolver.Console
             ////IAnagramSolver requestService = new BusinessLogic.AnagramSolver(new WordRepository());
             //IAnagramSolver requestService = new AnagramClient();
             //await UIClass.Create(requestService);
-            
 
+
+            var program = new Program();
+            await program.action();         
         }
-        public void action()
+        public async Task action()
         {
-            //IDisplay display = new Display(WriteToConsole("labas"));
+            IAnagramSolver requestService = new AnagramClient();
+            var display = new Display(print=> WriteToFile(print), requestService);
+            await display.ProcessAnagramManager();
         }
 
         public void WriteToConsole(string message)

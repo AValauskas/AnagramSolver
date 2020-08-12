@@ -12,7 +12,8 @@ namespace Structures
             {
                 throw new Exception($"Value '{value}' is not part of {typeof(T).Name.ToString()} enum");
             }
-            Enum.TryParse(value.ToString(), out result);
+            result = (T)Enum.Parse(typeof(T), value.ToString());
+            
             return result;                                
         }
     }

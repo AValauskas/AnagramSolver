@@ -6,5 +6,6 @@ namespace AnagramSolver.Console.UI
 {
     public interface IDisplay
     {
+      // void FormattedPrint(delegate del, string input);
     }
 }
