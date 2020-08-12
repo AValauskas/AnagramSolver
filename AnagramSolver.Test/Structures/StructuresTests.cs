@@ -46,7 +46,7 @@ namespace WordModelSolver.Test.Structures
         {
             var result = Generics.MapValueToEnum<Gender, string>(sex);
 
-            Assert.AreEqual(result, Gender.Female);
+            Assert.AreEqual(Gender.Female, result);
         }
         [Test]
         [TestCase(2)]
