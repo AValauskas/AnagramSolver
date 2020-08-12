@@ -3,34 +3,27 @@ using System.ComponentModel;
 
 namespace Structures
 {
-    public enum Gender : int
+    public class Generics
     {
-        Male = 1,
-        Female = 2,
-        Other = 3
-    }
-    public enum Weekday
-    {
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday,
-        Sunday
-    }
-
-    public class Generics<T, E>
-    {
-        public static T MapValueToEnum(E value)
+        public static T MapValueToEnum<T,E>(E value) where T : struct
         {            
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            if (converter != null)
-            {               
-                var result = (T)converter.ConvertFrom(value);
-                return result;
-            }
-            throw new Exception($"Value '{value}' is not part of Gender enum");          
+            T result = default(T);
+            if (!Enum.TryParse(value.ToString(), out result))
+                throw new Exception($"Value '{value}' is not part of {typeof(T).Name.ToString()} enum");
+
+            return result;
+                                
         }
     }
+
+    //var converter = TypeDescriptor.GetConverter(typeof(T));
+    //        try
+    //        {
+    //            var result = (T)converter.ConvertFrom(value.ToString());
+    //            return result;
+    //        }
+    //        catch (Exception)
+    //        {
+    //            throw new Exception($"Value '{value}' is not part of {typeof(T).Name.ToString()} enum");
+    //        }  
 }
