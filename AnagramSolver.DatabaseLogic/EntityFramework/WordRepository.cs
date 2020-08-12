@@ -135,5 +135,11 @@ namespace AnagramSolver.Data.EntityFramework
             return wordEntity;
            
         }
+
+        public async Task AddWordToDataSet(Word word)
+        {
+            _context.Word.Add(word);
+            await _context.SaveChangesAsync();
+        }
     }
 }

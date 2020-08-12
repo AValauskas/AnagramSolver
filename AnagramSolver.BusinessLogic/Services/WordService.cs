@@ -2,6 +2,7 @@
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
+using AnagramSolver.EF.DatabaseFirst.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,7 +32,14 @@ namespace AnagramSolver.BusinessLogic.Services
             {
                 return false;
             }
-            await _wordRepository.AddWordToDataSet(word, languagePart);
+            var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
+            var wordEntity = new Word()
+            {
+                Word1 = word,
+                Category= languagePart,
+                SortedWord = sortedWord
+            };
+            await _wordRepository.AddWordToDataSet(wordEntity);
             return true;
         }
 
@@ -109,16 +117,28 @@ namespace AnagramSolver.BusinessLogic.Services
             return wordModel;
         }
 
-        public async Task<WordModel> UpdateWord(string word, string languagePart, int id)
+        public async Task<bool> UpdateWord(string word, string languagePart, int id)
         {
+            var foundWord = await _wordRepository.GetWordByName(word);
+            if (foundWord != null)
+            {
+                return false;
+            }
+
             var wordEntity = await _wordRepository.GetWordById(id);
             wordEntity.Word1 = word;
             wordEntity.Category = languagePart;
 
             wordEntity = await _wordRepository.UpdateWord(wordEntity);
             var wordModel = _mapper.Map<WordModel>(wordEntity);
-            return wordModel;
+            return true;
         }
 
+        public async Task<WordModel> GetWordByID(int id)
+        {
+            var wordRepo = await _wordRepository.GetWordById(id);
+            var wordModel = _mapper.Map<WordModel>(wordRepo);
+            return wordModel;
+        }
     }
 }

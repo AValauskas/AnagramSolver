@@ -19,6 +19,7 @@ namespace AnagramSolver.Contracts.Interfaces
         public Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
         public Task DeleteWordByName(string word);
         public Task<WordModel> GetWordByName(string word);
-        public Task<WordModel> UpdateWord(string word, string languagePart, int id);
+        public Task<WordModel> GetWordByID(int id);
+        public Task<bool> UpdateWord(string word, string languagePart, int id);
     }
 }

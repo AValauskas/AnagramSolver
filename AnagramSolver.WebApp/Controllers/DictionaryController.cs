@@ -88,7 +88,13 @@ namespace AnagramSolver.WebApp.Controllers
 
         public async Task<IActionResult> UpdateWord(string myWord, string languagePart, int id, int pageNumber, string searchString)
         {
-            await _wordService.UpdateWord(myWord, languagePart, id);
+            if (!await _wordService.UpdateWord(myWord, languagePart, id))
+            {
+                @ViewData["Error"] = "Word already exist in dictionary";
+                var word = await _wordService.GetWordByID(id);
+                return await OpenUpdateWordView(word.Word, pageNumber, searchString);
+            }
+            
             var anagrams = await FormAnagramView(myWord);
             await _logService.CreateLog(myWord, anagrams, TaskType.UpdateWord);
             return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
@@ -113,6 +119,7 @@ namespace AnagramSolver.WebApp.Controllers
                 TempData["Error"] = "You don't have points to delete word, if you want to get points add or update words";
                 return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
             }
+
             await _wordService.DeleteWordByName(word);
             var anagrams = await FormAnagramView(word);
             await _logService.CreateLog(word, anagrams, TaskType.DeleteWord);
