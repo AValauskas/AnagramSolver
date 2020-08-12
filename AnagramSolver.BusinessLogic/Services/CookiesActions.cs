@@ -16,7 +16,7 @@ namespace AnagramSolver.BusinessLogic.Services
         }
         public CookieOptions CreateAnagramCookie()
         {
-            CookieOptions cookies = new CookieOptions();
+            var cookies = new CookieOptions();
             cookies.Expires = DateTime.Now.AddDays(7);
             return cookies;
         }

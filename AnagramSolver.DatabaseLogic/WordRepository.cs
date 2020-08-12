@@ -120,7 +120,6 @@ namespace AnagramSolver.Data
 
         public async Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord)
         {
-            var anagramsCount = Settings.AnagramCount;
             var allWords = await GetWords();
             if (allWords.ContainsKey(sortedWord))
             {

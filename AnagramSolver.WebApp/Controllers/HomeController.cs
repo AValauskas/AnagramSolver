@@ -34,8 +34,7 @@ namespace AnagramSolver.WebApp.Controllers
         {
             var anagrams = new List<string>();
             if (word == null)
-            {
-                word = "";
+            {                
                 return View(anagrams);
             }
             if (Request.Cookies.ContainsKey(word))

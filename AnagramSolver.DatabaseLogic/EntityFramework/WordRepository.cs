@@ -97,15 +97,7 @@ namespace AnagramSolver.Data.EntityFramework
                 .Take(range);                
             return words;
         }
-        private void FillDatabase()
-        {
-            IWordRepository wordRepo = new AnagramSolver.Data.WordRepository();
-            var words = wordRepo.GetAllWords().Result;
-
-            _context.Word.AddRange(words);
-            _context.SaveChanges();           
-        }
-
+       
         public async Task<Word> GetWordByName(string word)
         {
             var foundWord = _context.Word.FirstOrDefault(x => x.Word1 == word);
@@ -118,7 +110,8 @@ namespace AnagramSolver.Data.EntityFramework
             var itemToRemove = _context.Word.SingleOrDefault(x => x.Word1 == word);
 
             _context.Word.Remove(itemToRemove);
-            _context.SaveChanges();
+            _context.SaveChanges();          
+           
         }
 
         public async Task<Word> GetWordById(int id)
@@ -126,6 +119,7 @@ namespace AnagramSolver.Data.EntityFramework
             var foundWord = _context.Word.FirstOrDefault(x => x.Id == id);
 
             return foundWord;
+           
         }
 
         public async Task<Word> UpdateWord(Word word)
@@ -140,6 +134,7 @@ namespace AnagramSolver.Data.EntityFramework
         {
             _context.Word.Add(word);
             await _context.SaveChangesAsync();
+            
         }
     }
 }

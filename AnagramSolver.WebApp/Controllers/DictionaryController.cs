@@ -97,7 +97,7 @@ namespace AnagramSolver.WebApp.Controllers
             
             var anagrams = await FormAnagramView(myWord);
             await _logService.CreateLog(myWord, anagrams, TaskType.UpdateWord);
-            return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
+            return RedirectToAction("Index", new {  pageNumber, searchString });
         }
 
         private async Task<List<string>> FormAnagramView( string word)
@@ -117,14 +117,14 @@ namespace AnagramSolver.WebApp.Controllers
             if (!await _restrictionService.CheckIfActionCanBePerformed())
             {
                 TempData["Error"] = "You don't have points to delete word, if you want to get points add or update words";
-                return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
+                return RedirectToAction("Index", new { pageNumber, searchString });
             }
 
             await _wordService.DeleteWordByName(word);
             var anagrams = await FormAnagramView(word);
             await _logService.CreateLog(word, anagrams, TaskType.DeleteWord);
 
-            return RedirectToAction("Index", new { pageNumber = pageNumber, searchString = searchString });
+            return RedirectToAction("Index", new {pageNumber, searchString });
         }
         public async Task<IActionResult> OpenUpdateWordView(string word, int? pageNumber, string searchString)
         {

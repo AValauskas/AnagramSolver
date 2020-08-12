@@ -28,10 +28,9 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
             var foundWord = await _wordRepository.GetWordByName(word);
-            if (foundWord != null)
-            {
-                return false;
-            }
+            if (foundWord != null)            
+                return false;            
+
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
             var wordEntity = new Word()
             {
@@ -92,8 +91,11 @@ namespace AnagramSolver.BusinessLogic.Services
             {
                 throw new BusinessException("File doesn't Exist");
             }
-            var file = new FileStreamResult(stream, "application/octet-stream");
-            file.FileDownloadName = "Zodynas.txt";
+            var file = new FileStreamResult(stream, "application/octet-stream")
+            {
+                FileDownloadName = "Zodynas.txt"
+            };
+     
             return file;
         }
 
@@ -129,8 +131,7 @@ namespace AnagramSolver.BusinessLogic.Services
             wordEntity.Word1 = word;
             wordEntity.Category = languagePart;
 
-            wordEntity = await _wordRepository.UpdateWord(wordEntity);
-            var wordModel = _mapper.Map<WordModel>(wordEntity);
+            await _wordRepository.UpdateWord(wordEntity);          
             return true;
         }
 
