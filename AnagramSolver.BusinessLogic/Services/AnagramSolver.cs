@@ -6,16 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Linq;
 using AutoMapper;
+using AnagramSolver.Contracts.Interfaces.Repositories;
 
 namespace AnagramSolver.BusinessLogic
 {
     public class AnagramSolver : IAnagramSolver
     {
-        private readonly IWordRepository _wordRepository;
+        private readonly IWordRepositoryEF _wordRepository;
         private readonly IMapper _mapper;
-        public AnagramSolver(IWordRepository wordRepository, IMapper mapper)
+        public AnagramSolver(IWordRepositoryEF wordRepository, IMapper mapper)
         {
             _wordRepository = wordRepository;
             _mapper = mapper;

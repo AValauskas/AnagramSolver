@@ -11,6 +11,7 @@ using System.Linq;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Data;
 using AnagramSolver.Contracts.Enums;
+using AnagramSolver.Contracts.Models;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -46,20 +47,25 @@ namespace AnagramSolver.WebApp.Controllers
             }
             var anagramsobject = await _anagramSolver.GetAnagrams(word);
 
-            if (anagramsobject == null)
-            {
+            if (anagramsobject == null)            
                 @ViewData["Anagrams"] = null;
-            }
             else
             {
                 @ViewData["Anagrams"] = "Anagrams:";
-                var cookie = _cookies.CreateAnagramCookie();
-                anagrams = anagramsobject.Select(x => x.Word).ToList();
-                var anagramsString = string.Join(";", anagrams);
-                Response.Cookies.Append(word, anagramsString, cookie);
+                anagrams = CreateCookie(word, anagramsobject);
             }
+
             await _logService.CreateLog(word, anagrams, TaskType.SearchAnagram);
             return View(anagrams);
+        }
+        private List<string> CreateCookie(string word, List<WordModel> anagramsobject)
+        {
+            var anagrams = new List<string>();
+            var cookie = _cookies.CreateAnagramCookie();
+            anagrams = anagramsobject.Select(x => x.Word).ToList();
+            var anagramsString = string.Join(";", anagrams);
+            Response.Cookies.Append(word, anagramsString, cookie);
+            return anagrams;
         }
 
         [HttpPost]
@@ -74,6 +80,7 @@ namespace AnagramSolver.WebApp.Controllers
             }
             if (await _restrictionService.CheckIfActionCanBePerformed())            
                 return RedirectToAction("Index", new { word = myWord });
+
             @ViewData["Error"] = "You have used all points, if you want to search anagrams, fill our dictionary with words or update some words";
             return View("Index", anagrams);
 

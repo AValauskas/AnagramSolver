@@ -1,7 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
-using AnagramSolver.EF.DatabaseFirst.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,9 +16,9 @@ namespace AnagramSolver.BusinessLogic.Services
     public class WordService : IWordService
     {
         private const string filePath = "Files/zodynas.txt";
-        private readonly IWordRepository _wordRepository;
+        private readonly IWordRepositoryEF _wordRepository;
         private readonly IMapper _mapper;
-        public WordService(IWordRepository wordRepository, IMapper mapper)
+        public WordService(IWordRepositoryEF wordRepository, IMapper mapper)
         {
             _wordRepository = wordRepository;
             _mapper = mapper;

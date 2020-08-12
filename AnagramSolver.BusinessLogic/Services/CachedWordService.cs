@@ -13,9 +13,9 @@ namespace AnagramSolver.BusinessLogic.Services
     public class CachedWordService : ICachedWordService
     {
         private readonly ICachedWordRepository _cachedWordRepository;
-        private readonly IWordRepository _wordRepository;
+        private readonly IWordRepositoryEF _wordRepository;
         private readonly IMapper _mapper;
-        public CachedWordService(ICachedWordRepository cachedWordRepository, IWordRepository wordRepository, IMapper mapper)
+        public CachedWordService(ICachedWordRepository cachedWordRepository, IWordRepositoryEF wordRepository, IMapper mapper)
         {
             _cachedWordRepository = cachedWordRepository;
             _wordRepository = wordRepository;

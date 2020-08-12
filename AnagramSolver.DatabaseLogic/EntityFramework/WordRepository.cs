@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Interfaces.Repositories;
 
 namespace AnagramSolver.Data.EntityFramework
 {
-    public class WordRepository :IWordRepository
+    public class WordRepository :IWordRepositoryEF
     {
         private readonly AnagramSolverContext _context;
 
@@ -89,8 +90,6 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-            //TODO Fix filtering  ///Contains should be different
-
             var skip = (pageIndex-1) * range;
             var words = _context.Word
                 .Where(x => x.Word1.StartsWith(searchedWord))

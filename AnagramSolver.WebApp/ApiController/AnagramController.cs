@@ -13,8 +13,8 @@ namespace AnagramSolver.WebApp.ApiController
     [ApiController]
     public class AnagramController : ControllerBase
     {
-        private IAnagramSolver _anagramSolver;
-        private ICachedWordService _cachedWordService;
+        private readonly IAnagramSolver _anagramSolver;
+        private readonly ICachedWordService _cachedWordService;
         public AnagramController(IAnagramSolver anagramSolver, ICachedWordService cachedWordService)
         {
             _anagramSolver = anagramSolver;

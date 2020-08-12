@@ -12,7 +12,7 @@ namespace AnagramSolver.Data
     public class WordRepository : IWordRepository
     {
         private readonly string filePath;
-        private  Dictionary<string, List<Word>> anagrams; 
+        private readonly Dictionary<string, List<Word>> anagrams; 
         public WordRepository()
         {
             anagrams = new Dictionary<string, List<Word>>();
@@ -131,42 +131,34 @@ namespace AnagramSolver.Data
 
         public async Task<IEnumerable<Word>> SearchWords(string word)
         {
-            throw new NotImplementedException();
+            var allWords = await GetAllWords();
+
+            var words = allWords
+               .Where(x => x.Word1.Contains(word));
+            return words;
         }
 
         public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-            throw new NotImplementedException();
+            var allWords = await GetAllWords();
+
+            var skip = (pageIndex - 1) * range;
+            var words = allWords
+                .Where(x => x.Word1.StartsWith(searchedWord))
+                .Skip(skip)
+                .Take(range);
+            return words;
         }
 
-        public Task<int> GetWordsCountBySerachedWord(string searchedWord)
+        public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
-            throw new NotImplementedException();
+            var words = await GetAllWords();
+           
+            var count = words
+               .Where(x => x.Word1.Contains(searchedWord))
+               .Count();
+            return count;
         }
 
-        public Task AddManyWordsToDataSet(List<Word> words)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> GetWordByName(string word)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteWordByName(string word)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> GetWordById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> UpdateWord(Word word)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

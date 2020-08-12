@@ -3,7 +3,6 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Profiles;
-using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +24,7 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
-                    .AddScoped<IWordRepository, Data.EntityFramework.WordRepository>()
+                    .AddScoped<IWordRepositoryEF, Data.EntityFramework.WordRepository>()
                     .AddScoped<IWordService, BusinessLogic.Services.WordService>()
                     .AddScoped<IRestrictionService, BusinessLogic.Services.RestrictionService>()
                     .AddScoped<ICachedWordService, BusinessLogic.Services.CachedWordService>()

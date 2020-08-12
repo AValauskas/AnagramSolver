@@ -157,30 +157,5 @@ namespace AnagramSolver.Data
             }
             return words;
         }
-
-        public Task AddManyWordsToDataSet(List<Word> words)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> GetWordByName(string word)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteWordByName(string word)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> GetWordById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Word> UpdateWord(Word word)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

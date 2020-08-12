@@ -19,10 +19,6 @@ namespace AnagramSolver.Contracts.Interfaces
         public Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord);
         public Task<IEnumerable<Word>> SearchWords(string word);
         public Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord);
-        public Task AddManyWordsToDataSet(List<Word> words);
-        public Task<Word> GetWordByName(string word);
-        public Task DeleteWordByName(string word);
-        public Task<Word> GetWordById(int id);
-        public Task<Word> UpdateWord(Word word);
+
     }
 }
