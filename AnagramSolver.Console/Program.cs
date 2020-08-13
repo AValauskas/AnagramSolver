@@ -7,38 +7,49 @@ using System.Threading.Tasks;
 
 namespace AnagramSolver.Console
 {
+
     class Program
-    {    
+    {
+        const string filePath = @"Console";
         static async Task Main(string[] args)
         {
-            var program = new Program();
-            await program.action();         
+            ClearFile();
+            var program = new Program();            
+            await program.Process();         
         }
-        public async Task action()
+        public async Task Process()
         {
             IAnagramSolver requestService = new AnagramClient();
-            var display = new Display(print=> WriteToConsole(print), requestService);
+            //-----------------------delegate/action-------------
+            //
+            //var display = new Display(print=> WriteToConsole(print), requestService);
+ 
+
+            var display = new DisplayWithEvents(requestService);
+            display.Print += new DisplayWithEvents.PrintHandler(WriteToConsole);
+            display.Print += new DisplayWithEvents.PrintHandler(WriteToFile);
             await display.ProcessAnagramManager();
         }
 
-        public void WriteToConsole(string message)
+        private void WriteToConsole(string message)
         {
             System.Console.WriteLine(message);
         }
 
-        public void WriteToDebug(string message)
+        private void WriteToDebug(string message)
         {
             Debug.WriteLine(message);
         }
-        public void WriteToFile(string message)
+        private void WriteToFile(string message)
         {
-            using (StreamWriter file = new StreamWriter(@"Console"))
+            using (StreamWriter file = File.AppendText(filePath))
             {
-                file.WriteLine(message);
-                file.Close();
-            }
-           
+                file.WriteLine(message);              
+            }           
         }
-
+        private static void ClearFile()
+        {
+            File.WriteAllText(filePath, string.Empty);
+        }
     }
 }
