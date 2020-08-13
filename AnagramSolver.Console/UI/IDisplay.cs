@@ -9,6 +9,8 @@ namespace AnagramSolver.Console.UI
     public interface IDisplay
     {
        public Task ProcessAnagramManager();
-       public void FormattedPrint(FormPrint form, List<string> input);
+        //public void FormattedPrint(FormPrint form, List<string> input); //-> Delegate
+        public void FormattedPrint(Action<List<string>> form, List<string> input);  //-> Action
+        //public void FormattedPrint(Func<List<string>> form, List<string> input);
     }
 }

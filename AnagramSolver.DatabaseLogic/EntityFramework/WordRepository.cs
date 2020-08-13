@@ -110,14 +110,13 @@ namespace AnagramSolver.Data.EntityFramework
             var itemToRemove = _context.Word.SingleOrDefault(x => x.Word1 == word);
 
             _context.Word.Remove(itemToRemove);
-            _context.SaveChanges();          
+            await _context.SaveChangesAsync();          
            
         }
 
         public async Task<Word> GetWordById(int id)
         {
-            var foundWord = _context.Word.FirstOrDefault(x => x.Id == id);
-
+            var foundWord = _context.Word.FirstOrDefault(x => x.Id == id);           
             return foundWord;
            
         }
@@ -125,7 +124,7 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<Word> UpdateWord(Word word)
         {
            var wordEntity = _context.Word.Update(word).Entity;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return wordEntity;
            
         }
@@ -133,8 +132,7 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task AddWordToDataSet(Word word)
         {
             _context.Word.Add(word);
-            await _context.SaveChangesAsync();
-            
+            await _context.SaveChangesAsync();            
         }
     }
 }

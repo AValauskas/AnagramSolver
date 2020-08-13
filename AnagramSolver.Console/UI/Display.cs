@@ -8,17 +8,23 @@ using System.Threading.Tasks;
 
 namespace AnagramSolver.Console.UI
 {
-    public delegate void Print(string message);
-    public delegate void FormPrint(List<string> anagrams);
+    // public delegate void Print(string message);
+    // public delegate void FormPrint(List<string> anagrams);
+
     public class Display : IDisplay
     {
-        private Print print { get; set; }
+        private Action<string> print;
+        private Action<List<string>> FormPrint;
+        //  private Print print { get; set; }  //->Delegate
+        // private FormPrint form { get; set; } //->Delegate
         private readonly IAnagramSolver _apiService;
-        public Display(Print printDelegate, IAnagramSolver apiService)
+        public Display(Action<string> printDelegate, IAnagramSolver apiService)
         {
+            // FormPrint form = new FormPrint(CapitalizeFirstLetter); //->Delegate
             print = printDelegate;
+            FormPrint = CapitalizeFirstLetter;
             this._apiService = apiService;
-        }       
+        }
         public async Task ProcessAnagramManager()
         {
             bool exit = false;
@@ -60,36 +66,34 @@ namespace AnagramSolver.Console.UI
             }
             else
             {
-                FormPrint form = new FormPrint(CapitalizeFirstLetter);
-                FormattedPrint(form, anagrams.ToList());
-                //foreach (var item in anagrams)
-                //{
-                //    print(item);
-                //}
+                // FormattedPrint(form, anagrams.ToList());   //->Delegate
+                FormattedPrint(FormPrint, anagrams.ToList());
             }
             System.Console.ReadLine();
         }
-        //public void ProcessAnagrams(List<string> anagrams)
-        //{
-        //    foreach (var item in anagrams)
-        //    {
-        //        print(item);
-        //    }
-        //}
 
-        public void FormattedPrint(FormPrint form, List<string> anagrams)
+        public void FormattedPrint(Action<List<string>> form, List<string> anagrams)
         {
-
             foreach (var item in anagrams)
             {
                 print(item);
             }
-            form(anagrams);
+            FormPrint(anagrams);
         }
+
+        //public void FormattedPrint(FormPrint form, List<string> anagrams)   //->Delegate
+        //{
+
+        //    foreach (var item in anagrams)
+        //    {
+        //        print(item);
+        //    }
+        //    form(anagrams);
+        //}
 
         public void CapitalizeFirstLetter(List<string> anagrams)
         {
-            string letter="";
+            string letter = "";
             anagrams.ForEach(x => letter += x.First());
             print(letter);
         }
