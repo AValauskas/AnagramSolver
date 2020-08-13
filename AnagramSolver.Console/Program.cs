@@ -23,7 +23,7 @@ namespace AnagramSolver.Console
         public async Task action()
         {
             IAnagramSolver requestService = new AnagramClient();
-            var display = new Display(print=> WriteToFile(print), requestService);
+            var display = new Display(print=> WriteToConsole(print), requestService);
             await display.ProcessAnagramManager();
         }
 

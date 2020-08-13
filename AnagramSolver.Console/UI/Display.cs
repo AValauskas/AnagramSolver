@@ -1,4 +1,5 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace AnagramSolver.Console.UI
 {
     public delegate void Print(string message);
+    public delegate void FormPrint(List<string> anagrams);
     public class Display : IDisplay
     {
         private Print print { get; set; }
@@ -34,8 +36,9 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 print("Anagramos:\n");
-                var anagramsobject = await _apiService.GetAnagrams(myWord);
-                var anagrams = anagramsobject.Select(x => x.Word).ToList();
+                //  var anagramsobject = await _apiService.GetAnagrams(myWord);
+                //var anagrams = anagramsobject.Select(x => x.Word).ToList();
+                var anagrams = new List<string>() { "alus", "sula" };
                 DisplayAnagrams(anagrams);
 
             }
@@ -57,12 +60,38 @@ namespace AnagramSolver.Console.UI
             }
             else
             {
-                foreach (var item in anagrams)
-                {
-                    print(item);
-                }
+                FormPrint form = new FormPrint(CapitalizeFirstLetter);
+                FormattedPrint(form, anagrams.ToList());
+                //foreach (var item in anagrams)
+                //{
+                //    print(item);
+                //}
             }
             System.Console.ReadLine();
+        }
+        //public void ProcessAnagrams(List<string> anagrams)
+        //{
+        //    foreach (var item in anagrams)
+        //    {
+        //        print(item);
+        //    }
+        //}
+
+        public void FormattedPrint(FormPrint form, List<string> anagrams)
+        {
+
+            foreach (var item in anagrams)
+            {
+                print(item);
+            }
+            form(anagrams);
+        }
+
+        public void CapitalizeFirstLetter(List<string> anagrams)
+        {
+            string letter="";
+            anagrams.ForEach(x => letter += x.First());
+            print(letter);
         }
     }
 }
