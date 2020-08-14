@@ -11,7 +11,5 @@ namespace AnagramSolver.EF.DatabaseFirst.Models
 
         public virtual CachedWord CachedWord { get; set; }
         public virtual Word Word { get; set; }
-        public void HasNoKey()
-        { }
     }
 }

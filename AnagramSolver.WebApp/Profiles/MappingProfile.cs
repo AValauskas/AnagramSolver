@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnagramSolver.Contracts.Profiles
+namespace AnagramSolver.WebApp.Profiles
 {
     public class MappingProfile : Profile
     {

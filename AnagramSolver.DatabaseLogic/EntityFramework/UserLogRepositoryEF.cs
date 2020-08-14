@@ -36,5 +36,13 @@ namespace AnagramSolver.Data.EntityFramework
             var logs = _context.UserLog.Where(x => true);
             return logs;
         }
+        public async Task<IEnumerable<string>> GetAllIps()
+        {
+            var ips = _context.UserLog
+                .GroupBy(x => x.UserIp)
+                .Select(x => x.Key);                
+                
+            return ips;
+        }
     }
 }

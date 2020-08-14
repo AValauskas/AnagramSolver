@@ -24,20 +24,32 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<bool> CheckIfCachedWordExist(string word)
         {
             var cachedWord = await _cachedWordRepository.GetByWord(word);
-            var cachedWordList = cachedWord.ToList();
-            if (cachedWordList.Count == 0 )
+            List<CachedWord> cachedWords = new List<CachedWord>();
+            try
+            {
+                var cachedWordList = cachedWord.ToList();
+                cachedWords = _mapper.Map<List<CachedWord>>(cachedWordList);
+            }
+            catch
+            {
+                return false;
+            }
+            
+            if (cachedWords.Count == 0 )
                 return false;
 
             return true;
         }
         public async Task InsertCachedWord(string word, List<WordModel> anagrams)
         {
-            var cachedWord = await _cachedWordRepository.AddCachedWord(word);
-            foreach (var anagram in anagrams)
-            {
-                var wordObject = await _wordRepository.GetWordByName(anagram.Word);
-                await _cachedWordRepository.AddCachedWord_Word(wordObject, cachedWord);
-            }
+            //TODO Fix
+            //var cachedWord = new EF.DatabaseFirst.Models.CachedWord() { Word = word };
+            //foreach (var anagram in anagrams)
+            //{
+            //    var wordObject = await _wordRepository.GetWordByName(anagram.Word);
+               
+            //    await _cachedWordRepository.AddCachedWord_Word(wordObject, cachedWord);
+            //}
         }
         
         public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)

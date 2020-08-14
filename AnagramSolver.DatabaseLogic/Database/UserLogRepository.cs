@@ -32,6 +32,11 @@ namespace AnagramSolver.Data.Database
             _sqlConnection.Close();
         }
 
+        public Task<IEnumerable<string>> GetAllIps()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<UserLog>> GetByIP(string ip)
         {
             throw new NotImplementedException();

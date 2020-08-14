@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AnagramSolver.EF.DatabaseFirst;
+using System.Collections.ObjectModel;
 
 namespace AnagramSolver.Data.EntityFramework
 {
@@ -20,7 +21,7 @@ namespace AnagramSolver.Data.EntityFramework
         }
         public async Task<CachedWord> AddCachedWord(string word)
         {
-            var cachedWord = new CachedWord() { Word = word};
+            var cachedWord = new CachedWord() { Word = word};          
             _context.CachedWord.Add(cachedWord);
             await _context.SaveChangesAsync();
             return cachedWord;
@@ -28,10 +29,10 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<bool> AddCachedWord_Word(Word word, CachedWord cachedWord)
         {
-            var word_cachedWord = new CachedWordWord() { 
-                Word = word, 
-                CachedWord = cachedWord };
-            _context.CachedWordWord.Add(word_cachedWord);
+            //var cachedWordWord = new CachedWordWord();
+            cachedWord.CachedWordWord.Add(new CachedWordWord() { WordId = word.Id, CachedWord = cachedWord });
+                
+            _context.CachedWord.Add(cachedWord);
             await _context.SaveChangesAsync();
            return true;
            
@@ -40,7 +41,7 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<IEnumerable<Word>> GetAnagrams(string word)
         {
             var anagrams = from cached in _context.CachedWord
-                           join cachedWord_Word in _context.CachedWordWord on cached.Id equals cachedWord_Word.CachedWordId
+                           join cachedWord_Word in _context.CachedWordWord on cached.CachedWordId equals cachedWord_Word.CachedWordId
                            join dWord in _context.Word on cachedWord_Word.WordId equals dWord.Id
                            where cached.Word == word
                            select dWord;

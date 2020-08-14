@@ -42,6 +42,14 @@ namespace AnagramSolver.BusinessLogic.Services
             };
            await _uerLogRepository.CreateLog(userLog);
         }
+
+        public async Task<IEnumerable<string>> GetAllIpsOfLogs()
+        {
+            var ips =  await _uerLogRepository.GetAllIps();
+            var ipsString = ips.ToList();
+            return ipsString;
+        }
+
         public async Task<IEnumerable<UserLog>> GetAllLogs()
         {
             var repoLogs = await _uerLogRepository.GetLogs();

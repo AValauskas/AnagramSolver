@@ -44,7 +44,7 @@ namespace AnagramSolver.EF.DatabaseFirst
             {
                 entity.HasKey(e => new { e.WordId, e.CachedWordId });
 
-                entity.ToTable("CachedWord_Word");
+                entity.ToTable("CachedWordWord");
 
                 entity.HasOne(d => d.CachedWord)
                     .WithMany(p => p.CachedWordWord)

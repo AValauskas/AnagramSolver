@@ -12,5 +12,6 @@ namespace AnagramSolver.Contracts.Interfaces.Repositories
         public Task CreateLog(UserLog log);
         public Task<IEnumerable<UserLog>> GetLogs();
         public Task<IEnumerable<UserLog>> GetByIP(string ip);
+        public Task<IEnumerable<string>> GetAllIps();
     }
 }

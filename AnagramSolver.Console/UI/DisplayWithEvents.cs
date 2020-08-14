@@ -38,9 +38,9 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 OnPrint("Anagramos:\n");
-                //  var anagramsobject = await _apiService.GetAnagrams(myWord);
-                //var anagrams = anagramsobject.Select(x => x.Word).ToList();
-                var anagrams = new List<string>() { "alus", "sula" };
+                var anagramsobject = await _apiService.GetAnagrams(myWord);
+                var anagrams = anagramsobject.Select(x => x.Word).ToList();
+                //var anagrams = new List<string>() { "alus", "sula" };
                 DisplayAnagrams(anagrams);
 
             }
@@ -78,9 +78,9 @@ namespace AnagramSolver.Console.UI
 
         public void CapitalizeFirstLetter(List<string> anagrams)
         {
-            string letter = "";
-            anagrams.ForEach(x => letter += x.First());
-            OnPrint(letter);
+            anagrams = anagrams.Select(x =>(x.First().ToString().ToUpper()+ x.Substring(1))).ToList();
+            var anagramJoin = String.Join(";", anagrams.ToArray());
+            OnPrint(anagramJoin);
         }
 
         private void OnPrint(string message)
