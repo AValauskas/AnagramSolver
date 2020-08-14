@@ -85,11 +85,9 @@ namespace AnagramSolver.Services
             _userLogRepository.When(x => x.CreateLog(Arg.Any<UserLog>()))
                 .Do(x => counter++);
 
-
             await _userLogService.CreateLog("ulsa", _anagrams, TaskType.SearchAnagram);           
 
-            Assert.AreEqual(1, counter);          
-
+            Assert.AreEqual(1, counter);    
             await _userLogRepository.Received().CreateLog(Arg.Any<UserLog>());
         }
 
