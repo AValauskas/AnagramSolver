@@ -11,7 +11,7 @@ using AnagramSolver.EF.DatabaseFirst.Models;
 using System;
 using AnagramSolver.Contracts.Enums;
 
-namespace AnagramSolver.Services
+namespace AnagramSolver.Test.Services
 {
     [TestFixture]
     public class UserLogsServiceTests

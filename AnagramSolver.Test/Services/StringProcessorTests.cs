@@ -1,7 +1,7 @@
 using AnagramSolver.BusinessLogic;
 using NUnit.Framework;
 
-namespace AnagramSolver.Test
+namespace AnagramSolver.Test.Services
 {
     public class StringProcessorTests
     {

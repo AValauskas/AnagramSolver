@@ -8,7 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AnagramSolver.Test
+namespace AnagramSolver.Test.Services
 {
     public class AnagramSolverTests
     {

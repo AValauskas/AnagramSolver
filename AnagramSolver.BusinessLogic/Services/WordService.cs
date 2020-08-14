@@ -16,7 +16,6 @@ namespace AnagramSolver.BusinessLogic.Services
 {
     public class WordService : IWordService
     {
-        private const string filePath = "Files/zodynas.txt";
         private readonly IWordRepositoryEF _wordRepository;
         private readonly IMapper _mapper;
         public WordService(IWordRepositoryEF wordRepository, IMapper mapper)
@@ -85,7 +84,7 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<FileStreamResult> GetDictionaryFile()
         {
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath));
+            string path = Settings.FilePath;
             var stream = File.OpenRead(path);
             if (stream==null)
             {

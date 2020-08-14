@@ -9,9 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AnagramSolver.Services
+namespace AnagramSolver.Test.Services
 {
-    public class WordServiceTests
+    public class RestrictionServiceTests
     {
         private IUserLogRepository _userLogRepository;
         private RestrictionService _restrictionService;
