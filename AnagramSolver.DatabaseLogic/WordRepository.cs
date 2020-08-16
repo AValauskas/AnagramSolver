@@ -5,22 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 
 namespace AnagramSolver.Data
 {
     public class WordRepository : IWordRepository
     {
         private readonly string filePath;
-        private readonly Dictionary<string, List<Word>> anagrams; 
+        private readonly Dictionary<string, List<WordEntity>> anagrams; 
         public WordRepository()
         {
-            anagrams = new Dictionary<string, List<Word>>();
+            anagrams = new Dictionary<string, List<WordEntity>>();
             filePath = Settings.FilePath;
             ReadFile();
 
         }
-        public WordRepository(Dictionary<string, List<Word>> anagram)
+        public WordRepository(Dictionary<string, List<WordEntity>> anagram)
         {
             anagrams = anagram;
         }
@@ -67,16 +67,16 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public async Task <Dictionary<string, List<Word>>> GetWords()
+        public async Task <Dictionary<string, List<WordEntity>>> GetWords()
         {
                 return anagrams;
         }
-        public async Task<IEnumerable<Word>> GetAllWords()
+        public async Task<IEnumerable<WordEntity>> GetAllWords()
         {
             return anagrams.Values.ToList().SelectMany(x => x).ToList();
         }
 
-        public async Task<IEnumerable<Word>> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<WordEntity>> GetWordsByRange(int pageIndex, int range)
         {
             var allWordList = await GetAllWords();
             return allWordList.Skip((pageIndex - 1) * range).Take(range).ToList();
@@ -93,14 +93,14 @@ namespace AnagramSolver.Data
         {
             if (anagrams.ContainsKey(sortedWord))
             {
-                if (anagrams[sortedWord].Select(x=>x.Word1).Contains(word))
+                if (anagrams[sortedWord].Select(x=>x.Word).Contains(word))
                 {
                     return false;
                 }
                 anagrams[sortedWord].Add(
-                    new Word()
+                    new WordEntity()
                     {
-                        Word1 = word,
+                        Word = word,
                         Category = languagePart,
                         SortedWord= sortedWord
                     });
@@ -108,9 +108,9 @@ namespace AnagramSolver.Data
             else
             {
                 anagrams.Add(
-                    sortedWord, new List<Word>() {
-                        new Word() {
-                            Word1 = word,
+                    sortedWord, new List<WordEntity>() {
+                        new WordEntity() {
+                            Word = word,
                             Category = languagePart,
                             SortedWord= sortedWord
                         }});
@@ -118,7 +118,7 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public async Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)
         {
             var allWords = await GetWords();
             if (allWords.ContainsKey(sortedWord))
@@ -128,22 +128,22 @@ namespace AnagramSolver.Data
             return null;
         }
 
-        public async Task<IEnumerable<Word>> SearchWords(string word)
+        public async Task<IEnumerable<WordEntity>> SearchWords(string word)
         {
             var allWords = await GetAllWords();
 
             var words = allWords
-               .Where(x => x.Word1.Contains(word));
+               .Where(x => x.Word.Contains(word));
             return words;
         }
 
-        public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<WordEntity>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             var allWords = await GetAllWords();
 
             var skip = (pageIndex - 1) * range;
             var words = allWords
-                .Where(x => x.Word1.StartsWith(searchedWord))
+                .Where(x => x.Word.StartsWith(searchedWord))
                 .Skip(skip)
                 .Take(range);
             return words;
@@ -154,7 +154,7 @@ namespace AnagramSolver.Data
             var words = await GetAllWords();
            
             var count = words
-               .Where(x => x.Word1.Contains(searchedWord))
+               .Where(x => x.Word.Contains(searchedWord))
                .Count();
             return count;
         }

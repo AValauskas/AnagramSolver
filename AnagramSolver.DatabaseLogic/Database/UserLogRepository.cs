@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces.Repositories;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,7 +18,7 @@ namespace AnagramSolver.Data.Database
             var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
         }
-        public async Task CreateLog(UserLog log)
+        public async Task CreateLog(UserLogEntity log)
         {
             _sqlConnection.Open();
             var sqlQuery = "INSERT INTO UserLog (UserIp,SearchedWord,Time,Anagrams)  VALUES (@Ip,@Word,@Time,@Anagrams)";
@@ -37,12 +37,12 @@ namespace AnagramSolver.Data.Database
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserLog>> GetByIP(string ip)
+        public Task<IEnumerable<UserLogEntity>> GetByIP(string ip)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<UserLog>> GetLogs()
+        public async Task<IEnumerable<UserLogEntity>> GetLogs()
         {
             _sqlConnection.Open();
             var sqlQuery = "SELECT * from UserLog";
@@ -54,14 +54,14 @@ namespace AnagramSolver.Data.Database
             return cahcedWords;
         }
 
-        private IEnumerable<UserLog> GenerateLogList(SqlDataReader dataReader)
+        private IEnumerable<UserLogEntity> GenerateLogList(SqlDataReader dataReader)
         {
-            var words = new List<UserLog>();
+            var words = new List<UserLogEntity>();
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    words.Add(new UserLog()
+                    words.Add(new UserLogEntity()
                     {
                         Anagrams = dataReader["Anagrams"].ToString(),
                         SearchedWord = dataReader["SearchedWord"].ToString(),

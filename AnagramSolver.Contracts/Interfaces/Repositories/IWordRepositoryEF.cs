@@ -1,4 +1,4 @@
-﻿using AnagramSolver.EF.DatabaseFirst.Models;
+﻿using AnagramSolver.EF.CodeFirst.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace AnagramSolver.Contracts.Interfaces.Repositories
 {
     public interface IWordRepositoryEF : IWordRepository
-    {   public Task AddWordToDataSet(Word word);
-        public Task AddManyWordsToDataSet(List<Word> words);
-        public Task<Word> GetWordByName(string word);
+    {   public Task AddWordToDataSet(WordEntity word);
+        public Task AddManyWordsToDataSet(List<WordEntity> words);
+        public Task<WordEntity> GetWordByName(string word);
         public Task DeleteWordByName(string word);
-        public Task<Word> GetWordById(int id);
-        public Task<Word> UpdateWord(Word word);
+        public Task<WordEntity> GetWordById(int id);
+        public Task<WordEntity> UpdateWord(WordEntity word);
     }
 }

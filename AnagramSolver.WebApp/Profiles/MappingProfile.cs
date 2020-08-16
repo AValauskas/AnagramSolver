@@ -1,5 +1,5 @@
 ﻿using AnagramSolver.Contracts.Models;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -11,16 +11,13 @@ namespace AnagramSolver.WebApp.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<Word, WordModel>()
+            CreateMap<WordEntity, WordModel>()
                 .ForMember(dest =>
                     dest.LanguagePart,
                     opt => opt.MapFrom(src => src.Category))
-                .ForMember(dest =>
-                    dest.Word,
-                    opt => opt.MapFrom(src => src.Word1))
                 .ReverseMap();
 
-            CreateMap<EF.DatabaseFirst.Models.UserLog, Contracts.Models.UserLog>()
+            CreateMap<EF.CodeFirst.Models.UserLogEntity, UserLog>()
                  .ForMember(dest =>
                     dest.Word,
                     opt => opt.MapFrom(src => src.SearchedWord))
@@ -29,7 +26,7 @@ namespace AnagramSolver.WebApp.Profiles
                     opt => opt.MapFrom(src => src.Type))
                .ReverseMap();
 
-            CreateMap<EF.DatabaseFirst.Models.CachedWord, Contracts.Models.CachedWord>()
+            CreateMap<EF.DatabaseFirst.Models.CachedWord, CachedWord>()
              .ReverseMap();
         }
         

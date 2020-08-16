@@ -4,7 +4,7 @@ using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
 using AnagramSolver.Data;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using AnagramSolver.WebApp.Controllers;
 using AnagramSolver.WebApp.Profiles;
 using AutoMapper;
@@ -23,8 +23,8 @@ namespace AnagramSolver.Test.Services
     {
         private IWordService _wordService;
         private IWordRepositoryEF _wordRepository;
-        private Word _word;
-        private List<Word> _words;
+        private WordEntity _word;
+        private List<WordEntity> _words;
 
         [SetUp]
         public void Setup()
@@ -36,13 +36,13 @@ namespace AnagramSolver.Test.Services
             });
             IMapper mapper = mapperConfig.CreateMapper();
             _wordService = new WordService(_wordRepository, mapper);
-            _word = new Word()
+            _word = new WordEntity()
             {
                 Category = "dkt",
-                Word1 = "sula",
+                Word = "sula",
                 SortedWord = "alsa"
             };
-            _words = new List<Word>();
+            _words = new List<WordEntity>();
             _words.Add(_word);
         }
 
@@ -62,13 +62,13 @@ namespace AnagramSolver.Test.Services
         [TestCase("sula", "dkt")]
         public async Task AddWordToDataSet_WordExist_SuccesfullyAdded(string word, string languagePart)
         {
-            _wordRepository.GetWordByName(Arg.Any<string>()).Returns((Word)null);
+            _wordRepository.GetWordByName(Arg.Any<string>()).Returns((WordEntity)null);
 
             var result = await _wordService.AddWordToDataSet(word, languagePart);
 
             Assert.IsTrue(result);
             await _wordRepository.Received().GetWordByName(Arg.Any<string>());
-            await _wordRepository.Received().AddWordToDataSet(Arg.Any<Word>());
+            await _wordRepository.Received().AddWordToDataSet(Arg.Any<WordEntity>());
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace AnagramSolver.Test.Services
         [TestCase("sula", "dkt", 5)]
         public async Task UpdateWord_WordAlreadyExist_ReturnsTrue(string word, string category, int id)
         {
-            _wordRepository.GetWordByName(Arg.Any<string>()).Returns((Word)null);
+            _wordRepository.GetWordByName(Arg.Any<string>()).Returns((WordEntity)null);
             _wordRepository.GetWordById(Arg.Any<int>()).Returns(_word);
 
             var result = await _wordService.UpdateWord(word, category, id);
@@ -172,7 +172,7 @@ namespace AnagramSolver.Test.Services
             Assert.IsTrue(result);
             await _wordRepository.Received().GetWordByName(Arg.Any<string>());
             await _wordRepository.Received().GetWordById(Arg.Any<int>());
-            await _wordRepository.Received().UpdateWord(Arg.Any<Word>());
+            await _wordRepository.Received().UpdateWord(Arg.Any<WordEntity>());
         }
 
         [Test]

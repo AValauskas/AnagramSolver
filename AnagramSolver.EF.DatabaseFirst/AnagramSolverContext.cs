@@ -50,13 +50,13 @@ namespace AnagramSolver.EF.DatabaseFirst
                     .WithMany(p => p.CachedWordWord)
                     .HasForeignKey(d => d.CachedWordId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CachedWord_Word_CachedWord");
+                    .HasConstraintName("FK_CachedWordWord_CachedWord");
 
                 entity.HasOne(d => d.Word)
                     .WithMany(p => p.CachedWordWord)
                     .HasForeignKey(d => d.WordId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CachedWord_Word_Word");
+                    .HasConstraintName("FK_CachedWordWord_Word");
             });
 
             modelBuilder.Entity<UserLog>(entity =>

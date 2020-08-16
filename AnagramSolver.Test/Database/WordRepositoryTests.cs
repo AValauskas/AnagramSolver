@@ -1,30 +1,29 @@
 
 using NUnit.Framework;
-using System.Collections.Generic;
-using AnagramSolver.Contracts.Models;
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.BusinessLogic;
 using AnagramSolver.Data;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Data.Database;
+using AnagramSolver.Data.EntityFramework;
+using AnagramSolver.EF.CodeFirst;
+using System.Threading.Tasks;
 
 namespace WordModelSolver.Test.Databse
 {
     public class WordRepositoryTests
     {
-        private IWordRepository _wordRepository;
-        private ITableHandler _tableHandler;
+        private TestRepo test;
         [SetUp]
         public void Setup()
         {
-            _wordRepository = new DatabaseWordRepository();
-            _tableHandler = new TableHandler();
+            test = new TestRepo(new AnagramSolverDBContext());
+       
         }
 
         [Test]
-        public void Testitng()
+        public async Task Testitng()
         {
-            _tableHandler.CleanTables("CachedWord");
+            await test.Test();
         }
 
     }

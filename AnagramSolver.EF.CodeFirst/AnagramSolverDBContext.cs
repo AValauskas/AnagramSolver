@@ -1,5 +1,4 @@
-﻿using AnagramSolver.BusinessLogic.Utils;
-using AnagramSolver.EF.DatabaseFirst.Models;
+﻿using AnagramSolver.EF.CodeFirst.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnagramSolver.EF.CodeFirst
@@ -11,15 +10,22 @@ namespace AnagramSolver.EF.CodeFirst
         }
         public AnagramSolverDBContext(DbContextOptions<AnagramSolverDBContext> options)
             : base(options)
-        {
+        {           
         }
-        public DbSet<Word> Word { get; set; }
-        public DbSet<CachedWord> CachedWord { get; set; }
-        public DbSet<UserLog> UserLog { get; set; }
+        
+        public DbSet<WordEntity> Word { get; set; }
+        public DbSet<CachedWordEntity> CachedWord { get; set; }
+        public DbSet<UserLogEntity> UserLog { get; set; }
         public DbSet<CachedWordWord> CachedWordWord { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Settings.ConnectionString);
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CachedWordWord>().HasKey(sc => new { sc.WordId, sc.CachedWordId });
+        }
+
     }
 }

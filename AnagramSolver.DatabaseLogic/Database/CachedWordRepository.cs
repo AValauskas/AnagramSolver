@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces.Repositories;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,7 +16,7 @@ namespace AnagramSolver.Data.Database
             var connectionString = Settings.ConnectionString;
             _sqlConnection = new SqlConnection(connectionString);
         }
-        public async Task<IEnumerable<CachedWord>> GetByWord(string word)
+        public async Task<IEnumerable<CachedWordEntity>> GetByWord(string word)
         {
             _sqlConnection.Open();
             var sqlQuery = "Select * from CachedWord where Word = @Word";
@@ -28,7 +28,7 @@ namespace AnagramSolver.Data.Database
             _sqlConnection.Close();
             return cahcedWords;
         }
-        public async Task<CachedWord> AddCachedWord(string word)
+        public async Task<CachedWordEntity> AddCachedWord(string word)
         {
 
             _sqlConnection.Open();
@@ -39,24 +39,24 @@ namespace AnagramSolver.Data.Database
             object obj = await command.ExecuteScalarAsync();
             var Id = int.Parse(obj.ToString());
             _sqlConnection.Close();
-            var cachedWord = new CachedWord() { Word = word, CachedWordId = Id };
+            var cachedWord = new CachedWordEntity() { Word = word, Id = Id };
             return cachedWord;
         }
-        public async Task<bool> AddCachedWord_Word(Word word , CachedWord cachedWord)
+        public async Task<bool> AddCachedWord_Word(CachedWordWord cachedWordWord)
         {
 
             _sqlConnection.Open();
             var sqlQueryinsert = "INSERT INTO CachedWord_Word (WordId, CachedWordId) VALUES (@WordId, @CachedWordId)";
             SqlCommand command = new SqlCommand(sqlQueryinsert, _sqlConnection);
             command.CommandType = CommandType.Text;
-            command.Parameters.Add(new SqlParameter("@WordId", word.Id));
-            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWord.CachedWordId));
+            command.Parameters.Add(new SqlParameter("@WordId", cachedWordWord.WordId));
+            command.Parameters.Add(new SqlParameter("@CachedWordId", cachedWordWord.CachedWordId));
             await command.ExecuteNonQueryAsync();
             _sqlConnection.Close();
 
             return true;
         }
-        public async Task<IEnumerable<Word>> GetAnagrams(string word)
+        public async Task<IEnumerable<WordEntity>> GetAnagrams(string word)
         {
             _sqlConnection.Open();
             var sqlQuery = "SELECT Word.Word, Word.Id, Word.Category, Word.SortedWord FROM CachedWord " +
@@ -72,34 +72,34 @@ namespace AnagramSolver.Data.Database
             return cahcedWords;
         }
 
-        private IEnumerable<CachedWord> GenerateCachedWordsList(SqlDataReader dataReader)
+        private IEnumerable<CachedWordEntity> GenerateCachedWordsList(SqlDataReader dataReader)
         {
-            var words = new List<CachedWord>();
+            var words = new List<CachedWordEntity>();
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    words.Add(new CachedWord()
+                    words.Add(new CachedWordEntity()
                     {
                         Word = dataReader["word"].ToString(),
-                        CachedWordId = int.Parse(dataReader["id"].ToString())
+                        Id = int.Parse(dataReader["id"].ToString())
                     });
                 }
             }
             return words;
         }
 
-        private IEnumerable<Word> GenerateWordsList(SqlDataReader dataReader)
+        private IEnumerable<WordEntity> GenerateWordsList(SqlDataReader dataReader)
         {
-            var words = new List<Word>();
+            var words = new List<WordEntity>();
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    words.Add(new Word()
+                    words.Add(new WordEntity()
                     {
                         Id = int.Parse(dataReader["Id"].ToString()),
-                        Word1 = dataReader["word"].ToString(),
+                        Word = dataReader["word"].ToString(),
                         Category = dataReader["Category"].ToString(),
                         SortedWord = dataReader["SortedWord"].ToString()
                     });

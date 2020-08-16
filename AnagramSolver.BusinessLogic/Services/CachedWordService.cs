@@ -42,12 +42,25 @@ namespace AnagramSolver.BusinessLogic.Services
         }
         public async Task InsertCachedWord(string word, List<WordModel> anagrams)
         {
+            var cachedWord = await _cachedWordRepository.AddCachedWord(word);
+            foreach (var anagram in anagrams)
+            {
+                var wordObject = await _wordRepository.GetWordByName(anagram.Word);
+                var cachedWordword = new EF.CodeFirst.Models.CachedWordWord()
+                {
+                    CachedWordId = cachedWord.Id,
+                    WordId= wordObject.Id,
+                    Word= wordObject,
+                    CachedWord = cachedWord                    
+                };
+                await _cachedWordRepository.AddCachedWord_Word(cachedWordword);
+            }
             //TODO Fix
             //var cachedWord = new EF.DatabaseFirst.Models.CachedWord() { Word = word };
             //foreach (var anagram in anagrams)
             //{
             //    var wordObject = await _wordRepository.GetWordByName(anagram.Word);
-               
+
             //    await _cachedWordRepository.AddCachedWord_Word(wordObject, cachedWord);
             //}
         }

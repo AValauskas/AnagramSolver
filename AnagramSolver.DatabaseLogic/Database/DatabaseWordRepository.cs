@@ -1,6 +1,6 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -39,12 +39,12 @@ namespace AnagramSolver.Data
             return true;
         }
 
-        public async Task<IEnumerable<Word>> GetAllWords()
+        public async Task<IEnumerable<WordEntity>> GetAllWords()
         {
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("Select * from Word", _sqlConnection);
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            List<Word> words = GenerateWordsList(dr);
+            List<WordEntity> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
@@ -73,12 +73,12 @@ namespace AnagramSolver.Data
             return count;
         }
 
-        public Task<Dictionary<string, List<Word>>> GetWords()
+        public Task<Dictionary<string, List<WordEntity>>> GetWords()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Word>> GetWordsByRange(int pageIndex, int range)
+        public async Task<IEnumerable<WordEntity>> GetWordsByRange(int pageIndex, int range)
         {
             var firstWordIndex = (pageIndex - 1) * range;
             var secondWordIndex = (pageIndex) * range;
@@ -86,12 +86,12 @@ namespace AnagramSolver.Data
             var sqlQueryByRange = "Select * from Word where Id > " + firstWordIndex + " and Id <= " + secondWordIndex;
             SqlCommand command = new SqlCommand(sqlQueryByRange, _sqlConnection);
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            List<Word> words = GenerateWordsList(dr);
+            List<WordEntity> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        public async Task<IEnumerable<Word>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
+        public async Task<IEnumerable<WordEntity>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             searchedWord += "%";
             var firstWordIndex = (pageIndex - 1) * range;
@@ -108,25 +108,25 @@ namespace AnagramSolver.Data
             command.Parameters.Add(new SqlParameter("@IndexFrom", firstWordIndex));
             command.Parameters.Add(new SqlParameter("@IndexTo", secondWordIndex));
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            List<Word> words = GenerateWordsList(dr);
+            List<WordEntity> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
 
 
 
         }
-        public async Task<IEnumerable<Word>> FindSingleWordAnagrams(string sortedWord)
+        public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)
         {
             _sqlConnection.Open();
             var sqlQuery = "Select * from Word where SortedWord ='" + sortedWord + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            List<Word> words = GenerateWordsList(dr);
+            List<WordEntity> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        public async Task<IEnumerable<Word>> SearchWords(string word)
+        public async Task<IEnumerable<WordEntity>> SearchWords(string word)
         {
             word += "%";
             _sqlConnection.Open();
@@ -134,22 +134,22 @@ namespace AnagramSolver.Data
             var sqlQuery = "Select * from Word where Word like '" + word + "'";
             SqlCommand command = new SqlCommand(sqlQuery, _sqlConnection);
             SqlDataReader dr = await command.ExecuteReaderAsync();
-            List<Word> words = GenerateWordsList(dr);
+            List<WordEntity> words = GenerateWordsList(dr);
             _sqlConnection.Close();
             return words;
         }
 
-        private List<Word> GenerateWordsList(SqlDataReader dataReader)
+        private List<WordEntity> GenerateWordsList(SqlDataReader dataReader)
         {
-            var words = new List<Word>();
+            var words = new List<WordEntity>();
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
                 {
-                    words.Add(new Word()
+                    words.Add(new WordEntity()
                     {
                         Id = int.Parse(dataReader["Id"].ToString()),
-                        Word1 = dataReader["word"].ToString(),
+                        Word = dataReader["word"].ToString(),
                         Category = dataReader["Category"].ToString(),
                         SortedWord = dataReader["SortedWord"].ToString()
                     });

@@ -32,7 +32,7 @@ namespace AnagramSolver.BusinessLogic.Services
            else
             anagramsString = string.Join(";", anagrams.ToArray());
 
-            var userLog = new EF.DatabaseFirst.Models.UserLog()
+            var userLog = new EF.CodeFirst.Models.UserLogEntity()
             {
                 Anagrams = anagramsString,
                 Time = time,

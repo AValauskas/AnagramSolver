@@ -2,7 +2,7 @@
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,9 +31,9 @@ namespace AnagramSolver.BusinessLogic.Services
                 return false;            
 
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
-            var wordEntity = new Word()
+            var wordEntity = new WordEntity()
             {
-                Word1 = word,
+                Word = word,
                 Category= languagePart,
                 SortedWord = sortedWord
             };
@@ -127,7 +127,7 @@ namespace AnagramSolver.BusinessLogic.Services
             }
 
             var wordEntity = await _wordRepository.GetWordById(id);
-            wordEntity.Word1 = word;
+            wordEntity.Word = word;
             wordEntity.Category = languagePart;
 
             await _wordRepository.UpdateWord(wordEntity);          

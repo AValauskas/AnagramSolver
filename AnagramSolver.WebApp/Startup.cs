@@ -2,6 +2,7 @@ using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
+using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.WebApp.Profiles;
 using AutoMapper;
@@ -43,7 +44,7 @@ namespace AnagramSolver.WebApp
             services.AddMvc();
 
             services.AddControllersWithViews();
-            services.AddDbContext<AnagramSolverContext>(opt =>
+            services.AddDbContext<AnagramSolverDBContext>(opt =>
             opt.UseSqlServer(Settings.ConnectionString));
         }
 

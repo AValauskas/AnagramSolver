@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnagramSolver.EF.CodeFirst.Migrations
 {
     [DbContext(typeof(AnagramSolverDBContext))]
-    [Migration("20200811052429_upat")]
-    partial class upat
+    [Migration("20200816081209_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWord", b =>
+            modelBuilder.Entity("AnagramSolver.EF.CodeFirst.Models.CachedWordEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,31 +36,27 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.ToTable("CachedWord");
                 });
 
-            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWordWord", b =>
+            modelBuilder.Entity("AnagramSolver.EF.CodeFirst.Models.CachedWordWord", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("WordId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CachedWordId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WordId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("WordId", "CachedWordId");
 
                     b.HasIndex("CachedWordId");
-
-                    b.HasIndex("WordId");
 
                     b.ToTable("CachedWordWord");
                 });
 
-            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.UserLog", b =>
+            modelBuilder.Entity("AnagramSolver.EF.CodeFirst.Models.UserLogEntity", b =>
                 {
-                    b.Property<int>("UserLogId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -74,15 +70,18 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserIp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserLogId");
+                    b.HasKey("Id");
 
                     b.ToTable("UserLog");
                 });
 
-            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.Word", b =>
+            modelBuilder.Entity("AnagramSolver.EF.CodeFirst.Models.WordEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,7 +94,7 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.Property<string>("SortedWord")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Word1")
+                    b.Property<string>("Word")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -103,15 +102,15 @@ namespace AnagramSolver.EF.CodeFirst.Migrations
                     b.ToTable("Word");
                 });
 
-            modelBuilder.Entity("AnagramSolver.EF.DatabaseFirst.Models.CachedWordWord", b =>
+            modelBuilder.Entity("AnagramSolver.EF.CodeFirst.Models.CachedWordWord", b =>
                 {
-                    b.HasOne("AnagramSolver.EF.DatabaseFirst.Models.CachedWord", "CachedWord")
+                    b.HasOne("AnagramSolver.EF.CodeFirst.Models.CachedWordEntity", "CachedWord")
                         .WithMany("CachedWordWord")
                         .HasForeignKey("CachedWordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AnagramSolver.EF.DatabaseFirst.Models.Word", "Word")
+                    b.HasOne("AnagramSolver.EF.CodeFirst.Models.WordEntity", "Word")
                         .WithMany("CachedWordWord")
                         .HasForeignKey("WordId")
                         .OnDelete(DeleteBehavior.Cascade)
