@@ -7,7 +7,7 @@ using AnagramSolver.WebApp.Profiles;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using System;
 using AnagramSolver.Contracts.Enums;
 
@@ -18,8 +18,8 @@ namespace AnagramSolver.Test.Services
     {
         private IUserLogRepository _userLogRepository;
         private LogService _userLogService;
-        private List<UserLog> _logs;
-        private UserLog _log;
+        private List<UserLogEntity> _logs;
+        private UserLogEntity _log;
         private List<string> _anagrams;
 
         [SetUp]
@@ -32,16 +32,16 @@ namespace AnagramSolver.Test.Services
             });
             IMapper mapper = mapperConfig.CreateMapper();
             _userLogService = new LogService(_userLogRepository, mapper);
-            _log = new UserLog()
+            _log = new UserLogEntity()
             {
                 Anagrams = "alus;sula",
                 SearchedWord = "ulsa",
                 Time = DateTime.Now,
                 Type = TaskType.SearchAnagram,
                 UserIp = "222.222",
-                UserLogId = 3
+                Id = 3
             };
-            _logs = new List<UserLog>() {_log};
+            _logs = new List<UserLogEntity>() {_log};
 
             _anagrams = new List<string>() { "alus", "sula" };
         }
@@ -82,13 +82,13 @@ namespace AnagramSolver.Test.Services
         public async Task CreateLog()
         {
             var counter = 0;
-            _userLogRepository.When(x => x.CreateLog(Arg.Any<UserLog>()))
+            _userLogRepository.When(x => x.CreateLog(Arg.Any<UserLogEntity>()))
                 .Do(x => counter++);
 
             await _userLogService.CreateLog("ulsa", _anagrams, TaskType.SearchAnagram);           
 
             Assert.AreEqual(1, counter);    
-            await _userLogRepository.Received().CreateLog(Arg.Any<UserLog>());
+            await _userLogRepository.Received().CreateLog(Arg.Any<UserLogEntity>());
         }
 
     }

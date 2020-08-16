@@ -1,7 +1,7 @@
 ﻿using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Contracts.Interfaces.Repositories;
-using AnagramSolver.EF.DatabaseFirst.Models;
+using AnagramSolver.EF.CodeFirst.Models;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,24 +15,24 @@ namespace AnagramSolver.Test.Services
     {
         private IUserLogRepository _userLogRepository;
         private RestrictionService _restrictionService;
-        private List<UserLog> _logs;
-        private UserLog _log;
+        private List<UserLogEntity> _logs;
+        private UserLogEntity _log;
 
         [SetUp]
         public void Setup()
         {
             _userLogRepository = Substitute.For<IUserLogRepository>();
             _restrictionService = new RestrictionService(_userLogRepository);
-            _log = new UserLog()
+            _log = new UserLogEntity()
             {
                 Anagrams = "alus;sula",
                 SearchedWord = "ulsa",
                 Time = DateTime.Now,
                 Type = TaskType.SearchAnagram,
                 UserIp = "222.222",
-                UserLogId = 3
+                Id = 3
             };
-            _logs = new List<UserLog>() { _log };
+            _logs = new List<UserLogEntity>() { _log };
         }
 
         [Test]

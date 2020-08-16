@@ -8,66 +8,88 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using AnagramSolver.Contracts.Interfaces.Services;
+using AnagramSolver.Contracts.Enums;
 
 namespace AnagramSolver.Test.WebAppControlletTests
 {
     public class HomeControllerTests
     {
-        private IAnagramSolver _anagramSolverMock;
+        private IAnagramSolver _anagramSolver;
+        private ILogService _logService;
+        private IRestrictionService _restrictionService;
         private Dictionary<string, List<WordModel>> _wordsDictionary;
         private HomeController _homeController;
+
         private List<string> _words;
-       
+        private WordModel _wordModel;
+        private List<WordModel> _wordsModel;
 
         [SetUp]
         public void Setup()
         {
-            _anagramSolverMock = Substitute.For<IAnagramSolver>();
-            _homeController = new HomeController(_anagramSolverMock, null, null);          
+            _anagramSolver = Substitute.For<IAnagramSolver>();
+            _logService = Substitute.For<ILogService>();
+            _restrictionService = Substitute.For<IRestrictionService>();
+
+            _homeController = new HomeController(_anagramSolver, _logService, _restrictionService);          
             _words = new List<string>() { "visma", "praktika" };
-   
+
+            _wordModel = new WordModel()
+            {
+                LanguagePart = "dkt",
+                Word = "sula",
+                SortedWord = "alsa"
+            };
+            _wordsModel = new List<WordModel>();
+            _wordsModel.Add(_wordModel);
+
+
             _homeController.ControllerContext = new ControllerContext();
             _homeController.ControllerContext.HttpContext = new DefaultHttpContext();
             _homeController.ControllerContext.HttpContext.Request.Headers["device-id"] = "20317";
         }
-
-        [Test]
-        [TestCase(null)]
-        public async Task Index_CallGetAnagrams_ReceiveSignal(string myWord)
-        {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
-
-            var result = await _homeController.Index(myWord);
-
-            await _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
-        }
+             
 
         [Test]
         [TestCase(null)]
         public async Task Index_WithoutWord_ReturnsIActionResult(string myWord)
-        {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
+        {          
+            var result = await _homeController.Index(myWord) as ViewResult;
+            ViewDataDictionary viewData = result.ViewData;
+            Assert.AreEqual(null, viewData["Anagrams"]);
 
-            var result = await _homeController.Index(myWord);
-
-           Assert.IsInstanceOf<IActionResult>(result);
+            Assert.IsInstanceOf<IActionResult>(result);
         }
 
         [Test]
         [TestCase("naujas")]
-        public async Task Index_WithWord_GetViewData(string myWord)
+        public async Task Index_NotBelongsToCookie_AnagramsNotFound(string myWord)
         {
-           // _anagramSolverMock.GetAnagrams(myWord).Returns(_words);
+            _anagramSolver.GetAnagrams(myWord).Returns(new List<WordModel>());
+
+            var result = await _homeController.Index(myWord) as ViewResult;
+            ViewDataDictionary viewData = result.ViewData;
+            Assert.AreEqual("No anagrams has been found", viewData["Anagrams"]);
+            await _logService.Received().CreateLog(Arg.Any<string>(), Arg.Any<List<string>>(), Arg.Any<TaskType>());
+        }
+
+        [Test]
+        [TestCase("naujas")]
+        public async Task Index_NotBelongsToCookie_AnagramsFound(string myWord)
+        {
+            _anagramSolver.GetAnagrams(myWord).Returns(_wordsModel);
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
             Assert.AreEqual("Anagrams:", viewData["Anagrams"]);
+            await _logService.Received().CreateLog(Arg.Any<string>(), Arg.Any<List<string>>(), Arg.Any<TaskType>());
         }
         [Test]
         [TestCase(null)]
         public async Task Index_WithWord_DontGetViewData(string myWord)
         {
-            _anagramSolverMock.GetAnagrams(myWord).Returns((List<WordModel>)null);
+            _anagramSolver.GetAnagrams(myWord).Returns((List<WordModel>)null);
 
             var result = await _homeController.Index(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
@@ -82,17 +104,31 @@ namespace AnagramSolver.Test.WebAppControlletTests
             var result = await _homeController.OnWordWritten(myWord) as ViewResult;
             ViewDataDictionary viewData = result.ViewData;
 
-            Assert.AreEqual("Word mus be longer",viewData["Error"]);
+            Assert.AreEqual("Word mus be longer", viewData["Error"]);
         }
 
         [Test]
         [TestCase("alus")]
-        public async Task OnWordWritten_LengthEnought_RedirectToIndexAction(string myWord)
+        public async Task OnWordWritten_LengthEnoughtRestrictionFalse_GivesError(string myWord)
         {
-            var result = await _homeController.OnWordWritten(myWord) as RedirectToActionResult ;
+            _restrictionService.CheckIfActionCanBePerformed().Returns(false);
 
-            Assert.AreEqual("Index", result.ActionName); 
+            var result = await _homeController.OnWordWritten(myWord) as ViewResult;
+            ViewDataDictionary viewData = result.ViewData;
+            await _restrictionService.Received().CheckIfActionCanBePerformed();
+            Assert.AreEqual("You have used all points, if you want to search anagrams, fill our dictionary with words or update some words", viewData["Error"]);
         }
 
+        [Test]
+        [TestCase("alus")]
+        public async Task OnWordWritten_LengthEnoughtRestrictionTrue_RedirectToIndexAction(string myWord)
+        {
+            _restrictionService.CheckIfActionCanBePerformed().Returns(true);
+
+            var result = await _homeController.OnWordWritten(myWord) as RedirectToActionResult;
+
+            await _restrictionService.Received().CheckIfActionCanBePerformed();
+            Assert.AreEqual("Index", result.ActionName);
+        }
     }
 }

@@ -25,7 +25,6 @@ namespace AnagramSolver.WebApp.ApiController
         public async Task<IActionResult> GetAnagrams([FromRoute] string word)
         {
             var exist = await _cachedWordService.CheckIfCachedWordExist(word);
-            //List<WordModel> anagramsobject;
             List<WordModel> anagrams;
             if (exist)
             {

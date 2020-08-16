@@ -34,26 +34,26 @@ namespace AnagramSolver.WebApp.Controllers
         {
             var anagrams = new List<string>();
             if (word == null)
-            {                
+            {
+                @ViewData["Anagrams"] = null;
                 return View(anagrams);
             }
             if (Request.Cookies.ContainsKey(word))
             {
                 @ViewData["Anagrams"] = "Anagrams:";
                 anagrams = Request.Cookies[word].Split(";").ToList();
-                await _logService.CreateLog(word, anagrams, TaskType.SearchAnagram);
-                return View(anagrams);
             }
-            var anagramsobject = await _anagramSolver.GetAnagrams(word);
-
-            if (anagramsobject == null)            
-                @ViewData["Anagrams"] = null;
             else
             {
-                @ViewData["Anagrams"] = "Anagrams:";
-                anagrams = CreateCookie(word, anagramsobject);
-            }
-
+                var anagramsobject = await _anagramSolver.GetAnagrams(word);
+                if (anagramsobject.Count == 0)
+                    @ViewData["Anagrams"] = "No anagrams has been found";
+                else
+                {
+                    @ViewData["Anagrams"] = "Anagrams:";
+                    anagrams = CreateCookie(word, anagramsobject);
+                }
+            }           
             await _logService.CreateLog(word, anagrams, TaskType.SearchAnagram);
             return View(anagrams);
         }
@@ -66,6 +66,7 @@ namespace AnagramSolver.WebApp.Controllers
             Response.Cookies.Append(word, anagramsString, cookie);
             return anagrams;
         }
+
 
         [HttpPost]
         public async Task<IActionResult> OnWordWritten(string myWord)

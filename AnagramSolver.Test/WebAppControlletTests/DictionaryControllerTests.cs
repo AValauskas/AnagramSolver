@@ -15,8 +15,6 @@ namespace AnagramSolver.Test.WebAppControlletTests
 {
     public class DictionaryControllerTests
     {
-
-        private IWordRepository _wordRepositoryMock;
         private IWordService _wordServiceMock;
         private IAnagramSolver _anagramSolverMock;
         private DictionaryController _doctionaryController;
@@ -25,9 +23,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
 
         [SetUp]
         public void Setup()
-        {
-           
-            _wordRepositoryMock = Substitute.For<IWordRepository>();
+        {          
             _wordServiceMock = Substitute.For<IWordService>();
             _anagramSolverMock = Substitute.For<IAnagramSolver>();
             _doctionaryController = new DictionaryController(_wordServiceMock, _anagramSolverMock, null,null);

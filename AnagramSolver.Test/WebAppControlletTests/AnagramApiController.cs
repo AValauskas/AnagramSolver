@@ -31,24 +31,28 @@ namespace AnagramSolver.Test.WebAppControlletTests
 
         [Test]
         [TestCase("sabal")]
-        public async Task GetAnagrams_Get_OkBojectResultType(string word)
+        public async Task GetAnagrams_CachedAnagramsExist_ReceiveSignalGetCached(string word)
         {
-           // _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
+            _cachedWordServiceMock.CheckIfCachedWordExist(word).Returns(true);         
 
             var result = await _anagramApiController.GetAnagrams(word);
 
             Assert.IsInstanceOf<OkObjectResult>(result);
+            await _cachedWordServiceMock.Received().GetCachedAnagrams(Arg.Any<string>());
+
         }
 
         [Test]
         [TestCase("sabal")]
-        public async Task GetAnagrams_Get_AnagramSolverReceivedSignal(string word)
+        public async Task GetAnagrams_CachedAnagramNotExist_ReceiveSolverSignal(string word)
         {
-           // _anagramSolverMock.GetAnagrams(Arg.Any<string>()).Returns(_anagrams);
+            _cachedWordServiceMock.CheckIfCachedWordExist(word).Returns(false);
 
             var result = await _anagramApiController.GetAnagrams(word);
 
+            Assert.IsInstanceOf<OkObjectResult>(result);
             await _anagramSolverMock.Received().GetAnagrams(Arg.Any<string>());
+            await _cachedWordServiceMock.Received().InsertCachedWord(Arg.Any<string>(), Arg.Any<List<WordModel>>());
         }
 
     }

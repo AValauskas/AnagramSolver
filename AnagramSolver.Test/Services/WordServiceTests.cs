@@ -1,16 +1,11 @@
-﻿using AnagramSolver.BusinessLogic;
-using AnagramSolver.BusinessLogic.Services;
+﻿using AnagramSolver.BusinessLogic.Services;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Models;
-using AnagramSolver.Data;
 using AnagramSolver.EF.CodeFirst.Models;
-using AnagramSolver.WebApp.Controllers;
 using AnagramSolver.WebApp.Profiles;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -80,7 +75,7 @@ namespace AnagramSolver.Test.Services
             var result = enumerableResult.ToList();
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<Contracts.Models.WordModel>>(result);
+            Assert.IsInstanceOf<List<WordModel>>(result);
 
             await _wordRepository.Received().GetAllWords();
         }
@@ -184,7 +179,7 @@ namespace AnagramSolver.Test.Services
             var result = await _wordService.GetWordByID(id);
 
             await _wordRepository.Received().GetWordById(Arg.Any<int>());
-            Assert.IsInstanceOf<Contracts.Models.WordModel>(result);
+            Assert.IsInstanceOf<WordModel>(result);
         }
     }
 }
