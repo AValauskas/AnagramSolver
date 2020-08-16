@@ -18,7 +18,6 @@ namespace AnagramSolver.Test.WebAppControlletTests
         private IAnagramSolver _anagramSolver;
         private ILogService _logService;
         private IRestrictionService _restrictionService;
-        private Dictionary<string, List<WordModel>> _wordsDictionary;
         private HomeController _homeController;
 
         private List<string> _words;
