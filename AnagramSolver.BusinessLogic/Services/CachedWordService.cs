@@ -55,14 +55,7 @@ namespace AnagramSolver.BusinessLogic.Services
                 };
                 await _cachedWordRepository.AddCachedWord_Word(cachedWordword);
             }
-            //TODO Fix
-            //var cachedWord = new EF.DatabaseFirst.Models.CachedWord() { Word = word };
-            //foreach (var anagram in anagrams)
-            //{
-            //    var wordObject = await _wordRepository.GetWordByName(anagram.Word);
 
-            //    await _cachedWordRepository.AddCachedWord_Word(wordObject, cachedWord);
-            //}
         }
         
         public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)

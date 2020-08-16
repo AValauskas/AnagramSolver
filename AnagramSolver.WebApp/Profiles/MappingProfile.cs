@@ -17,7 +17,7 @@ namespace AnagramSolver.WebApp.Profiles
                     opt => opt.MapFrom(src => src.Category))
                 .ReverseMap();
 
-            CreateMap<EF.CodeFirst.Models.UserLogEntity, UserLog>()
+            CreateMap<UserLogEntity, UserLog>()
                  .ForMember(dest =>
                     dest.Word,
                     opt => opt.MapFrom(src => src.SearchedWord))
@@ -26,7 +26,7 @@ namespace AnagramSolver.WebApp.Profiles
                     opt => opt.MapFrom(src => src.Type))
                .ReverseMap();
 
-            CreateMap<EF.DatabaseFirst.Models.CachedWord, CachedWord>()
+            CreateMap<CachedWordEntity, CachedWord>()
              .ReverseMap();
         }
         
