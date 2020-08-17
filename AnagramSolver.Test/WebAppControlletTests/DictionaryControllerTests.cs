@@ -197,8 +197,7 @@ namespace AnagramSolver.Test.WebAppControlletTests
         }
 
         [Test]
-        [TestCase("daiktas", "dkt")]
-        public async Task WordAddition_retrurnNewWordView(string myWord, string languagePart)
+        public async Task WordAddition_retrurnNewWordView()
         {
             var result = await _dictionaryController.WordAddition() as ViewResult;
 

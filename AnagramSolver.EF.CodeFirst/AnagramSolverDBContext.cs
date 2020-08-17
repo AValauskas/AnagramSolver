@@ -20,7 +20,8 @@ namespace AnagramSolver.EF.CodeFirst
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverDBTesting; Integrated Security = True;");
+            // optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
