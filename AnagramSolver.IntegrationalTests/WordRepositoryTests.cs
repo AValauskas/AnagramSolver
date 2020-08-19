@@ -72,6 +72,7 @@ namespace AnagramSolver.IntegrationalTests
         public async Task AddWordToDataSet_GetWordEqualsInsertedword()
         {        
             await _wordRepository.AddWordToDataSet(_wordEntity);
+            await context.SaveChangesAsync();
 
             var databaseWord = await _wordRepository.GetWordByName(_wordEntity.Word);
 
@@ -84,6 +85,7 @@ namespace AnagramSolver.IntegrationalTests
         public async Task AddWordToDataSet_NotObject_GetWordEqualsInsertedword(string word, string category)
         {
             await _wordRepository.AddWordToDataSet(word, category);
+            await context.SaveChangesAsync();
 
             var databaseWord = await _wordRepository.GetWordByName(word);
 
@@ -95,6 +97,7 @@ namespace AnagramSolver.IntegrationalTests
         {
             await _wordRepository.AddManyWordsToDataSet(_words);
 
+            await context.SaveChangesAsync();
             var count = await _wordRepository.GetTotalWordsCount();
           
             Assert.AreEqual(3, count);
@@ -104,6 +107,7 @@ namespace AnagramSolver.IntegrationalTests
         public async Task FindSingleWordAnagrams_ReturnAnagrams(string sortedWord)
         {
             await _wordRepository.AddManyWordsToDataSet(_words);
+            await context.SaveChangesAsync();
 
             var anagramsRepo = await _wordRepository.FindSingleWordAnagrams(sortedWord);
             var anagrams = anagramsRepo.ToList();
@@ -126,7 +130,9 @@ namespace AnagramSolver.IntegrationalTests
             }
 
             await _wordRepository.AddManyWordsToDataSet(_words);
-           var anagramsRepo = await _wordRepository.GetWordsByRange(pageIndex, range);
+            await context.SaveChangesAsync();
+
+            var anagramsRepo = await _wordRepository.GetWordsByRange(pageIndex, range);
             var anagrams = anagramsRepo.ToList();
 
             Assert.AreEqual(range, anagrams.Count);        
@@ -136,8 +142,9 @@ namespace AnagramSolver.IntegrationalTests
         [TestCase(1, 5)]
         public async Task GetWordsByRange_ReturnDefaultCountWords(int pageIndex, int range)
         {
-
             await _wordRepository.AddManyWordsToDataSet(_words);
+            await context.SaveChangesAsync();
+
             var anagramsRepo = await _wordRepository.GetWordsByRange(pageIndex, range);
             var anagrams = anagramsRepo.ToList();
 
@@ -156,6 +163,7 @@ namespace AnagramSolver.IntegrationalTests
             };
             _words.Add(word);
             await _wordRepository.AddManyWordsToDataSet(_words);
+            await context.SaveChangesAsync();
 
             var anagramsRepo = await _wordRepository.GetWordsCountBySerachedWord(searchedWord);
 
@@ -179,6 +187,7 @@ namespace AnagramSolver.IntegrationalTests
             }            
             
             await _wordRepository.AddManyWordsToDataSet(_words);
+            await context.SaveChangesAsync();
 
             var anagramsRepo = await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
 
@@ -199,6 +208,7 @@ namespace AnagramSolver.IntegrationalTests
             };
             _words.Add(word);
             await _wordRepository.AddManyWordsToDataSet(_words);
+            await context.SaveChangesAsync();
 
             var anagramsRepo = await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
 
@@ -211,7 +221,8 @@ namespace AnagramSolver.IntegrationalTests
         [TestCase(1, 3, "al")]
         public async Task GetWordById_returnsWord(int pageIndex, int range, string searchedWord)
         {            
-            await _wordRepository.AddWordToDataSet(_wordEntity);      
+            await _wordRepository.AddWordToDataSet(_wordEntity);
+            await context.SaveChangesAsync();
 
             var wordRepo = await _wordRepository.GetWordById(_wordEntity.Id);
        
@@ -223,6 +234,7 @@ namespace AnagramSolver.IntegrationalTests
         public async Task UpdateWord_RetursUpdatedWord()
         {
             await _wordRepository.AddWordToDataSet(_wordEntity);
+            await context.SaveChangesAsync();
             _wordEntity.Word += "2";
 
             var wordRepo = await _wordRepository.UpdateWord(_wordEntity);

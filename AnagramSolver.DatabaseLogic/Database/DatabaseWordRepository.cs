@@ -50,12 +50,11 @@ namespace AnagramSolver.Data
         }
 
         public async Task<int> GetTotalWordsCount()
-        {
-            int count = 0;
+        {            
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word", _sqlConnection);
             object obj = await command.ExecuteScalarAsync();
-            count = int.Parse(obj.ToString());
+            var count = int.Parse(obj.ToString());
             _sqlConnection.Close();
             return count;
         }
@@ -63,12 +62,11 @@ namespace AnagramSolver.Data
         public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
             searchedWord += "%";
-            int count = 0;
             _sqlConnection.Open();
             SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Word Where word like @Word", _sqlConnection);
             command.Parameters.Add(new SqlParameter("@Word", searchedWord));
-            object obj = command.ExecuteScalarAsync();
-            count = int.Parse(obj.ToString());
+            object obj = await command.ExecuteScalarAsync();
+            var count = int.Parse(obj.ToString());
             _sqlConnection.Close();
             return count;
         }

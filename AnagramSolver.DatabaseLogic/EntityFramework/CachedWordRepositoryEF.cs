@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.EF.CodeFirst.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnagramSolver.Data.EntityFramework
 {
@@ -18,13 +19,13 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<CachedWordEntity> AddCachedWord(string word)
         {
             var cachedWord = new CachedWordEntity() { Word = word };
-            _context.CachedWord.Add(cachedWord);
+            await _context.CachedWord.AddAsync(cachedWord);
             return cachedWord;
         }
 
         public async Task<bool> AddCachedWord_Word(CachedWordWord cachedWordWord)
         {
-            _context.CachedWordWord.Add(cachedWordWord);
+           await _context.CachedWordWord.AddAsync(cachedWordWord);
            return true;
            
         }

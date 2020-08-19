@@ -8,6 +8,7 @@ using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnagramSolver.Data.EntityFramework
 {
@@ -28,12 +29,12 @@ namespace AnagramSolver.Data.EntityFramework
             Category = languagePart,
             SortedWord= sortedWord
             };
-            _context.Word.Add(wordModel);
+            await _context.Word.AddAsync(wordModel);
             return true;
         }
         public async Task AddManyWordsToDataSet(List<WordEntity> words)
         {
-            _context.Word.AddRange(words);
+            await _context.Word.AddRangeAsync(words);
         }
 
         public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)
@@ -99,21 +100,21 @@ namespace AnagramSolver.Data.EntityFramework
        
         public async Task<WordEntity> GetWordByName(string word)
         {
-            var foundWord = _context.Word.FirstOrDefault(x => x.Word == word);
+            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Word == word);
 
             return foundWord;
         }
 
         public async Task DeleteWordByName(string word)
         {
-            var itemToRemove = _context.Word.SingleOrDefault(x => x.Word == word);
+            var itemToRemove = await _context.Word.SingleOrDefaultAsync(x => x.Word == word);
 
             _context.Word.Remove(itemToRemove);      
         }
 
         public async Task<WordEntity> GetWordById(int id)
         {
-            var foundWord = _context.Word.FirstOrDefault(x => x.Id == id);           
+            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Id == id);           
             return foundWord;
            
         }
@@ -127,7 +128,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task AddWordToDataSet(WordEntity word)
         {
-            _context.Word.Add(word);         
+            await _context.Word.AddAsync(word);         
         }
 
         private async Task FillDataBase()
@@ -136,7 +137,7 @@ namespace AnagramSolver.Data.EntityFramework
             var words = await wordRepo.GetAllWords();
             var allWords = words.ToList();
 
-            _context.Word.AddRange(allWords);
+            await _context.Word.AddRangeAsync(allWords);
         }
     }
 }
