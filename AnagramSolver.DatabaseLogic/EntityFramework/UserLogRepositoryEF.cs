@@ -20,8 +20,6 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task CreateLog(UserLogEntity log)
         {
             _context.UserLog.Add(log);
-            await _context.SaveChangesAsync();
-
         }
 
         public async Task<IEnumerable<UserLogEntity>> GetByIP(string ip)

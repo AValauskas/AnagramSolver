@@ -29,13 +29,11 @@ namespace AnagramSolver.Data.EntityFramework
             SortedWord= sortedWord
             };
             _context.Word.Add(wordModel);
-            await _context.SaveChangesAsync();
             return true;
         }
         public async Task AddManyWordsToDataSet(List<WordEntity> words)
         {
             _context.Word.AddRange(words);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)
@@ -110,9 +108,7 @@ namespace AnagramSolver.Data.EntityFramework
         {
             var itemToRemove = _context.Word.SingleOrDefault(x => x.Word == word);
 
-            _context.Word.Remove(itemToRemove);
-            await _context.SaveChangesAsync();          
-           
+            _context.Word.Remove(itemToRemove);      
         }
 
         public async Task<WordEntity> GetWordById(int id)
@@ -125,15 +121,13 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<WordEntity> UpdateWord(WordEntity word)
         {
            var wordEntity = _context.Word.Update(word).Entity;
-            await _context.SaveChangesAsync();
             return wordEntity;
            
         }
 
         public async Task AddWordToDataSet(WordEntity word)
         {
-            _context.Word.Add(word);
-            await _context.SaveChangesAsync();            
+            _context.Word.Add(word);         
         }
 
         private async Task FillDataBase()
@@ -143,7 +137,6 @@ namespace AnagramSolver.Data.EntityFramework
             var allWords = words.ToList();
 
             _context.Word.AddRange(allWords);
-            await _context.SaveChangesAsync();
         }
     }
 }

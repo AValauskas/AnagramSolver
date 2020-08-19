@@ -4,6 +4,7 @@ using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.WebApp.Handlers;
 using AnagramSolver.WebApp.Profiles;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace AnagramSolver.WebApp
 {
@@ -41,8 +43,6 @@ namespace AnagramSolver.WebApp
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddMvc();
-
             services.AddControllersWithViews();
             services.AddDbContext<AnagramSolverDBContext>(opt =>
             opt.UseSqlServer(Settings.ConnectionString));
@@ -59,6 +59,7 @@ namespace AnagramSolver.WebApp
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseMiddleware<ContextHandler>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

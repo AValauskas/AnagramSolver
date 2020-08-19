@@ -19,15 +19,12 @@ namespace AnagramSolver.Data.EntityFramework
         {
             var cachedWord = new CachedWordEntity() { Word = word };
             _context.CachedWord.Add(cachedWord);
-            await _context.SaveChangesAsync();
             return cachedWord;
         }
 
         public async Task<bool> AddCachedWord_Word(CachedWordWord cachedWordWord)
         {
             _context.CachedWordWord.Add(cachedWordWord);
-
-            await _context.SaveChangesAsync();
            return true;
            
         }
