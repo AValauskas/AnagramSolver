@@ -1,5 +1,6 @@
 ﻿using ServiceReference1;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SoapConsole
@@ -10,7 +11,11 @@ namespace SoapConsole
         {           
             var conf = new CalculatorSoapClient.EndpointConfiguration();
             var calculator = new CalculatorSoapClient(conf);
-            await SoapLogic(calculator);
+
+            var anagramService = new AnagramServiceReference.AnagramServiceClient();
+
+           // await SoapLogic(calculator);
+            await CalculateAnagram(anagramService);
         }
 
         public static async Task SoapLogic(CalculatorSoapClient calculator)
@@ -57,6 +62,30 @@ namespace SoapConsole
                         break;
                 }
                 Console.WriteLine("Press any to continue");
+                Console.ReadLine();
+            }
+        }
+
+        public static async Task CalculateAnagram(AnagramServiceReference.AnagramServiceClient anagramService)
+        {
+            while (true)
+            {
+
+                Console.WriteLine("Write Word or <X> to exit");
+                var word = Console.ReadLine();
+
+                if (word == "x")
+                    break;
+
+                var anagrams = await anagramService.GetAnagramsAsync(word);
+
+                Console.WriteLine("\n Anagrams:");
+                foreach (var item in anagrams)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.WriteLine("\nPress any to continue");
                 Console.ReadLine();
             }
         }

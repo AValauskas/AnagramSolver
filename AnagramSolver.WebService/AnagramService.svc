@@ -1,0 +1,25 @@
+﻿using AnagramSolver.Contracts.Interfaces;
+using AnagramSolver.Contracts.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+
+namespace AnagramSolver.WebService
+{
+    public class AnagramService : IAnagramService
+    {
+        private readonly IAnagramSolver _anagramSolver;
+        public AnagramService(IAnagramSolver anagramSolver)
+        {
+            _anagramSolver = anagramSolver;
+        }
+        public async Task<List<string>> GetAnagrams(string word)
+        {
+            var anagrams = await _anagramSolver.GetAnagrams(word);
+            var anagramList = anagrams.Select(x => x.Word).ToList();
+            return anagramList;
+        }
+    }
+}
