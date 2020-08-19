@@ -121,10 +121,10 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<bool> UpdateWord(string word, string languagePart, int id)
         {
             var foundWord = await _wordRepository.GetWordByName(word);
-            if (foundWord != null)
-            {
-                return false;
-            }
+            if (foundWord!=null)                      
+                if (foundWord.Id != id)            
+                    return false;
+                
 
             var wordEntity = await _wordRepository.GetWordById(id);
             wordEntity.Word = word;

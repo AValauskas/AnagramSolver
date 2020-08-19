@@ -91,8 +91,8 @@ namespace AnagramSolver.WebApp.Controllers
             if (!await _wordService.UpdateWord(myWord, languagePart, id))
             {
                 @ViewData["Error"] = "Word already exist in dictionary";
-                var word = await _wordService.GetWordByID(id);
-                return await OpenUpdateWordView(word, pageNumber, searchString);
+                //var word = await _wordService.GetWordByID(id);
+                return await OpenUpdateWordView(myWord, languagePart,id, pageNumber, searchString);
             }
             
             var anagrams = await FormAnagramView(myWord);
@@ -126,11 +126,11 @@ namespace AnagramSolver.WebApp.Controllers
 
             return RedirectToAction("Index", new {pageNumber, searchString });
         }
-        public async Task<IActionResult> OpenUpdateWordView(WordModel wordModel, int? pageNumber, string searchString)
+        public async Task<IActionResult> OpenUpdateWordView(string word, string category, int id, int? pageNumber, string searchString)
         {           
-            @ViewData["Name"] = wordModel.Word;
-            @ViewData["Category"] = wordModel.LanguagePart;
-            @ViewData["Id"] = wordModel.Id;
+            @ViewData["Name"] = word;
+            @ViewData["Category"] = category;
+            @ViewData["Id"] = id;
             @ViewData["PageNumber"] = pageNumber;
             @ViewData["SearchString"] = searchString;
             return View("Word");
