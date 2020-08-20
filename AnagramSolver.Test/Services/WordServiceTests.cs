@@ -167,7 +167,7 @@ namespace AnagramSolver.Test.Services
             Assert.IsTrue(result);
             await _wordRepository.Received().GetWordByName(Arg.Any<string>());
             await _wordRepository.Received().GetWordById(Arg.Any<int>());
-            await _wordRepository.Received().UpdateWord(Arg.Any<WordEntity>());
+            await _wordRepository.Received().UpdateWord(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<int>());
         }
 
         [Test]

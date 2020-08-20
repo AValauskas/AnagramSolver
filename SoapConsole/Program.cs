@@ -71,7 +71,7 @@ namespace SoapConsole
             while (true)
             {
 
-                Console.WriteLine("Write Word or <X> to exit");
+                Console.WriteLine("Write Word or write <x> to exit");
                 var word = Console.ReadLine();
 
                 if (word == "x")

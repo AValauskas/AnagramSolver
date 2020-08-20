@@ -123,14 +123,10 @@ namespace AnagramSolver.BusinessLogic.Services
             var foundWord = await _wordRepository.GetWordByName(word);
             if (foundWord!=null)                      
                 if (foundWord.Id != id)            
-                    return false;
-                
+                    return false;               
+                       
 
-            var wordEntity = await _wordRepository.GetWordById(id);
-            wordEntity.Word = word;
-            wordEntity.Category = languagePart;
-
-            await _wordRepository.UpdateWord(wordEntity);          
+            await _wordRepository.UpdateWord(word, languagePart,id);          
             return true;
         }
 

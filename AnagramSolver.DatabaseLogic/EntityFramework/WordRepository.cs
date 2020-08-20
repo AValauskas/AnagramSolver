@@ -29,31 +29,31 @@ namespace AnagramSolver.Data.EntityFramework
             Category = languagePart,
             SortedWord= sortedWord
             };
-            await _context.Word.AddAsync(wordModel);
+            await _context.Word.AddAsync(wordModel).ConfigureAwait(false);
             return true;
         }
         public async Task AddManyWordsToDataSet(List<WordEntity> words)
         {
-            await _context.Word.AddRangeAsync(words);
+            await _context.Word.AddRangeAsync(words).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)
         {
-            var anagrams = _context.Word.Where(x => x.SortedWord == sortedWord);
+            var anagrams = await _context.Word.Where(x => x.SortedWord == sortedWord).ToListAsync().ConfigureAwait(false);
 
             return anagrams;
         }
 
         public async Task<IEnumerable<WordEntity>> GetAllWords()
         {
-            var words = _context.Word.Where(x => true);
+            var words = await _context.Word.Where(x => true).ToListAsync().ConfigureAwait(false);
 
             return words;
         }
 
         public async Task<int> GetTotalWordsCount()
         {
-            var count = _context.Word.Count();
+            var count = await _context.Word.CountAsync().ConfigureAwait(false);
             return count;
         }
 
@@ -65,25 +65,29 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<IEnumerable<WordEntity>> GetWordsByRange(int pageIndex, int range)
         {
             var skip = (pageIndex-1) * range;
-            var words = _context.Word
+            var words = await _context.Word
                 .Where(x => true)
                 .Skip(skip)
-                .Take(range);
+                .Take(range)
+                .ToListAsync().ConfigureAwait(false);
             return words;
         }
 
         public async Task<int> GetWordsCountBySerachedWord(string searchedWord)
         {
-            var count = _context.Word
+            var count = await _context.Word
                 .Where(x=> x.Word.Contains(searchedWord))
-                .Count();
+                .CountAsync()
+                .ConfigureAwait(false);
             return count;
         }
 
         public async Task<IEnumerable<WordEntity>> SearchWords(string word)
         {
-            var words = _context.Word
-                .Where(x => x.Word.Contains(word));
+            var words = await _context.Word
+                .Where(x => x.Word.Contains(word))
+                .ToListAsync()
+                .ConfigureAwait(false);
             return words;
         }
 
@@ -91,44 +95,49 @@ namespace AnagramSolver.Data.EntityFramework
         {
            // FillDataBase();
             var skip = (pageIndex-1) * range;
-            var words = _context.Word
+            var words = await _context.Word
                 .Where(x => x.Word.StartsWith(searchedWord))
                 .Skip(skip)
-                .Take(range);                
+                .Take(range)
+                .ToListAsync()
+                .ConfigureAwait(false);
             return words;
         }
        
         public async Task<WordEntity> GetWordByName(string word)
         {
-            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Word == word);
+            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Word == word).ConfigureAwait(false);
 
             return foundWord;
         }
 
         public async Task DeleteWordByName(string word)
         {
-            var itemToRemove = await _context.Word.SingleOrDefaultAsync(x => x.Word == word);
+            var itemToRemove = await _context.Word.SingleOrDefaultAsync(x => x.Word == word).ConfigureAwait(false);
 
             _context.Word.Remove(itemToRemove);      
         }
 
         public async Task<WordEntity> GetWordById(int id)
         {
-            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Id == id);           
+            var foundWord = await _context.Word.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
             return foundWord;
            
         }
 
-        public async Task<WordEntity> UpdateWord(WordEntity word)
+        public async Task<WordEntity> UpdateWord(string word, string languagePart, int id)
         {
-           var wordEntity = _context.Word.Update(word).Entity;
+            var wordEntity = await GetWordById(id);
+            wordEntity.Word = word;
+            wordEntity.Category = languagePart;
+
             return wordEntity;
            
         }
 
         public async Task AddWordToDataSet(WordEntity word)
         {
-            await _context.Word.AddAsync(word);         
+            await _context.Word.AddAsync(word).ConfigureAwait(false);
         }
 
         private async Task FillDataBase()
@@ -137,7 +146,7 @@ namespace AnagramSolver.Data.EntityFramework
             var words = await wordRepo.GetAllWords();
             var allWords = words.ToList();
 
-            await _context.Word.AddRangeAsync(allWords);
+            await _context.Word.AddRangeAsync(allWords).ConfigureAwait(false);
         }
     }
 }

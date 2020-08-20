@@ -12,6 +12,6 @@ namespace AnagramSolver.Contracts.Interfaces.Repositories
         public Task<WordEntity> GetWordByName(string word);
         public Task DeleteWordByName(string word);
         public Task<WordEntity> GetWordById(int id);
-        public Task<WordEntity> UpdateWord(WordEntity word);
+        public Task<WordEntity> UpdateWord(string word, string languagePart, int id);
     }
 }

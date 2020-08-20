@@ -237,7 +237,7 @@ namespace AnagramSolver.IntegrationalTests
             await context.SaveChangesAsync();
             _wordEntity.Word += "2";
 
-            var wordRepo = await _wordRepository.UpdateWord(_wordEntity);
+            var wordRepo = await _wordRepository.UpdateWord(_wordEntity.Word, _wordEntity.Category, _wordEntity.Id);
 
             Assert.AreEqual(_wordEntity.Word, wordRepo.Word);
 

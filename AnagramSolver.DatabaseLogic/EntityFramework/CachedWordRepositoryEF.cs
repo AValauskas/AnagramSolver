@@ -19,24 +19,24 @@ namespace AnagramSolver.Data.EntityFramework
         public async Task<CachedWordEntity> AddCachedWord(string word)
         {
             var cachedWord = new CachedWordEntity() { Word = word };
-            await _context.CachedWord.AddAsync(cachedWord);
+            await _context.CachedWord.AddAsync(cachedWord).ConfigureAwait(false);
             return cachedWord;
         }
 
         public async Task<bool> AddCachedWord_Word(CachedWordWord cachedWordWord)
         {
-           await _context.CachedWordWord.AddAsync(cachedWordWord);
-           return true;
+           await _context.CachedWordWord.AddAsync(cachedWordWord).ConfigureAwait(false);
+            return true;
            
         }
 
         public async Task<IEnumerable<WordEntity>> GetAnagrams(string word)
         {
-            var anagrams = from cached in _context.CachedWord
+            var anagrams = await (from cached in _context.CachedWord
                            join cachedWord_Word in _context.CachedWordWord on cached.Id equals cachedWord_Word.CachedWordId
                            join dWord in _context.Word on cachedWord_Word.WordId equals dWord.Id
                            where cached.Word == word
-                           select dWord;
+                           select dWord).ToListAsync().ConfigureAwait(false);
 
             return anagrams;
 
@@ -45,7 +45,7 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<IEnumerable<CachedWordEntity>> GetByWord(string word)
         {
-            var words = _context.CachedWord.Where(x => x.Word == word);
+            var words = await _context.CachedWord.Where(x => x.Word == word).ToListAsync().ConfigureAwait(false);
 
             return words;
         }

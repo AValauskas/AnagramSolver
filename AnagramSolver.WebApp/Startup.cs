@@ -4,7 +4,7 @@ using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
-using AnagramSolver.WebApp.Handlers;
+using AnagramSolver.WebApp.Middleware;
 using AnagramSolver.WebApp.Profiles;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
