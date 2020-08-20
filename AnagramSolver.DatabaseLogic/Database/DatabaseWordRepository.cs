@@ -17,7 +17,7 @@ namespace AnagramSolver.Data
         private readonly SqlConnection _sqlConnection;
         public DatabaseWordRepository()
         {
-            var connectionString = Settings.ConnectionString;
+            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;";
             _sqlConnection = new SqlConnection(connectionString);
         }
 

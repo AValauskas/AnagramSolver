@@ -15,7 +15,7 @@ namespace AnagramSolver.Data.Database
         private readonly SqlConnection _sqlConnection;
         public UserLogRepository()
         {
-            var connectionString = Settings.ConnectionString;
+            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;";
             _sqlConnection = new SqlConnection(connectionString);
         }
         public async Task CreateLog(UserLogEntity log)

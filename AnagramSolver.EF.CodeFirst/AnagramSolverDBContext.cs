@@ -18,11 +18,11 @@ namespace AnagramSolver.EF.CodeFirst
         public DbSet<UserLogEntity> UserLog { get; set; }
         public DbSet<CachedWordWord> CachedWordWord { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverDBTesting; Integrated Security = True;");
-             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverDBTesting; Integrated Security = True;");
+        //     optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AnagramSolverCFDB; Integrated Security = True;");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CachedWordWord>().HasKey(sc => new { sc.WordId, sc.CachedWordId });

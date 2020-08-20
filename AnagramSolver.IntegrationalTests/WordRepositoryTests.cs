@@ -1,8 +1,10 @@
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Data.EntityFramework;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.CodeFirst.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -27,8 +29,12 @@ namespace AnagramSolver.IntegrationalTests
 
         [SetUp]
         public void Setup()
-        {          
-            context = new AnagramSolverDBContext();
+        {
+           var options = new DbContextOptionsBuilder<AnagramSolverDBContext>()
+                .UseSqlServer(Settings.TestingConnectionString)
+                .Options;
+
+            context = new AnagramSolverDBContext(options);
             transaction = context.Database.BeginTransaction();
             _wordRepository = new WordRepository(context);
 

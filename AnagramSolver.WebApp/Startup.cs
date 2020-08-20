@@ -45,7 +45,7 @@ namespace AnagramSolver.WebApp
 
             services.AddControllersWithViews();
             services.AddDbContext<AnagramSolverDBContext>(opt =>
-            opt.UseSqlServer(Settings.ConnectionString));
+            opt.UseSqlServer(Configuration.GetConnectionString("Development")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

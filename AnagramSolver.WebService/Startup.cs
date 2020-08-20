@@ -39,7 +39,7 @@ namespace AnagramSolver.WebService
 
             services.AddControllersWithViews();
             services.AddDbContext<AnagramSolverDBContext>(opt =>
-            opt.UseSqlServer(Settings.ConnectionString));
+            opt.UseSqlServer(Settings.DevelopmentConnectionString));
 
            services.TryAddSingleton<IAnagramService, AnagramService>();
         }

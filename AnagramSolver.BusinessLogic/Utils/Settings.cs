@@ -13,7 +13,8 @@ namespace AnagramSolver.BusinessLogic.Utils
         public static int PageSize { get; private set; }
         public static int MaxSearchCount { get; private set; }
         public static string FilePath { get; private set; }
-        public static string ConnectionString { get; private set; }
+        public static string DevelopmentConnectionString { get; private set; }
+        public static string TestingConnectionString { get; private set; }
         static Settings()
         {
             CallBuilder();
@@ -29,7 +30,8 @@ namespace AnagramSolver.BusinessLogic.Utils
             PageSize = GetSettingsJsonIntValue("pageSize", countResults);
             MaxSearchCount = GetSettingsJsonIntValue("maxSearchCount", countResults);
             FilePath = _configBuilder.Build().GetSection("filePath").Value;
-            ConnectionString = _configBuilder.Build().GetSection("ConnectionStrings").Value;
+            DevelopmentConnectionString = _configBuilder.Build().GetConnectionString("Development");
+            TestingConnectionString = _configBuilder.Build().GetConnectionString("Test");
         }
 
         private static int GetSettingsJsonIntValue(string field, int failureCaseInt)
