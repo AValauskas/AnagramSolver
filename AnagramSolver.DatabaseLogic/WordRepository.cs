@@ -59,7 +59,7 @@ namespace AnagramSolver.Data
         public async Task<bool> AddWordToDataSet(string word, string languagePart)
         {
             var sortedWord = String.Concat(word.ToLower().OrderBy(c => c));
-            if (AddWord(sortedWord, word, languagePart))
+            if (await AddWord(sortedWord, word, languagePart))
                 WriteFile(word, languagePart);
             else
                 return false;
@@ -69,11 +69,12 @@ namespace AnagramSolver.Data
 
         public async Task <Dictionary<string, List<WordEntity>>> GetWords()
         {
-                return anagrams;
+            return await Task.Run(() => anagrams);
         }
         public async Task<IEnumerable<WordEntity>> GetAllWords()
         {
-            return anagrams.Values.ToList().SelectMany(x => x).ToList();
+            var result = anagrams.Values.ToList().SelectMany(x => x).ToList();
+            return await Task.Run(() => result);
         }
 
         public async Task<IEnumerable<WordEntity>> GetWordsByRange(int pageIndex, int range)
@@ -89,13 +90,13 @@ namespace AnagramSolver.Data
             return count;
         }
 
-        private bool AddWord(string sortedWord, string word, string languagePart)
+        private Task<bool> AddWord(string sortedWord, string word, string languagePart)
         {
             if (anagrams.ContainsKey(sortedWord))
             {
                 if (anagrams[sortedWord].Select(x=>x.Word).Contains(word))
                 {
-                    return false;
+                    return Task.FromResult(false);
                 }
                 anagrams[sortedWord].Add(
                     new WordEntity()
@@ -115,7 +116,7 @@ namespace AnagramSolver.Data
                             SortedWord= sortedWord
                         }});
             }
-            return true;
+            return Task.FromResult(true);
         }
 
         public async Task<IEnumerable<WordEntity>> FindSingleWordAnagrams(string sortedWord)

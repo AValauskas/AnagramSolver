@@ -57,8 +57,8 @@ namespace AnagramSolver.WebApp.Controllers
         }
 
         public async Task<IActionResult> WordAddition()
-        {          
-            return View("Word");
+        {
+            return await Task.Run(() => View("Word"));
         }
 
         [HttpPost]
@@ -133,7 +133,7 @@ namespace AnagramSolver.WebApp.Controllers
             @ViewData["Id"] = id;
             @ViewData["PageNumber"] = pageNumber;
             @ViewData["SearchString"] = searchString;
-            return View("Word");
+            return await Task.Run(() => View("Word"));
         }
 
     }

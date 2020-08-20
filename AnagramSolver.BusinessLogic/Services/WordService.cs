@@ -84,18 +84,21 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<FileStreamResult> GetDictionaryFile()
         {
-            string path = Settings.FilePath;
-            var stream = File.OpenRead(path);
-            if (stream==null)
-            {
-                throw new BusinessException("File doesn't Exist");
-            }
-            var file = new FileStreamResult(stream, "application/octet-stream")
-            {
-                FileDownloadName = "Zodynas.txt"
-            };
-     
-            return file;
+            return await Task.Run(() => {
+                string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, Settings.FilePath));
+                var stream = File.OpenRead(path);
+                if (stream == null)
+                {
+                    throw new BusinessException("File doesn't Exist");
+                }
+                var file = new FileStreamResult(stream, "application/octet-stream")
+                {
+                    FileDownloadName = "Zodynas.txt"
+                };
+
+                return file;
+            });
+            
         }
 
         public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
