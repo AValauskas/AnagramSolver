@@ -128057,3 +128057,7 @@ Zuzana	tikr. dkt	Zuzana	1
 žvyrkelis	dkt	žvyrkeliu	2
 žvyrkelis	dkt	žvyrkelį	1
 aurimas	dkt
+gerulis	dkt
+sindikatas	dkt
+gg	dkt
+douna	dkt

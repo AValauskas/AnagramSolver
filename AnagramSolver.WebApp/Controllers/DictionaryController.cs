@@ -49,6 +49,14 @@ namespace AnagramSolver.WebApp.Controllers
             var paginnatedList = PaginatedList<WordModel>.Create(words, totalWordsCount, pageNumber ?? 1, pageSize);
             return View(paginnatedList);
         }
+
+        public async Task<IActionResult> FillDatabase()
+        {
+            var count = await _wordService.FillDataBase();
+
+            return View("FilledWords", count);
+        }
+        
         public async Task<IActionResult> Anagrams(string word)
         {
             var anagrams = await FormAnagramView(word);

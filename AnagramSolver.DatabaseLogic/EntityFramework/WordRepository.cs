@@ -140,13 +140,23 @@ namespace AnagramSolver.Data.EntityFramework
             await _context.Word.AddAsync(word).ConfigureAwait(false);
         }
 
-        private async Task FillDataBase()
+        public async Task<int> FillDataBase()
         {
+            //var wordRepo = new Data.WordRepository();
+            //var words = await wordRepo.GetAllWords();
+            //var allWords = words.ToList();
+
+            //await _context.Word.AddRangeAsync(allWords).ConfigureAwait(false);           
+            //return 0;
             var wordRepo = new Data.WordRepository();
             var words = await wordRepo.GetAllWords();
-            var allWords = words.ToList();
+            var fileWords = words.ToList();
+            var DatabaseWords = await GetAllWords();
+            var missingWords = fileWords.Where(el2 => !DatabaseWords.Any(el1 => el1.Word == el2.Word)).ToList();
 
-            await _context.Word.AddRangeAsync(allWords).ConfigureAwait(false);
+            await AddManyWordsToDataSet(missingWords);       
+
+            return missingWords.Count;
         }
     }
 }

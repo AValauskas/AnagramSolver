@@ -20,6 +20,7 @@ namespace AnagramSolver.Contracts.Interfaces
         public Task DeleteWordByName(string word);
         public Task<WordModel> GetWordByName(string word);
         public Task<WordModel> GetWordByID(int id);
-        public Task<bool> UpdateWord(string word, string languagePart, int id);        
+        public Task<bool> UpdateWord(string word, string languagePart, int id);
+        public Task<int> FillDataBase();
     }
 }

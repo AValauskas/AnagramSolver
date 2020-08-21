@@ -139,5 +139,11 @@ namespace AnagramSolver.BusinessLogic.Services
             var wordModel = _mapper.Map<WordModel>(wordRepo);
             return wordModel;
         }
+
+        public async  Task<int> FillDataBase()
+        {
+           var count = await _wordRepository.FillDataBase();
+            return count;
+        }
     }
 }
