@@ -1,7 +1,5 @@
 ﻿using AnagramSolver.Contracts.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.Contracts.Interfaces.Services
@@ -10,6 +8,6 @@ namespace AnagramSolver.Contracts.Interfaces.Services
     {
         public Task InsertCachedWord(string word, List<WordModel> anagrams);
         public Task<bool> CheckIfCachedWordExist(string word);
-        public  Task<IEnumerable<WordModel>> GetCachedAnagrams(string word);
+        public  Task<IList<WordModel>> GetCachedAnagrams(string word);
     }
 }

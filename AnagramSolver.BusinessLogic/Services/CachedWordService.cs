@@ -51,12 +51,11 @@ namespace AnagramSolver.BusinessLogic.Services
             }
         }
         
-        public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)
+        public async Task<IList<WordModel>> GetCachedAnagrams(string word)
         {
             var repoAnagrams = await _cachedWordRepository.GetAnagrams(word);
 
-            var anagramList = repoAnagrams.ToList();
-            var anagrams = _mapper.Map<List<WordModel>>(anagramList);
+            var anagrams = _mapper.Map<List<WordModel>>(repoAnagrams);
             var anagramsCount = Settings.AnagramCount;
 
             return anagrams

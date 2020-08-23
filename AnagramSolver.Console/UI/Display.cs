@@ -22,6 +22,7 @@ namespace AnagramSolver.Console.UI
             print = printDelegate;           
             this._apiService = apiService;
         }
+
         public async Task ProcessAnagramManager()
         {
             bool exit = false;

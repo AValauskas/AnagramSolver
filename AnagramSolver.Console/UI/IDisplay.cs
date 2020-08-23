@@ -8,6 +8,6 @@ namespace AnagramSolver.Console.UI
     {
        public Task ProcessAnagramManager();
      //   public void FormattedPrint(FormPrint form, List<string> input); //-> Delegate
-        public void FormattedPrint(ICollection<string> input);  //-> Action
+       public void FormattedPrint(ICollection<string> input);  //-> Action
     }
 }

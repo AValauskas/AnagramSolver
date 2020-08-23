@@ -44,8 +44,7 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var repoWords = await _wordRepository.GetAllWords();
 
-            var wordsList = repoWords.ToList();
-            var words = _mapper.Map<List<WordModel>>(wordsList);
+            var words = _mapper.Map<List<WordModel>>(repoWords);
             return words;
         }
 
@@ -75,9 +74,8 @@ namespace AnagramSolver.BusinessLogic.Services
 
         public async Task<IEnumerable<WordModel>> GetWordsByRange(int pageIndex, int range)
         {
-            var repoWords = await _wordRepository.GetWordsByRange(pageIndex, range);
-            var wordsList = repoWords.ToList();           
-            var words = _mapper.Map<List<WordModel>>(wordsList);           
+            var repoWords = await _wordRepository.GetWordsByRange(pageIndex, range);          
+            var words = _mapper.Map<List<WordModel>>(repoWords);           
             return words;
         }
 
@@ -103,9 +101,7 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<IEnumerable<WordModel>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
             var repoWords = await _wordRepository.SearchWordsByRangeAndFilter(pageIndex, range, searchedWord);
-
-            var wordsList = repoWords.ToList();
-            var words = _mapper.Map<List<WordModel>>(wordsList);
+            var words = _mapper.Map<List<WordModel>>(repoWords);
             return words;
         }
 

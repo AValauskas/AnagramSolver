@@ -5,8 +5,6 @@ using AnagramSolver.Contracts.Models;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic.Services
@@ -46,17 +44,13 @@ namespace AnagramSolver.BusinessLogic.Services
         public async Task<IEnumerable<string>> GetAllIpsOfLogs()
         {
             var ips =  await _uerLogRepository.GetAllIps();
-            var ipsString = ips.ToList();
-            return ipsString;
+            return ips;
         }
 
         public async Task<IEnumerable<UserLog>> GetAllLogs()
         {
             var repoLogs = await _uerLogRepository.GetLogs();
-
-            var logsList = repoLogs.ToList();
-            var logs = _mapper.Map<List<UserLog>>(logsList);
-           
+            var logs = _mapper.Map<List<UserLog>>(repoLogs);           
             return logs;
         }
 

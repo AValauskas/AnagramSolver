@@ -21,7 +21,6 @@ namespace AnagramSolver.BusinessLogic
             _mapper = mapper;
         }
 
-
         public async Task<List<WordModel>> GetAnagrams(string myWords)
         {
             if (myWords==null || myWords == "")

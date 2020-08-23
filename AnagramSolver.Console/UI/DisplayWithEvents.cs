@@ -50,7 +50,6 @@ namespace AnagramSolver.Console.UI
             }
             OnPrint(anagrams.CapitalizeFirstLetter());
         }
-
       
         private string WriteWord()
         {
@@ -71,6 +70,7 @@ namespace AnagramSolver.Console.UI
             }
             System.Console.ReadLine();
         }
+
         private void OnPrint(string message)
         {
             Print?.Invoke(message);

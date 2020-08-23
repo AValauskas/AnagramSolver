@@ -93,7 +93,6 @@ namespace AnagramSolver.Data.EntityFramework
 
         public async Task<IEnumerable<WordEntity>> SearchWordsByRangeAndFilter(int pageIndex, int range, string searchedWord)
         {
-           // FillDataBase();
             var skip = (pageIndex-1) * range;
             var words = await _context.Word
                 .Where(x => x.Word.StartsWith(searchedWord))

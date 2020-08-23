@@ -2,10 +2,7 @@
 using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.BusinessLogic.Services
@@ -21,10 +18,9 @@ namespace AnagramSolver.BusinessLogic.Services
         {
             var ip = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList[1].ToString();
             var repoLogs = await _uerLogRepository.GetByIP(ip);
-            var logsList = repoLogs.ToList();
 
-            var logsCount = logsList.Where(x => x.Type == TaskType.SearchAnagram || x.Type == TaskType.DeleteWord).ToList().Count -
-                logsList.Where(x => x.Type == TaskType.UpdateWord || x.Type == TaskType.CreateWord).ToList().Count;
+            var logsCount = repoLogs.Where(x => x.Type == TaskType.SearchAnagram || x.Type == TaskType.DeleteWord).ToList().Count -
+                repoLogs.Where(x => x.Type == TaskType.UpdateWord || x.Type == TaskType.CreateWord).ToList().Count;
             
             var maxSearchCount = Settings.MaxSearchCount;
             if (maxSearchCount > logsCount)
