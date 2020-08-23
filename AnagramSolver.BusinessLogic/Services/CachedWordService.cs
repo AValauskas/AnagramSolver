@@ -1,5 +1,4 @@
 ﻿using AnagramSolver.BusinessLogic.Utils;
-using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Repositories;
 using AnagramSolver.Contracts.Interfaces.Services;
 using AnagramSolver.Contracts.Models;
@@ -23,26 +22,21 @@ namespace AnagramSolver.BusinessLogic.Services
         }
         public async Task<bool> CheckIfCachedWordExist(string word)
         {
-            var cachedWord = await _cachedWordRepository.GetByWord(word);
-            List<CachedWord> cachedWords = new List<CachedWord>();
+            var cachedWord = await _cachedWordRepository.GetByWord(word);           
             try
-            {
-                var cachedWordList = cachedWord.ToList();
-                cachedWords = _mapper.Map<List<CachedWord>>(cachedWordList);
+            {              
+                return cachedWord.Any();
             }
             catch
             {
                 return false;
-            }
+            }           
             
-            if (cachedWords.Count == 0 )
-                return false;
-
-            return true;
         }
         public async Task InsertCachedWord(string word, List<WordModel> anagrams)
         {
             var cachedWord = await _cachedWordRepository.AddCachedWord(word);
+
             foreach (var anagram in anagrams)
             {
                 var wordObject = await _wordRepository.GetWordByName(anagram.Word);
@@ -55,7 +49,6 @@ namespace AnagramSolver.BusinessLogic.Services
                 };
                 await _cachedWordRepository.AddCachedWord_Word(cachedWordword);
             }
-
         }
         
         public async Task<IEnumerable<WordModel>> GetCachedAnagrams(string word)
@@ -65,6 +58,7 @@ namespace AnagramSolver.BusinessLogic.Services
             var anagramList = repoAnagrams.ToList();
             var anagrams = _mapper.Map<List<WordModel>>(anagramList);
             var anagramsCount = Settings.AnagramCount;
+
             return anagrams
                     .Take(anagramsCount)
                     .ToList();

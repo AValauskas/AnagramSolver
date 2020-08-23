@@ -19,8 +19,8 @@ namespace AnagramSolver.Console
         }
         public async Task Process()
         {
-           // IAnagramSolver requestService = new AnagramClient();
-            IAnagramSolver requestService = new AnagramicaClient();
+            IAnagramSolver requestService = new AnagramClient();
+            //IAnagramSolver requestService = new AnagramicaClient();
             //-----------------------delegate/action-------------
             //
             //var display = new Display(print=> WriteToConsole(print), requestService);

@@ -141,13 +141,7 @@ namespace AnagramSolver.Data.EntityFramework
         }
 
         public async Task<int> FillDataBase()
-        {
-            //var wordRepo = new Data.WordRepository();
-            //var words = await wordRepo.GetAllWords();
-            //var allWords = words.ToList();
-
-            //await _context.Word.AddRangeAsync(allWords).ConfigureAwait(false);           
-            //return 0;
+        {           
             var wordRepo = new Data.WordRepository();
             var words = await wordRepo.GetAllWords();
             var fileWords = words.ToList();

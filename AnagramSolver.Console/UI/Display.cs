@@ -1,9 +1,8 @@
-﻿using AnagramSolver.Contracts.Interfaces;
-using AnagramSolver.Contracts.Models;
+﻿using AnagramSolver.Console.Extensions;
+using AnagramSolver.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnagramSolver.Console.UI
@@ -13,16 +12,14 @@ namespace AnagramSolver.Console.UI
 
     public class Display : IDisplay
     {
-        private Action<string> print;
-        private Action<List<string>> FormPrint;
+        private Action<string> print;      
         //  private Print print { get; set; }  //->Delegate
         // private FormPrint form { get; set; } //->Delegate
         private readonly IAnagramSolver _apiService;
         public Display(Action<string> printDelegate, IAnagramSolver apiService) //Print printDelegate 
         {
             // FormPrint form = new FormPrint(CapitalizeFirstLetter); //->Delegate
-            print = printDelegate;
-            FormPrint = CapitalizeFirstLetter;
+            print = printDelegate;           
             this._apiService = apiService;
         }
         public async Task ProcessAnagramManager()
@@ -42,14 +39,32 @@ namespace AnagramSolver.Console.UI
                     continue;
                 }
                 print("Anagramos:\n");
-                //  var anagramsobject = await _apiService.GetAnagrams(myWord);
-                //var anagrams = anagramsobject.Select(x => x.Word).ToList();
-                var anagrams = new List<string>() { "alus", "sula" };
+                var anagramsobject = await _apiService.GetAnagrams(myWord);
+                var anagrams = anagramsobject.Select(x => x.Word).ToList();
                 DisplayAnagrams(anagrams);
 
             }
             print("Darbas baigtas!");
+        }    
+
+        public void FormattedPrint(List<string> anagrams)
+        {
+            foreach (var item in anagrams)
+            {
+                print(item);
+            }
+            print(anagrams.CapitalizeFirstLetter());
         }
+
+        //public void FormattedPrint(FormPrint form, List<string> anagrams)   //->Delegate
+        //{
+
+        //    foreach (var item in anagrams)
+        //    {
+        //        print(item);
+        //    }
+        //    form(anagrams);
+        //}
 
         private string WriteWord()
         {
@@ -67,35 +82,9 @@ namespace AnagramSolver.Console.UI
             else
             {
                 // FormattedPrint(form, anagrams.ToList());   //->Delegate
-                FormattedPrint(FormPrint, anagrams.ToList());
+                FormattedPrint(anagrams.ToList());
             }
             System.Console.ReadLine();
-        }
-
-        public void FormattedPrint(Action<List<string>> form, List<string> anagrams)
-        {
-            foreach (var item in anagrams)
-            {
-                print(item);
-            }
-            FormPrint(anagrams);
-        }
-
-        //public void FormattedPrint(FormPrint form, List<string> anagrams)   //->Delegate
-        //{
-
-        //    foreach (var item in anagrams)
-        //    {
-        //        print(item);
-        //    }
-        //    form(anagrams);
-        //}
-
-        public void CapitalizeFirstLetter(List<string> anagrams)
-        {
-            string letter = "";
-            anagrams.ForEach(x => letter += x.First());
-            print(letter);
         }
     }
 }

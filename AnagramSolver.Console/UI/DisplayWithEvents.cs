@@ -1,9 +1,8 @@
 ﻿using AnagramSolver.Contracts.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using AnagramSolver.Console.Extensions;
 
 namespace AnagramSolver.Console.UI
 {
@@ -13,12 +12,9 @@ namespace AnagramSolver.Console.UI
 
         public event PrintHandler Print;
 
-        private Action<List<string>> FormPrint;
-
         private readonly IAnagramSolver _apiService;
         public DisplayWithEvents(IAnagramSolver apiService)
         {
-            FormPrint = CapitalizeFirstLetter;
             this._apiService = apiService;
         }
         public async Task ProcessAnagramManager()
@@ -39,14 +35,23 @@ namespace AnagramSolver.Console.UI
                 }
                 OnPrint("Anagramos:\n");
                 var anagramsobject = await _apiService.GetAnagrams(myWord);
-                var anagrams = anagramsobject.Select(x => x.Word).ToList();
-                //var anagrams = new List<string>() { "alus", "sula" };
+                var anagrams = anagramsobject.Select(x => x.Word).ToList();               
                 DisplayAnagrams(anagrams);
 
             }
             OnPrint("Darbas baigtas!");
+        }   
+
+        public void FormattedPrint(List<string> anagrams)
+        {
+            foreach (var item in anagrams)
+            {
+                OnPrint(item);
+            }
+            OnPrint(anagrams.CapitalizeFirstLetter());
         }
 
+      
         private string WriteWord()
         {
             OnPrint("\nĮrašykite žodį/žodžių junginį arba X-norėdami išeiti");
@@ -62,33 +67,13 @@ namespace AnagramSolver.Console.UI
             }
             else
             {
-                FormattedPrint(FormPrint, anagrams.ToList());
+                FormattedPrint(anagrams.ToList());
             }
             System.Console.ReadLine();
         }
-
-        public void FormattedPrint(Action<List<string>> form, List<string> anagrams)
-        {
-            foreach (var item in anagrams)
-            {
-                OnPrint(item);
-            }
-            FormPrint(anagrams);
-        }
-
-        public void CapitalizeFirstLetter(List<string> anagrams)
-        {
-            anagrams = anagrams.Select(x =>(x.First().ToString().ToUpper()+ x.Substring(1))).ToList();
-            var anagramJoin = String.Join(";", anagrams.ToArray());
-            OnPrint(anagramJoin);
-        }
-
         private void OnPrint(string message)
         {
-            if (Print != null)
-            {
-                Print(message);
-            }
+            Print?.Invoke(message);
         }
     }
 }
