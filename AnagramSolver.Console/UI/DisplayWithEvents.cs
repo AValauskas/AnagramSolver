@@ -15,7 +15,7 @@ namespace AnagramSolver.Console.UI
         private readonly IAnagramSolver _apiService;
         public DisplayWithEvents(IAnagramSolver apiService)
         {
-            this._apiService = apiService;
+            _apiService = apiService;
         }
         public async Task ProcessAnagramManager()
         {
@@ -35,14 +35,14 @@ namespace AnagramSolver.Console.UI
                 }
                 OnPrint("Anagramos:\n");
                 var anagramsobject = await _apiService.GetAnagrams(myWord);
-                var anagrams = anagramsobject.Select(x => x.Word).ToList();               
+                var anagrams = anagramsobject.Select(x => x.Word);          
                 DisplayAnagrams(anagrams);
 
             }
             OnPrint("Darbas baigtas!");
         }   
 
-        public void FormattedPrint(List<string> anagrams)
+        public void FormattedPrint(ICollection<string> anagrams)
         {
             foreach (var item in anagrams)
             {
@@ -59,7 +59,7 @@ namespace AnagramSolver.Console.UI
             return myWord;
         }
 
-        private void DisplayAnagrams(IList<string> anagrams)
+        private void DisplayAnagrams(IEnumerable<string> anagrams)
         {
             if (anagrams == null)
             {

@@ -40,14 +40,14 @@ namespace AnagramSolver.Console.UI
                 }
                 print("Anagramos:\n");
                 var anagramsobject = await _apiService.GetAnagrams(myWord);
-                var anagrams = anagramsobject.Select(x => x.Word).ToList();
+                var anagrams = anagramsobject.Select(x => x.Word);
                 DisplayAnagrams(anagrams);
 
             }
             print("Darbas baigtas!");
         }    
 
-        public void FormattedPrint(List<string> anagrams)
+        public void FormattedPrint(ICollection<string> anagrams)
         {
             foreach (var item in anagrams)
             {
@@ -73,7 +73,7 @@ namespace AnagramSolver.Console.UI
             return myWord;
         }
 
-        private void DisplayAnagrams(IList<string> anagrams)
+        private void DisplayAnagrams(IEnumerable<string> anagrams)
         {
             if (anagrams == null)
             {

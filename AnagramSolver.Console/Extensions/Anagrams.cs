@@ -7,10 +7,10 @@ namespace AnagramSolver.Console.Extensions
 {
     public static class MyExtension
     {
-        public static string CapitalizeFirstLetter(this List<string> anagrams)
+        public static string CapitalizeFirstLetter(this IEnumerable<string> anagrams)
         {
-            anagrams = anagrams.Select(x => (x.First().ToString().ToUpper() + x.Substring(1))).ToList();
-            return String.Join(";", anagrams.ToArray());
+            anagrams = anagrams.Select(x => (x.First().ToString().ToUpper() + x.Substring(1)));
+            return String.Join(";", anagrams);
         }
       
     }
