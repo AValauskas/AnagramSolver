@@ -52,7 +52,9 @@ namespace AnagramSolver.WebApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                 app.UseDeveloperExceptionPage();
+               // app.UseExceptionHandler("/Home/Error");
+                //app.UseHsts();
             }
             else
             {

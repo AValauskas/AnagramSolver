@@ -71,6 +71,7 @@ namespace AnagramSolver.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> OnWordWritten(string myWord)
         {
+         //   throw new System.Exception();
             var length = UILogic.CheckIfLengthCorrect(myWord);
             var anagrams = new List<string>();
             if (!length)
