@@ -1,4 +1,4 @@
-function Route(name, htmlName, defaultRoute) {
+function Route(name, htmlName, defaultRoute) {    
     try {
         if(!name || !htmlName) {
             throw 'error: name and htmlName params are mandatories';

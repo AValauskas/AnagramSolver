@@ -1,9 +1,17 @@
-function  Func() {
-        console.log("Hello world!");
-    }
-    async function connectedCallback() {
-        let res = await fetch( 'SearchPage.html' )
+//const api = new anagramAPI();
 
-        this.attachShadow( { mode: 'open' } )
-            .innerHTML = await res.text()
-    }
+/*const wordInput = document.querySelector('.word-input')
+const wordButton = document.querySelector('word-button')
+
+wordButton.addEventListener('click', SubmitWord);
+
+function SubmitWord(event)
+{
+    event.preventDefault();
+    console.log("yra")
+
+}*/
+function myFunction() {
+    alert("The form was submitted");
+  }
+
