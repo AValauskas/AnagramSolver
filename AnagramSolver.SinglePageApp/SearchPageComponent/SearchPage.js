@@ -7,6 +7,7 @@ wordButton.addEventListener('click', SubmitWord);
 
 function SubmitWord(event)
 {
+    
     CleanAnagrams();
     console.log( wordInput.value);
     var anagramsPromise = anagramAPI.GetAnagrams( wordInput.value)
@@ -20,10 +21,14 @@ function SubmitWord(event)
             FormWord(wordModel);
         });         
     });
+    
 }
 
 function FormWord(word)
-{
+{    
+    var x = document.getElementById("anagramTable");   
+    x.style.display="";
+    
     const wordDiv= document.createElement("div");
     wordDiv.classList.add("word");
 
@@ -46,7 +51,7 @@ function CleanAnagrams()
 {
     if(wordList.hasChildNodes){    
         while (wordList.firstChild) {
-            wordList.removeChild(wordList.lastChild);
+            wordList.removeChild(wordList.lastChild);           
           }
     };
 
