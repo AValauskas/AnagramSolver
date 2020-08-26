@@ -4,12 +4,18 @@ class anagramAPI {
       this.apiUrl = 'https://localhost:44321/api/anagram';
     }
     static GetAnagrams(word) {
+    let anagramsobject;
     var url ='https://localhost:44321/api/anagram';
-      var rez = fetch(`${url}/${word}`)
-        .then(res => res.json()).Wait();
+      var anagrams =  fetch(`${url}/${word}`)
+        .then(res => res.json())   
        
-        console.log(rez);
-      return rez;
+
+        return anagrams;
+    
+        
+             
+        
     }
 
+    
   }

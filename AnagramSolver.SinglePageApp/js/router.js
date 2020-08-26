@@ -52,7 +52,8 @@ Router.prototype = {
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                    var scriptNode = document.createElement('script');      
-                   scriptNode.src = "SearchPageComponent/SearchPage.js";            
+                   scriptNode.src = "SearchPageComponent/SearchPage.js";  
+                       
                    scope.rootElem.innerHTML = this.responseText;
                    scope.rootElem.appendChild(scriptNode)
                 }

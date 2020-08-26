@@ -48,8 +48,8 @@ namespace AnagramSolver.WebApp.ApiController
                 anagrams = await _anagramSolver.GetAnagrams(word);
                 await _cachedWordService.InsertCachedWord(word, anagrams);
             }
-            var jsonAnagrams = JsonConvert.SerializeObject(anagrams);
-            return Ok(jsonAnagrams);
+           /// var jsonAnagrams = JsonConvert.SerializeObject(anagrams);
+            return Ok(anagrams);
         }
 
 
