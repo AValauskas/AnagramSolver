@@ -52,10 +52,15 @@ Router.prototype = {
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                    var scriptNode = document.createElement('script');      
-                   scriptNode.src = "SearchPageComponent/SearchPage.js";  
+                   scriptNode.src = "SearchPageComponent/SearchPage.js";
                        
+                   var linkNode = document.createElement('link');      
+                   linkNode.rel ="stylesheet";
+                   linkNode.href="SearchPageComponent/SearchPage.css"
+
                    scope.rootElem.innerHTML = this.responseText;
                    scope.rootElem.appendChild(scriptNode)
+                   scope.rootElem.appendChild(linkNode)
                 }
             };
             

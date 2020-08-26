@@ -7,30 +7,25 @@ wordButton.addEventListener('click', SubmitWord);
 
 function SubmitWord(event)
 {
+    CleanAnagrams();
     console.log( wordInput.value);
     var anagramsPromise = anagramAPI.GetAnagrams( wordInput.value)
     anagramsPromise.then( (val) => 
-    {console.log(val)
-
+    {
+        CleanAnagrams();      
         val.forEach(element => {
             console.log(element.word)
             let wordModel= new Word(element.word, element.languagePart);
             console.log(wordModel);
             FormWord(wordModel);
-        });  
-
-
-
-        
-       
+        });         
     });
-
 }
 
 function FormWord(word)
 {
     const wordDiv= document.createElement("div");
-    wordDiv.classList.add("todo");
+    wordDiv.classList.add("word");
 
     const newWord = document.createElement("td");
     newWord.innerHTML=word.word;
@@ -43,6 +38,17 @@ function FormWord(word)
     wordDiv.appendChild(newLanguagePart);
 
     wordList.appendChild(wordDiv);
+    console.log(wordList);
+
+}
+
+function CleanAnagrams()
+{
+    if(wordList.hasChildNodes){    
+        while (wordList.firstChild) {
+            wordList.removeChild(wordList.lastChild);
+          }
+    };
 
 }
 
