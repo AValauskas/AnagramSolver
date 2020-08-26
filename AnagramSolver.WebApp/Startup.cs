@@ -50,6 +50,13 @@ namespace AnagramSolver.WebApp
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
             if (env.IsDevelopment())
             {
                  app.UseDeveloperExceptionPage();
