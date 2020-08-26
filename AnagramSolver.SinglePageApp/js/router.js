@@ -15,13 +15,15 @@ Router.prototype = {
     rootElem: undefined,
     constructor: function (routes) {
         this.routes = routes;
-        this.rootElem = document.getElementById('app');
+        this.rootElem = document.getElementById('app');    
+       
     },
     init: function () {
         var r = this.routes;
         (function(scope, r) { 
             window.addEventListener('hashchange', function (e) {
                 scope.hasChanged(scope, r);
+               
             });
         })(this, r);
         this.hasChanged(this, r);
@@ -49,9 +51,13 @@ Router.prototype = {
                 xhttp = new XMLHttpRequest();                
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    scope.rootElem.innerHTML = this.responseText;
+                   var scriptNode = document.createElement('script');      
+                   scriptNode.src = "SearchPageComponent/SearchPage.js";            
+                   scope.rootElem.innerHTML = this.responseText;
+                   scope.rootElem.appendChild(scriptNode)
                 }
             };
+            
             xhttp.open('GET', url, true);
             xhttp.send();
         })(this);
