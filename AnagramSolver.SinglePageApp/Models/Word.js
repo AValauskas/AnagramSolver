@@ -1,9 +1,9 @@
-class Word
+class WordModel
 {
   word;
-  category;  
+  languagePart;  
   constructor(word,category) {
     this.word = word
-    this.category = category
+    this.languagePart = category
   }
 }

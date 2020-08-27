@@ -54,7 +54,7 @@ namespace AnagramSolver.WebApp.ApiController
         }
 
         [HttpPost()]
-        public async Task<IActionResult> InsertWord(WordModel word)
+        public async Task<IActionResult> InsertWord([FromBody] WordModel word)
         {
             if (!await _wordService.AddWordToDataSet(word.Word, word.LanguagePart))
                 return BadRequest("Word already exist in dictionary");

@@ -1,31 +1,44 @@
+const Dic_API = 'https://localhost:44321/api/dictionary'
+const Anagram_API = 'https://localhost:44321/api/dictionary'
+
 class anagramAPI {
-  
-    constructor() {
-      this.apiUrl = 'https://localhost:44321/api/anagram';
-    }
-
     static GetAnagrams(word) {
-    var url ='https://localhost:44321/api/anagram';
-      var anagrams =  fetch(`${url}/${word}`)
-        .then(res => res.json())          
+        var anagrams = fetch(`${Anagram_API}/${word}`)
+            .then(res => res.json())
 
-        return anagrams;      
+        return anagrams;
     }
 
     static GetWords(page) {
-        var url ='https://localhost:44321/api/dictionary';
-          var words =  fetch(`${url}/${page}`)
-            .then(res => res.json())          
-    
-            return words;      
-        }
+        var words = fetch(`${Dic_API}/${page}`)
+            .then(res => res.json())
+
+        return words;
+    }
 
     static DeleteWords(word, page) {
-            var url ='https://localhost:44321/api/dictionary';
-              var words = fetch(`${url}/${word}`,
-              {
-                  method: 'DELETE'
-              }).then(x=>this.GetWords(page))
-          return words;
-            }       
-  }
+        var words = fetch(`${Dic_API}/${word}`,
+            {
+                method: 'DELETE'
+            }).then(x => this.GetWords(page))
+        return words;
+    }
+
+    static UpdateWord(word) {
+        var words = fetch(`${Dic_API}/${word}`,
+            {
+                method: 'PATCH'
+            }).then(x => this.GetWords(page))
+        return words;
+    }
+    static InsertWord(word) {
+        console.log(word)
+        fetch(`${Dic_API}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(word),
+                headers: {'Content-Type': 'application/json'}
+            })        
+    }
+
+}

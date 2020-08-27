@@ -15,7 +15,7 @@ function GetDictionary()
     {
         CleanWords();      
         val.forEach(element => {        
-            let wordModel= new Word(element.word, element.languagePart);          
+            let wordModel= new WordModel(element.word, element.languagePart);          
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");            
         });    
@@ -31,7 +31,7 @@ function DeleteWord(word)
     {
         CleanWords();      
         val.forEach(element => {        
-            let wordModel= new Word(element.word, element.languagePart);          
+            let wordModel= new WordModel(element.word, element.languagePart);          
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");            
         });    
@@ -59,7 +59,7 @@ function FormWord(word)
 
     const newLanguagePart = document.createElement("th");
     newLanguagePart.scope="col";
-    newLanguagePart.innerHTML=word.category;
+    newLanguagePart.innerHTML=word.languagePart;
     newLanguagePart.classList.add('word-item');
     wordDiv.appendChild(newLanguagePart);
 
