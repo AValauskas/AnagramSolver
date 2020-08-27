@@ -1,19 +1,26 @@
 dicWordList = document.querySelector(".word-list");
 dictionaryTab = document.querySelector(".dictionary-route");
+pages = document.querySelectorAll(".page-link");
 
 window.addEventListener('popstate', GetDictionary);
-
 dictionaryTab.addEventListener('click', GetDictionary);
+
+for (var i = 0; i < pages.length; i++) 
+    pages[i].addEventListener('click', NextPage)    
+
 
 window.onload = function() {   
     GetDictionary();
   };
 
-function GetDictionary()
-{console.log(window.location.hash);
+function GetDictionary(number){
+if(number== null)
+number =1;
+
+console.log(window.location.hash);
     if(window.location.hash==="#WordManagement")    
     {
-    var wordsPromise = anagramAPI.GetWords(1)
+    var wordsPromise = anagramAPI.GetWords(number)
     wordsPromise.then( (val) => 
     {
         CleanWords();      
@@ -40,7 +47,29 @@ function DeleteWord(word)
         });    
         
     });
+}
 
+function NextPage(e)
+{
+    if(isNaN(e.target.innerHTML))  
+    console.log("žodis")
+    else {
+        let num =parseInt(e.target.innerHTML)
+         GetDictionary(num);
+         PaginationFormat(num);
+    }
+}
+
+function PaginationFormat(num)
+{
+    if(num = 1)  
+    {
+    var x = document.getElementById("page-previous");   
+    x.style.pointerEvents="auto";
+    x.style.color="blue";
+    }
+    else 
+    GetDictionary(parseInt(e.target.innerHTML))
 }
 
 function FormWord(word)
