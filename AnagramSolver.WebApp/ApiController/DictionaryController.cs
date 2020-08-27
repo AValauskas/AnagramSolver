@@ -53,6 +53,17 @@ namespace AnagramSolver.WebApp.ApiController
             return Ok(words);
         }
 
+        [HttpGet("word/{id}")]
+        public async Task<IActionResult> GetWordById([FromRoute] int id)
+        {
+            var word = await _wordService.GetWordByID(id);
+
+            if (word == null)
+                return NotFound();
+
+            return Ok(word);
+        }
+
         [HttpPost()]
         public async Task<IActionResult> InsertWord([FromBody] WordModel word)
         {

@@ -1,5 +1,5 @@
 const Dic_API = 'https://localhost:44321/api/dictionary'
-const Anagram_API = 'https://localhost:44321/api/dictionary'
+const Anagram_API = 'https://localhost:44321/api/anagram'
 
 class anagramAPI {
     static GetAnagrams(word) {
@@ -11,6 +11,13 @@ class anagramAPI {
 
     static GetWords(page) {
         var words = fetch(`${Dic_API}/${page}`)
+            .then(res => res.json())
+
+        return words;
+    }
+
+    static GetWordById(id) {
+        var words = fetch(`${Dic_API}/word/${id}`)
             .then(res => res.json())
 
         return words;

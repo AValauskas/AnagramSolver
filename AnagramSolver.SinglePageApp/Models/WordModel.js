@@ -2,8 +2,10 @@ class WordModel
 {
   word;
   languagePart;  
-  constructor(word,category) {
+  id;
+  constructor(word,category,id) {
     this.word = word
     this.languagePart = category
+    this.id = id
   }
 }

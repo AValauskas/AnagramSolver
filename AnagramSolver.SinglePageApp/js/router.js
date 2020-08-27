@@ -32,7 +32,14 @@ Router.prototype = {
         if (window.location.hash.length > 0) {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i];
-                if(route.isActiveRoute(window.location.hash.substr(1))) {
+                let path    
+                var index = window.location.hash.indexOf("/");
+                if(index!=-1)  
+                path = window.location.hash.substring(1, index);         
+                else
+                path = window.location.hash.substring(1);
+                
+                if(route.isActiveRoute(path)) {
                     scope.goToRoute(route.htmlName);
                 }
             }

@@ -4,7 +4,7 @@
             new Route('SearchPage', 'SearchPage', true),    
             new Route('about', 'about'),           
             new Route('WordManagement', 'WordManagement'), 
-            new Route('Word', 'Word'),             
+            new Route('Word', 'Word'),                      
         ]);
     }
     init();

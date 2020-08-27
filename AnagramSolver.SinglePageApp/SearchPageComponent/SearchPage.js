@@ -16,7 +16,7 @@ function SubmitWord(event)
         CleanAnagrams();      
         val.forEach(element => {
             console.log(element.word)
-            let wordModel= new WordModel(element.word, element.languagePart);
+            let wordModel= new WordModel(element.word, element.languagePart, element.id);
             console.log(wordModel);
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");   
@@ -49,8 +49,7 @@ function FormWord(word)
     newLanguagePart.classList.add('word-item');
     wordDiv.appendChild(newLanguagePart);
 
-    wordList.appendChild(wordDiv);
-    console.log(wordList);
+    wordList.appendChild(wordDiv);  
 
 }
 

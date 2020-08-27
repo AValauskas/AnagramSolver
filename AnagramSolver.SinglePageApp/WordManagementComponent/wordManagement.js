@@ -1,27 +1,30 @@
 dicWordList = document.querySelector(".word-list");
 dictionaryTab = document.querySelector(".dictionary-route");
 
+window.addEventListener('popstate', GetDictionary);
 
 dictionaryTab.addEventListener('click', GetDictionary);
 
-window.onload = function() {
+window.onload = function() {   
     GetDictionary();
   };
 
 function GetDictionary()
-{
+{console.log(window.location.hash);
+    if(window.location.hash==="#WordManagement")    
+    {
     var wordsPromise = anagramAPI.GetWords(1)
     wordsPromise.then( (val) => 
     {
         CleanWords();      
         val.forEach(element => {        
-            let wordModel= new WordModel(element.word, element.languagePart);          
+            let wordModel= new WordModel(element.word, element.languagePart, element.id);          
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");            
         });    
         
     });
-
+    }
 }
 
 function DeleteWord(word)
@@ -31,7 +34,7 @@ function DeleteWord(word)
     {
         CleanWords();      
         val.forEach(element => {        
-            let wordModel= new WordModel(element.word, element.languagePart);          
+            let wordModel= new WordModel(element.word, element.languagePart, element.id);          
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");            
         });    
@@ -65,7 +68,7 @@ function FormWord(word)
 
     const update = document.createElement("th");
     update.scope="col";
-    update.innerHTML='<a href="#Word">Update</a>'
+    update.innerHTML='<a href="#Word/' + word.id + '">Update</a>'
     update.classList.add('word-item');
     wordDiv.appendChild(update);
 
