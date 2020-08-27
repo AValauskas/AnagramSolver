@@ -77,7 +77,7 @@ namespace AnagramSolver.WebApp.ApiController
         }
 
         [HttpPatch()]
-        public async Task<IActionResult> UpdateWord(WordModel word)
+        public async Task<IActionResult> UpdateWord([FromBody] WordModel word)
         {
             if (!await _wordService.UpdateWord(word.Word, word.LanguagePart, word.Id))            
                 return BadRequest("Word cannot be updated");

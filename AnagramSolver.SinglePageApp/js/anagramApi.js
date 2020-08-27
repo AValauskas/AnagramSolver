@@ -32,11 +32,22 @@ class anagramAPI {
     }
 
     static UpdateWord(word) {
-        var words = fetch(`${Dic_API}/${word}`,
+        console.log(word)
+        console.log("atėjo api")
+        var promise = fetch(`${Dic_API}`,
             {
-                method: 'PATCH'
-            }).then(x => this.GetWords(page))
-        return words;
+                method: 'PATCH',
+                body: JSON.stringify(word),
+                headers: {'Content-Type': 'application/json'}
+            }).then((res) => {
+                if (res.status === 400) {                     
+                    throw 'Word already exist';             
+                   
+                }})
+            .catch(err =>{
+                throw new Error(err);    }          
+                ) 
+        return promise;
     }
     static InsertWord(word) {
         console.log(word)
