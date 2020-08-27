@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AnagramSolver.BusinessLogic.Utils;
 using AnagramSolver.Contracts.Enums;
 using AnagramSolver.Contracts.Interfaces;
 using AnagramSolver.Contracts.Interfaces.Services;
@@ -37,6 +38,19 @@ namespace AnagramSolver.WebApp.ApiController
                 return NotFound();
 
             return (stream);
+        }
+
+
+        [HttpGet("{page}")]
+        public async Task<IActionResult> GetWordsByRange(int? page)
+        {
+            var pageSize = Settings.PageSize;
+            var words = await _wordService.GetWordsByRange(page ?? 1, pageSize);
+
+            if (words == null)
+                return NotFound();
+
+            return Ok(words);
         }
 
         [HttpPost()]

@@ -50,13 +50,20 @@ Router.prototype = {
             var url = htmlName+'Component/' + htmlName+'.html',
                 xhttp = new XMLHttpRequest();                
             xhttp.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
+                if (this.readyState === 4 && this.status === 200) {  
+                        
+                    if( scope.rootElem.hasChildNodes){    
+                        while ( scope.rootElem.firstChild) {
+                            scope.rootElem.removeChild( scope.rootElem.lastChild);           
+                          }
+                        }
+                    
                    var scriptNode = document.createElement('script');      
-                   scriptNode.src = "SearchPageComponent/SearchPage.js";
+                   scriptNode.src = htmlName+'Component/' + htmlName+'.js'
                        
                    var linkNode = document.createElement('link');      
                    linkNode.rel ="stylesheet";
-                   linkNode.href="SearchPageComponent/SearchPage.css"
+                   linkNode.href=htmlName+'Component/' + htmlName+'.css'
 
                    scope.rootElem.innerHTML = this.responseText;
                    scope.rootElem.appendChild(scriptNode)
@@ -68,4 +75,5 @@ Router.prototype = {
             xhttp.send();
         })(this);
     }
+    
 };

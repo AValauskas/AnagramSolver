@@ -1,11 +1,8 @@
 #wordInput {
     text-align: center;
   }
-.word-item{    
-    margin-left: 15px;
-}
 #anagramTable
 {
-display: none;
 
+display: none;
 }

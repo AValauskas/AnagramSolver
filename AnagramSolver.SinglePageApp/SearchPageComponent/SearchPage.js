@@ -1,6 +1,6 @@
-const wordInput = document.querySelector(".word-input")
-const wordButton = document.querySelector(".word-button")
-const wordList = document.querySelector(".word-list")
+wordInput = document.querySelector(".word-input")
+wordButton = document.querySelector(".word-button")
+wordList = document.querySelector(".word-list")
 
 
 wordButton.addEventListener('click', SubmitWord);
@@ -19,25 +19,32 @@ function SubmitWord(event)
             let wordModel= new Word(element.word, element.languagePart);
             console.log(wordModel);
             FormWord(wordModel);
+            var x = document.getElementById("anagramTable");   
+             x.style.display="block";
         });         
     });
     
 }
 
 function FormWord(word)
-{    
-    var x = document.getElementById("anagramTable");   
-    x.style.display="";
-    
-    const wordDiv= document.createElement("div");
+{       
+    const wordDiv= document.createElement("tr");
     wordDiv.classList.add("word");
 
-    const newWord = document.createElement("td");
+    const nr = document.createElement("th");
+    nr.scope="col";
+    nr.innerHTML=word.word;
+    nr.classList.add('word-item');
+    wordDiv.appendChild(nr);
+
+    const newWord = document.createElement("th");
+    newWord.scope="col";
     newWord.innerHTML=word.word;
     newWord.classList.add('word-item');
     wordDiv.appendChild(newWord);
 
-    const newLanguagePart = document.createElement("td");
+    const newLanguagePart = document.createElement("th");
+    newLanguagePart.scope="col";
     newLanguagePart.innerHTML=word.category;
     newLanguagePart.classList.add('word-item');
     wordDiv.appendChild(newLanguagePart);
