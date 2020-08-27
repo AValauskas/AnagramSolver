@@ -33,12 +33,23 @@ class anagramAPI {
     }
     static InsertWord(word) {
         console.log(word)
-        fetch(`${Dic_API}`,
+        var promise =fetch(`${Dic_API}`,
             {
                 method: 'POST',
                 body: JSON.stringify(word),
                 headers: {'Content-Type': 'application/json'}
-            })        
+            })
+            .then((res) => {
+                if (res.status === 400) {                     
+                    throw 'Word already exist';              
+                   
+                }})
+            .catch(err =>{
+                throw new Error(err);    }          
+                ) 
+        return promise;
+              
+
     }
 
 }
