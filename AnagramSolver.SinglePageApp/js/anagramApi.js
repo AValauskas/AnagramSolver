@@ -14,12 +14,18 @@ class anagramAPI {
 
     static GetWords(page) {
         var url ='https://localhost:44321/api/dictionary';
-          var anagrams =  fetch(`${url}/${page}`)
+          var words =  fetch(`${url}/${page}`)
             .then(res => res.json())          
     
-            return anagrams;      
+            return words;      
         }
 
-
-    
+    static DeleteWords(word, page) {
+            var url ='https://localhost:44321/api/dictionary';
+              var words = fetch(`${url}/${word}`,
+              {
+                  method: 'DELETE'
+              }).then(x=>this.GetWords(page))
+          return words;
+            }       
   }

@@ -87,6 +87,8 @@ namespace AnagramSolver.WebApp.ApiController
             var anagrams = await FormAnagrams(word);
             await _logService.CreateLog(word, anagrams, TaskType.DeleteWord);
 
+
+
             return Ok();
         }
 

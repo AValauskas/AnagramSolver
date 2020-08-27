@@ -1,20 +1,41 @@
 dicWordList = document.querySelector(".word-list");
 dictionaryTab = document.querySelector(".dictionary-route");
 
+
 dictionaryTab.addEventListener('click', GetDictionary);
 
+window.onload = function() {
+    GetDictionary();
+  };
 
 function GetDictionary()
 {
-    var anagramsPromise = anagramAPI.GetWords(1)
-    anagramsPromise.then( (val) => 
+    var wordsPromise = anagramAPI.GetWords(1)
+    wordsPromise.then( (val) => 
     {
         CleanWords();      
         val.forEach(element => {        
             let wordModel= new Word(element.word, element.languagePart);          
             FormWord(wordModel);
             var x = document.getElementById("anagramTable");            
-        });         
+        });    
+        
+    });
+
+}
+
+function DeleteWord(word)
+{
+    var wordsPromise = anagramAPI.DeleteWords(word,1)
+    wordsPromise.then( (val) => 
+    {
+        CleanWords();      
+        val.forEach(element => {        
+            let wordModel= new Word(element.word, element.languagePart);          
+            FormWord(wordModel);
+            var x = document.getElementById("anagramTable");            
+        });    
+        
     });
 
 }
@@ -42,7 +63,21 @@ function FormWord(word)
     newLanguagePart.classList.add('word-item');
     wordDiv.appendChild(newLanguagePart);
 
+    const update = document.createElement("th");
+    update.scope="col";
+    update.innerHTML='<a href="#Word">Update</a>'
+    update.classList.add('word-item');
+    wordDiv.appendChild(update);
+
+    const deleteRef = document.createElement("th");
+    deleteRef.scope="col";
+    deleteRef.innerHTML='<button onclick="DeleteWord(\'' + word.word + '\')">Delete</button>'
+    deleteRef.classList.add('word-item');
+    wordDiv.appendChild(deleteRef);   
+
     dicWordList.appendChild(wordDiv);
+
+    
 }
 
 function CleanWords()
