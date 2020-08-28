@@ -74,5 +74,11 @@ class anagramAPI {
 
         return count;          
     }
+    static SearchWord(word) {     
+        var word = fetch(`${Dic_API}/filter/${word}`)
+            .then(res => res.json())
+
+        return word;          
+    }
 
 }

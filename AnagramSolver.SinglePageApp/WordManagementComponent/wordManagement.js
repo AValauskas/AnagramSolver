@@ -1,10 +1,12 @@
 dicWordList = document.querySelector(".word-list");
 dictionaryTab = document.querySelector(".dictionary-route");
 pageBar = document.querySelector(".page-bar");
+SearchInput = document.querySelector(".search-input")
+SearchButton = document.querySelector(".search-button")
 
 window.addEventListener('popstate', CallMethod);
 dictionaryTab.addEventListener('click', GetDictionary);
-
+SearchButton.addEventListener('click', SearchWord);
 page =1;
 
 
@@ -185,3 +187,19 @@ function CleanPages()
           }
     };
 }
+
+function SearchWord()
+{      
+    var anagramsPromise = anagramAPI.SearchWord( SearchInput.value)
+    anagramsPromise.then( (val) => 
+    {         
+        CleanWords();  
+        val.forEach(element => {
+            console.log(element.word)
+            let wordModel= new WordModel(element.word, element.languagePart, element.id);
+            console.log(wordModel);
+            FormWord(wordModel);           
+        });         
+    });
+}
+
