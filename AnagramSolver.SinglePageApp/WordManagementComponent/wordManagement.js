@@ -20,6 +20,7 @@ window.onload = function() {
 function CallMethod()
 {  if(window.location.hash==="#WordManagement")    
     {
+        console.log("page", page);
         GetDictionary();
         FormPageBar(null);
     }
