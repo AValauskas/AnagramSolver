@@ -46,6 +46,9 @@ console.log(window.location.hash);
 
 function DeleteWord(word)
 {
+    var value = confirm("Are you sure, you want delete this item?")
+
+    if(value){
     var wordsPromise = anagramAPI.DeleteWords(word,1)
     wordsPromise.then( (val) => 
     {
@@ -57,6 +60,7 @@ function DeleteWord(word)
         });    
         
     });
+}
 }
 
 function NextPage(e)
