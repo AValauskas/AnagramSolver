@@ -49,15 +49,19 @@ function DeleteWord(word)
     var value = confirm("Are you sure, you want delete this item?")
 
     if(value){
-    var wordsPromise = anagramAPI.DeleteWords(word,1)
+    var wordsPromise = anagramAPI.DeleteWords(word,page)
     wordsPromise.then( (val) => 
     {
-        CleanWords();      
-        val.forEach(element => {        
-            let wordModel= new WordModel(element.word, element.languagePart, element.id);          
-            FormWord(wordModel);
-            var x = document.getElementById("anagramTable");            
-        });    
+        CleanWords();     
+        if(SearchInput.value!=null) 
+        SearchWord();
+        else{
+            val.forEach(element => {        
+                let wordModel= new WordModel(element.word, element.languagePart, element.id);          
+                FormWord(wordModel);
+                var x = document.getElementById("anagramTable");            
+            }); 
+        }   
         
     });
 }
@@ -139,7 +143,7 @@ function CleanWords()
 }
 
 function FormPageBar(word)
-{
+{    
     var pageCount = anagramAPI.GetPageCount(word)
     pageCount.then( (val) => 
     {
@@ -200,11 +204,10 @@ function SearchWord()
     {         
         CleanWords();  
         val.forEach(element => {
-            console.log(element.word)
             let wordModel= new WordModel(element.word, element.languagePart, element.id);
-            console.log(wordModel);
-            FormWord(wordModel);           
-        });         
+            FormWord(wordModel);               
+        });   
+        FormPageBar(SearchInput.value);      
     });
 }
 

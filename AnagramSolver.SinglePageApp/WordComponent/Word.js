@@ -17,12 +17,12 @@ function SubmitForm(e)
     console.log(wordInput.value);
     if(wordInput.value.length>10)
     {
-        errorMessage.innerHTML="Word is to long";  
+        errorMessage.innerHTML="Word is too long";  
         return
     }else
     if (!/^[a-zA-Z]+$/.test(wordInput.value))
     {
-        errorMessage.innerHTML="Word should Contain only letters";  
+        errorMessage.innerHTML="Word should contain only letters";  
     }
     else if(categoryInput.value && wordInput.value)
     {
