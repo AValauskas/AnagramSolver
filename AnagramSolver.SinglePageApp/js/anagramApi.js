@@ -65,9 +65,14 @@ class anagramAPI {
             .catch(err =>{
                 throw new Error(err);    }          
                 ) 
-        return promise;
-              
+        return promise;             
+    }
 
+    static GetPageCount(word) {     
+        var count = fetch(`${Dic_API}/pages/${word}`)
+            .then(res => res.json())
+
+        return count;          
     }
 
 }

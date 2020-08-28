@@ -1,26 +1,33 @@
 dicWordList = document.querySelector(".word-list");
 dictionaryTab = document.querySelector(".dictionary-route");
-pages = document.querySelectorAll(".page-link");
+pageBar = document.querySelector(".page-bar");
 
-window.addEventListener('popstate', GetDictionary);
+window.addEventListener('popstate', CallMethod);
 dictionaryTab.addEventListener('click', GetDictionary);
 
-for (var i = 0; i < pages.length; i++) 
-    pages[i].addEventListener('click', NextPage)    
+page =1;
+
+
 
 
 window.onload = function() {   
-    GetDictionary();
+        GetDictionary();
+        FormPageBar(null);    
   };
 
-function GetDictionary(number){
-if(number== null)
-number =1;
+function CallMethod()
+{  if(window.location.hash==="#WordManagement")    
+    {
+        GetDictionary();
+        FormPageBar(null);
+    }
+}
 
+function GetDictionary(){
 console.log(window.location.hash);
     if(window.location.hash==="#WordManagement")    
     {
-    var wordsPromise = anagramAPI.GetWords(number)
+    var wordsPromise = anagramAPI.GetWords(page)
     wordsPromise.then( (val) => 
     {
         CleanWords();      
@@ -51,12 +58,15 @@ function DeleteWord(word)
 
 function NextPage(e)
 {
+    console.log("clicked");
     if(isNaN(e.target.innerHTML))  
     console.log("žodis")
     else {
         let num =parseInt(e.target.innerHTML)
-         GetDictionary(num);
-         PaginationFormat(num);
+        page =num;
+        console.log("psl kits ", page)
+        GetDictionary(num);
+        FormPageBar(null);       
     }
 }
 
@@ -119,6 +129,59 @@ function CleanWords()
             dicWordList.removeChild(dicWordList.lastChild);           
           }
     };
-
 }
 
+function FormPageBar(word)
+{
+    var pageCount = anagramAPI.GetPageCount(word)
+    pageCount.then( (val) => 
+    {
+        let pageBefore, pageAfter;
+        if(val>6)
+        {
+            pageBefore = page - 3;
+            if(pageBefore <= 0)
+            {
+            pageAfter = page +3 - pageBefore;
+            pageBefore=1;
+            }
+            else pageAfter = page + 3;
+        }
+        else
+        {
+            pageBefore=1;
+            pageAfter=val;
+        }
+        PageBarView(pageBefore,pageAfter)
+    })
+}
+
+function PageBarView(pageBefore, pageAfter)
+{
+    CleanPages();
+    const PaginationUl= document.createElement("ul");
+    PaginationUl.classList.add("page-bar");
+    PaginationUl.classList.add("pagination");
+    PaginationUl.classList.add("justify-content-center");
+
+    for (i = pageBefore; i <= pageAfter; i++) {
+        const pageUnit = document.createElement("li");       
+        pageUnit.innerHTML='<a class="page-link" >'+i+'</a>';     
+        pageUnit.classList.add('bar-item');
+        PaginationUl.appendChild(pageUnit);
+      }
+      pageBar.appendChild(PaginationUl);
+
+      pages = document.querySelectorAll(".page-link");
+      for (var i = 0; i < pages.length; i++) 
+        pages[i].addEventListener('click', NextPage)   
+}
+
+function CleanPages()
+{
+    if(pageBar.hasChildNodes){    
+        while (pageBar.firstChild) {
+            pageBar.removeChild(pageBar.lastChild);           
+          }
+    };
+}

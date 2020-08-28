@@ -103,6 +103,29 @@ namespace AnagramSolver.WebApp.ApiController
             return Ok();
         }
 
+        [HttpGet("pages/{word}")]
+        public async Task<IActionResult> GetPageCount([FromRoute] string? word)
+        {
+            if (word == "null")
+                word = null;
+
+            var count = await _wordService.GetTotalWordsCount(word);
+            var pages = count / Settings.PageSize;
+
+            return Ok(pages);
+        }
+
+        [HttpGet("filter/{word}")]
+        public async Task<IActionResult> SearchWord([FromRoute] string word)
+        {
+            var words = await _wordService.SearchWordsByRangeAndFilter( 1,Settings.PageSize, word);
+            if (words == null)
+                return BadRequest("No words was found");
+
+            return Ok(words);
+        }
+
+
         private async Task<List<string>> FormAnagrams(string word)
         {
             var anagramsobject = await _anagramSolver.GetAnagrams(word);
